@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="icons\" />
+  </ItemGroup>
+
 </Project>
