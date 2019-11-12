@@ -6,11 +6,10 @@
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <StackPanel>
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button Command="New" Content="New" />
                     <Button Command="Open" Content="Open" />
                     <Button Command="Save" Content="Save" />
                 </ToolBar>
@@ -21,7 +20,34 @@
             </ToolBarTray>
             <TextBox AcceptsReturn="True" />
         </DockPanel>
-
-
+    <Grid>
+        <Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
+		<Image Grid.Column="0"></Image>
+        <StackPanel Grid.Column="1">
+            <Label Content="Boundary" />
+            <ComboBox>
+                <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
+                <ComboBoxItem>Periodic</ComboBoxItem>
+            </ComboBox>
+            <Label Content="Neighborhood" />
+            <ComboBox>
+                <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
+                <ComboBoxItem>Moore</ComboBoxItem>
+                <ComboBoxItem>Pentagonal</ComboBoxItem>
+                <ComboBoxItem>Hexagonal</ComboBoxItem>
+            </ComboBox>
+            <Label Content="Colors" />
+            <TextBox />
+            <Button>Randomize</Button>
+            <Button>Next Step</Button>
+            <Button>Run</Button>
+            <Button>Stop</Button>
+           
+        </StackPanel>
     </Grid>
+
+    </StackPanel>
 </Window>
