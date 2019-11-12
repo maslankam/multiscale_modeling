@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
         Title="Grain Growth Cellural Automata" Height="450" Width="800">
-    <Grid>
-        <!--        <DockPanel>
+
+    <!-- <Grid> <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
                     <Button Command="New" Content="New" />
@@ -20,10 +20,23 @@
                 </ToolBar>
             </ToolBarTray>
             <TextBox AcceptsReturn="True" />
-        </DockPanel>
+        </DockPanel> 
+        </Grid>
         -->
-        
+    <StackPanel Margin="10">
+        <Label Content="_Boundary:" Target="{Binding ElementName=txtBoundary}" />
+        <TextBox Name="txtBoundary" />
+        <Label Content="_Neighbourhood:" Target="{Binding ElementName=txtNeighbourhood}" />
+        <TextBox Name="txtNeighbourhood" />
+        <Label Content="_Rules:" Target="{Binding ElementName=txtRules}" />
+        <TextBox Name="txtRules" />
+        <Button Padding="5">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/icons/diskette.png" />
+                <TextBlock Margin="5,0">Help</TextBlock>
+            </StackPanel>
+        </Button>
+    </StackPanel>
 
 
-    </Grid>
 </Window>
