@@ -5,17 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        <Title="Grain Growth Cellural Automata" Height="450" Width="800">
+
     <StackPanel>
         <DockPanel>
+
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
                     <Button Command="Open" Content="Open" />
-                    <Button Command="Save" Content="Save" />
+                    <StackPanel Orientation="Horizontal">
+                      <Image Source="/icons/diskette.png" />
+                      <TextBlock Margin="5,0">Save</TextBlock>
+                    </StackPanel>
                 </ToolBar>
                 <ToolBar>
-                    <Button Command="ExportCSV" Content="Export to CSV" />
-                    <Button Command="Saveimage" Content="Save image" />
+                    <Button Content="Export to CSV" />
+                    <Button Content="Save image" />
                 </ToolBar>
             </ToolBarTray>
             <TextBox AcceptsReturn="True" />
@@ -50,4 +55,5 @@
     </Grid>
 
     </StackPanel>
+
 </Window>
