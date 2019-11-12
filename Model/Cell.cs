@@ -12,6 +12,12 @@ namespace Model{
     {
         public CellState State {get; set;}
         public Grain GrainMembership;
+
+        public Cell()
+        {
+            this.State = CellState.Empty;
+            this.GrainMembership = null;
+        }
     }
 
     

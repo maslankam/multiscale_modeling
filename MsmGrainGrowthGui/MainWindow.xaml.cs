@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Drawing;
+
+using Model;
 
 namespace MsmGrainGrowthGui
 {
@@ -20,9 +25,17 @@ namespace MsmGrainGrowthGui
     /// </summary>
     public partial class MainWindow : Window
     {
+        public CelluralAutomaton Automaton { get; set; }
         public MainWindow()
         {
+            this.Automaton = new CelluralAutomaton();
             InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }
