@@ -5,22 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
-        <Title="Grain Growth Cellural Automata" Height="450" Width="800">
+        Title="Grain Growth Cellural Automata" Height="450" Width="800">
 
     <StackPanel>
         <DockPanel>
-
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button Command="Open" Content="Open" />
-                    <StackPanel Orientation="Horizontal">
-                      <Image Source="/icons/diskette.png" />
-                      <TextBlock Margin="5,0">Save</TextBlock>
-                    </StackPanel>
+                    <Button Command="Open">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/excel.png" />
+                            <TextBlock Margin="5,0">Open</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Padding="5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/diskette.png" />
+                            <TextBlock Margin="5,0">Save</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button Content="Export to CSV" />
-                    <Button Content="Save image" />
+                    <Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/excel.png" />
+                            <TextBlock Margin="5,0">Export to CSV</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/picture.png" />
+                            <TextBlock Margin="5,0">Save image</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
             <TextBox AcceptsReturn="True" />
@@ -33,23 +49,24 @@
 		<Image Grid.Column="0"></Image>
         <StackPanel Grid.Column="1">
             <Label Content="Boundary" />
-            <ComboBox>
+            <ComboBox Margin="5">
                 <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
-                <ComboBoxItem>Periodic</ComboBoxItem>
+                <!-- TODO -->
+                    <!--<ComboBoxItem>Periodic</ComboBoxItem>-->
             </ComboBox>
             <Label Content="Neighborhood" />
-            <ComboBox>
+            <ComboBox Margin="5">
                 <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
-                <ComboBoxItem>Moore</ComboBoxItem>
-                <ComboBoxItem>Pentagonal</ComboBoxItem>
-                <ComboBoxItem>Hexagonal</ComboBoxItem>
+                    <!--<ComboBoxItem>Moore</ComboBoxItem>-->
+                    <!--<ComboBoxItem>Pentagonal</ComboBoxItem>-->
+                    <!--<ComboBoxItem>Hexagonal</ComboBoxItem>-->
             </ComboBox>
             <Label Content="Colors" />
-            <TextBox />
-            <Button>Randomize</Button>
-            <Button>Next Step</Button>
-            <Button>Run</Button>
-            <Button>Stop</Button>
+            <TextBox Margin="5" Text="3"/>
+            <Button Margin="5" Padding="5" >Randomize</Button>
+            <Button Margin="5" Padding="5" >Next Step</Button>
+            <Button Margin="5" Padding="5" >Run</Button>
+            <Button Margin="5" Padding="5" >Stop</Button>
            
         </StackPanel>
     </Grid>

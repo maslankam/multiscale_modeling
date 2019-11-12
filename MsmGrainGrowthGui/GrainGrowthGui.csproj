@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <None Remove="icons\diskette.png" />
+    <None Remove="icons\excel.png" />
+    <None Remove="icons\folder.png" />
+    <None Remove="icons\picture.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +20,9 @@
 
   <ItemGroup>
     <Resource Include="icons\diskette.png" />
+    <Resource Include="icons\excel.png" />
+    <Resource Include="icons\folder.png" />
+    <Resource Include="icons\picture.png" />
   </ItemGroup>
 
   <ItemGroup>
