@@ -13,10 +13,6 @@ namespace Model{
             get { return Space.RenderCelluralSpace(); }
         }
         
-
-
-   
-
         public CelluralAutomaton()
         {
             this.Space = new CelluralSpace(500); //TODO: replace magic number with resizable control

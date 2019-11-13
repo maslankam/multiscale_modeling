@@ -51,7 +51,6 @@ namespace Model{
                 {
                     matrix[i, j] = new Cell();
                     matrix[i, j].GrainMembership = grain;
-                    matrix[i, j].State = CellState.Empty;
                 }
             }
         }

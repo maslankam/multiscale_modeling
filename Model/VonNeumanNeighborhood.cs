@@ -9,7 +9,7 @@ namespace Model{
     
     public static class VonNeumanNeighborhood
     {
-        public static IEnumerable<Cell> Neighbours(Cell[,] space, int x, int y, 
+        public static Cell[] Neighbours(Cell[,] space, int x, int y, 
                     Func<Cell[,], int, int, BoundaryDirection, Tuple<int,int>> boundaryCondition){
                     
             Cell[] result = new Cell[4];
