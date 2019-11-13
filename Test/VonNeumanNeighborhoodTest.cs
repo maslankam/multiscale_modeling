@@ -31,15 +31,11 @@ namespace Test
 
         [Theory]
         [ClassData(typeof(AbsorbingTestData))]
-        public void AbsorbingTest()
+        public void AbsorbingTest(int x, int y, Cell[] expected)
         {
-            Cell[] expectedNeighbours = { a, b, c, e, f, g, h };
+            var neighbours = VonNeumanNeighborhood.Neighbours(space , x, y, AbsorbingBoundary.BoundaryCondition());
 
-            var neighbours = VonNeumanNeighborhood.Neighbours(space , 1, 1, AbsorbingBoundary.BoundaryCondition());
-
-            Assert.NotEmpty(space);
-
-            Assert.Equal(neighbours, expectedNeighbours);
+            Assert.Equal(neighbours, expected);
         }
 
         private class AbsorbingTestData : IEnumerable<object[]>
