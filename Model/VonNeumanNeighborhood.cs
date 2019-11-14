@@ -15,35 +15,41 @@ namespace Model{
             Cell[] result = new Cell[4];
 
             //Check N neighbour
-            if(y - 1 >= 0){
-                result[0] = space[x, y - 1];
+            if (x - 1 >= 0)
+            {
+                result[0] = space[x - 1, y];
             }
-            else{
-                result[0] = AssignBoundaryCell(space, x, y, BoundaryDirection.N, boundaryCondition);
+            else
+            {
+                result[0] = AssignBoundaryCell(space, x, y, BoundaryDirection.W, boundaryCondition);
             }
 
             //Check E neighbour
-            if(x + 1 <= space.GetLength(0) - 1){
-                result[1] = space[x + 1, y];
+            if (y + 1 <= space.GetLength(0) - 1)
+            {
+                result[1] = space[x, y + 1];
             }
-            else{
-                result[1] = AssignBoundaryCell(space, x, y, BoundaryDirection.E, boundaryCondition);
+            else
+            {
+                result[1] = AssignBoundaryCell(space, x, y, BoundaryDirection.S, boundaryCondition);
             }
 
             //Check S neighbour
-            if(y + 1 <= space.GetLength(0) - 1){
-                result[2] = space[x, y + 1];
+            if (x + 1 <= space.GetLength(0) - 1)
+            {
+                result[2] = space[x + 1, y];
             }
-            else{
-                result[2] = AssignBoundaryCell(space, x, y, BoundaryDirection.S, boundaryCondition);
+            else
+            {
+                result[2] = AssignBoundaryCell(space, x, y, BoundaryDirection.E, boundaryCondition);
             }
 
             //Check W neighbour
-            if(x - 1 >= 0){
-                result[3] = space[x - 1, y];
+            if (y - 1 >= 0){
+                result[3] = space[x, y - 1];
             }
             else{
-                result[3] = AssignBoundaryCell(space, x, y, BoundaryDirection.W, boundaryCondition);
+                result[3] = AssignBoundaryCell(space, x, y, BoundaryDirection.N, boundaryCondition);
             }
 
             return result;

@@ -9,9 +9,10 @@ namespace Model{
     public static class TransitionRule
     {
         public static Grain NextState(Cell[,] space, int x, int y){
-           
-            if( space.GetLength(0) > 1 && space.GetLength(1) > 1) throw new ArgumentException();
+
             if (space == null) throw new ArgumentNullException();
+            if ( space.GetLength(0) > 1 && space.GetLength(1) > 1) throw new ArgumentException();
+            
 
             if (space[x, y].GrainMembership == null){
                 

@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj" />
-    <ProjectReference Include="..\MsmGrainGrowthGui\GrainGrowthGui.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
