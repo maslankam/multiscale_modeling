@@ -15,7 +15,7 @@ namespace Model{
             Cell[] result = new Cell[4];
 
             //Check N neighbour
-            if(y - 1 > 0){
+            if(y - 1 >= 0){
                 result[0] = space[x, y - 1];
             }
             else{
@@ -39,7 +39,7 @@ namespace Model{
             }
 
             //Check W neighbour
-            if(x - 1 > 0){
+            if(x - 1 >= 0){
                 result[3] = space[x - 1, y];
             }
             else{

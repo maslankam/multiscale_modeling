@@ -10,8 +10,8 @@ namespace Model{
 
         public CelluralSpace(int size)
         {
-            this.currentState = new Cell[500, 500];
-            this.lastState = new Cell[500, 500];
+            this.currentState = new Cell[size, size];
+            this.lastState = new Cell[size, size];
             Clear();
         }   
 
