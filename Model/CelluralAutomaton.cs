@@ -8,14 +8,14 @@ namespace Model{
     {
         public CelluralSpace Space { get; private set; }
         public List<Grain> Grains { get; private set; }
-        public Bitmap View 
+        /*public Bitmap View 
         {
             get { return Space.RenderCelluralSpace(); }
-        }
+        }*/
         
         public CelluralAutomaton()
         {
-            this.Space = new CelluralSpace(3); //TODO: replace magic number with resizable control
+            this.Space = new CelluralSpace(30); //TODO: replace magic number with resizable control
             
 
 

@@ -17,7 +17,10 @@ namespace Model{
             {
 
                 Cell[] neighbours = VonNeumanNeighborhood.Neighbours(
-                    space, x, y, AbsorbingBoundary.BoundaryCondition); //TODO: More options (boundary and neighbourhood) !!
+                    space, x, y, AbsorbingBoundary.BoundaryCondition); 
+                //TODO: Temporary solution !
+                // Too many dependencies
+                // Add More options (boundary and neighbourhood) !!
 
                 var groups = from c in neighbours
                              where c?.GrainMembership?.Id != null

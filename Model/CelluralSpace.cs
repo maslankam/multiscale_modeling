@@ -5,8 +5,8 @@ using System.Drawing;
 namespace Model{
     public class CelluralSpace
     {
-        public Cell[,] currentState; //TODO: public for debug
-        private Cell[,] lastState; 
+        public Cell[,] currentState; //TODO: public for debug, may be changed as public property "Space" 
+        public Cell[,] lastState; 
 
         public CelluralSpace(int size)
         {
@@ -17,10 +17,10 @@ namespace Model{
 
         public void Clear()
         {
-            Grain emptyGrain = new Grain();
+            //Grain emptyGrain = new Grain(); // fill with null or EmptyGrain ????
 
-            FillCellsWithGrain(currentState, emptyGrain);
-            FillCellsWithGrain(lastState, emptyGrain);
+            FillCellsWithGrain(currentState, null);
+            FillCellsWithGrain(lastState, null);
         }
 
         public Bitmap RenderCelluralSpace() // TODO: This method breaks single responsibility prinicpal, change !!
@@ -42,6 +42,7 @@ namespace Model{
                 return bitmap;*/
             return new Bitmap(@"C:\Users\mikim\Desktop\Multiscale Modeling\multiscale_modeling\MsmGrainGrowthGui\icons\excel.png");
         }
+
 
         private void FillCellsWithGrain(Cell[,] matrix, Grain grain)
         {
