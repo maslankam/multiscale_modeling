@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
 
 using Model;
 
@@ -28,14 +25,36 @@ namespace MsmGrainGrowthGui
         public CelluralAutomaton Automaton { get; set; }
         public MainWindow()
         {
-            this.Automaton = new CelluralAutomaton();
             InitializeComponent();
-            this.DataContext = this;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           
+            PixelFormat pf = PixelFormats.Bgr32;
+            int width = 200;
+            int height = 200;
+            int rawStride = (width * pf.BitsPerPixel + 7) / 8;
+            byte[] rawImage = new byte[rawStride * height];
+
+            // Initialize the image with data.
+            Random value = new Random();
+            value.NextBytes(rawImage);
+
+            // Create a BitmapSource.
+            BitmapSource bitmap = BitmapSource.Create(width, height,
+                96, 96, pf, null,
+                rawImage, rawStride);
+
+            // Create an image element;
+            Image myImage = new Image();
+            myImage.Width = 200;
+            // Set image source.
+            CelluralSpaceView.Source = bitmap;
+
+            //Uri resourceUri = new Uri("/Images/Lama.jpg", UriKind.Relative);
+            //imgDynamic.Source = new BitmapImage(resourceUri);
+
         }
+
     }
 }

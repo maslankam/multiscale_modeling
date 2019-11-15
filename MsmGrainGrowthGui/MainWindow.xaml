@@ -64,8 +64,8 @@
             </ComboBox>
             <Label Content="Colors" />
             <TextBox Margin="5" Text="3"/>
-            <Button Margin="5" Padding="5" Click="Button_Click">Randomize</Button>
-            <Button Margin="5" Padding="5" >Next Step</Button>
+            <Button Margin="5" Padding="5" >Randomize</Button>
+            <Button Margin="5" Padding="5" Click="Button_Click" >Next Step</Button>
             <Button Margin="5" Padding="5" >Run</Button>
             <Button Margin="5" Padding="5" >Stop</Button>
             <Button Margin="5" Padding="5" >Reset</Button>
