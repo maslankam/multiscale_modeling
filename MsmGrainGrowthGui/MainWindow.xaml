@@ -5,23 +5,74 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Grain Growth Cellural Automata" Height="595" Width="800">
+
+    <StackPanel>
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button Command="New" Content="New" />
-                    <Button Command="Open" Content="Open" />
-                    <Button Command="Save" Content="Save" />
+                    <Button Command="Open">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/folder.png" />
+                            <TextBlock Margin="5,0">Open</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Padding="5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/diskette.png" />
+                            <TextBlock Margin="5,0">Save As</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button Command="ExportCSV" Content="Export to CSV" />
-                    <Button Command="Saveimage" Content="Save image" />
+                    <Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/excel.png" />
+                            <TextBlock Margin="5,0">Export to CSV</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/icons/picture.png" />
+                            <TextBlock Margin="5,0">Save image</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
-            <TextBox AcceptsReturn="True" />
         </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
+            <Border BorderThickness="1" BorderBrush="#FF000000">
+                <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
+            </Border>
+            <StackPanel Grid.Column="1">
+            <Label Content="Boundary" />
+            <ComboBox Margin="5">
+                <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
+                <!-- TODO -->
+                    <!--<ComboBoxItem>Periodic</ComboBoxItem>-->
+            </ComboBox>
+            <Label Content="Neighborhood" />
+            <ComboBox Margin="5">
+                <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
+                    <!--<ComboBoxItem>Moore</ComboBoxItem>-->
+                    <!--<ComboBoxItem>Pentagonal</ComboBoxItem>-->
+                    <!--<ComboBoxItem>Hexagonal</ComboBoxItem>-->
+            </ComboBox>
+            <Label Content="Colors" />
+            <TextBox Margin="5" Text="3"/>
+            <Button Margin="5" Padding="5" Click="Button_Click">Randomize</Button>
+            <Button Margin="5" Padding="5" >Next Step</Button>
+            <Button Margin="5" Padding="5" >Run</Button>
+            <Button Margin="5" Padding="5" >Stop</Button>
+            <Button Margin="5" Padding="5" >Reset</Button>
 
-
+            </StackPanel>
     </Grid>
+
+    </StackPanel>
+
 </Window>

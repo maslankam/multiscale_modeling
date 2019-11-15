@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrainGrowthGui", "MsmGrainGrowthGui\GrainGrowthGui.csproj", "{B694252B-2108-42C0-A530-3685B0B4DDC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrainGrowthGui", "MsmGrainGrowthGui\GrainGrowthGui.csproj", "{B694252B-2108-42C0-A530-3685B0B4DDC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{69C85E62-D384-4A9A-966C-DA4C195C0085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{69C85E62-D384-4A9A-966C-DA4C195C0085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{B7CB1591-FF03-496D-8FBA-84DDBD5A8D72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{B7CB1591-FF03-496D-8FBA-84DDBD5A8D72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{410821EC-E5EA-42E7-89F1-2AC37872850D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{410821EC-E5EA-42E7-89F1-2AC37872850D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{410821EC-E5EA-42E7-89F1-2AC37872850D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{410821EC-E5EA-42E7-89F1-2AC37872850D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{410821EC-E5EA-42E7-89F1-2AC37872850D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
