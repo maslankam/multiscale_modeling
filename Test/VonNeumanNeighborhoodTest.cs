@@ -53,28 +53,6 @@ namespace Test
             yield return new object[] { 0, 0, new Cell[] { null, b, d, null } }; //a
         }
 
-
-
-        /*public static IEnumerable<object[]> SplitCountData
-        {
-            get
-            {
-                // Or this could read from a file. :)
-                return new[]
-                {
-                new object[] { 1, 1, new Cell[]{b, f, h, d} }, //e - center
-                new object[] { 0, 0, new Cell[] { null, b, d, null } }, //a
-                new object[] { 0, 1, new Cell[] { null, c, e, a } }, //b
-                new object[] { 0, 2, new Cell[] { null, null, f, b } }, //c
-                new object[] { 1, 0, new Cell[] { a, e, g, null } }, //d
-                new object[] { 1, 2, new Cell[] { c, null, i, e } }, //f
-                new object[] { 2, 0, new Cell[] { d, h, null, null } }, //g
-                new object[] { 2, 1, new Cell[] { e, i, null, g } }, //h
-                new object[] { 2, 2, new Cell[] { f, null, null, h } } //i
-            };
-            }
-        }*/
-
         private class AbsorbingTestData : IEnumerable<object[]>
         {   ///x\y 0 1 2
             /// 0 |a|b|c|

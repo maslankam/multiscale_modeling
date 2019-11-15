@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using Model;
@@ -8,14 +9,13 @@ namespace Model{
     
     public static class TransitionRule
     {
-        public static Grain NextState(Cell[,] space, int x, int y){
+        public static Grain NextState(Cell[,] space, int x, int y)
+        {
+            ValidateArguments(space, x, y);
 
-            if (space == null) throw new ArgumentNullException();
-            if ( space.GetLength(0) > 1 && space.GetLength(1) > 1) throw new ArgumentException();
-            
+            if (space[x, y]?.GrainMembership == null)
+            {
 
-            if (space[x, y].GrainMembership == null){
-                
                 Cell[] neighbours = VonNeumanNeighborhood.Neighbours(
                     space, x, y, AbsorbingBoundary.BoundaryCondition); //TODO: More options (boundary and neighbourhood) !!
 
@@ -25,8 +25,7 @@ namespace Model{
 
                 if (groups.Count() == 0)
                 {
-                    //All neighbours are null, return self
-                    return space[x, y].GrainMembership;
+                    return null;
                 }
                 else if (groups.Count() > 1)
                 {
@@ -56,12 +55,26 @@ namespace Model{
                     return groups.First().Key;
                 }
             }
-            else{
+            else
+            {
                 //return self
                 return space[x, y].GrainMembership;
             }
         }
-        
+
+        private static void ValidateArguments(Cell[,] space, int x, int y)
+        {
+            if (space == null)
+                throw new ArgumentNullException("Space cannot be null");
+
+            if (space.GetLength(0) < 2 || space.GetLength(1) < 2)
+                throw new ArgumentException($"Space size [{space.GetLength(0)}," +
+                                    $"{space.GetLength(1)}] is less than minimum [2,2]");
+
+            if (x >= space.GetLength(0) || y >= space.GetLength(1) || x < 0 || y < 0)
+                throw new ArgumentOutOfRangeException($"{x},{y} is out of space range " +
+                                    $"[{space.GetLength(0)},{space.GetLength(1)}]");
+        }
     }
 
     

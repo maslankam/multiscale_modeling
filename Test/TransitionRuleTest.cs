@@ -3,6 +3,7 @@ using Xunit;
 using System.Drawing;
 
 using Model;
+using System.Diagnostics;
 
 namespace Test
 {
@@ -15,84 +16,148 @@ namespace Test
         [Fact]
         public void EmptyCellEmptyNeighbourhoodTest()
         {
-            ClearCells();
+            CleanUp();
+            InitializeSpace();
 
             Grain grain = TransitionRule.NextState(space, 1, 1);
 
             Assert.Null(grain);
+
+            CleanUp();
         }
 
-        /*public void NullSpaceArgumentTest()
+        [Fact]
+        public void NullArgumentExceptionsTest()
         {
-            ClearCells();
-            try
-            {
-                Grain grain = TransitionRule.NextState(null, 1, 1);
-                Assert.True(false);
-            }
-            catch(ArgumentNullException e)
-            {
-                Assert.True(true);
-            }
-            
-        }*/
+            CleanUp();
 
+            var ex = Assert.Throws<ArgumentNullException>(() => TransitionRule.NextState(null, 0, 0));
+            Assert.Equal("Space cannot be null", ex.ParamName);
+        }
+
+        [Fact]
+        public void SpaceSizeArgumentExceptionTest()
+        {
+            CleanUp();
+            Cell[,] invalidSpace = new Cell[1, 1];
+
+            var ex = Assert.Throws<ArgumentException>(() => TransitionRule.NextState(invalidSpace, 0, 0));
+            Assert.Equal("Space size [1,1] is less than minimum [2,2]", ex.Message);
+
+            invalidSpace = new Cell[1, 2];
+            ex = Assert.Throws<ArgumentException>(() => TransitionRule.NextState(invalidSpace, 0, 0));
+            Assert.Equal("Space size [1,2] is less than minimum [2,2]", ex.Message);
+
+            invalidSpace = new Cell[2, 1];
+            ex = Assert.Throws<ArgumentException>(() => TransitionRule.NextState(invalidSpace, 0, 0));
+            Assert.Equal("Space size [2,1] is less than minimum [2,2]", ex.Message);
+        }
+
+        [Fact]
+        public void ArgumentOutOfRangeExceptionTest()
+        {
+            CleanUp();
+            PopulateCells();
+
+            var ex = Assert.Throws<ArgumentOutOfRangeException>
+                (() => TransitionRule.NextState(space, -1, 0));
+            Assert.Equal($"-1,0 is out of space range [3,3]", ex.ParamName);
+
+            ex = Assert.Throws<ArgumentOutOfRangeException>
+               (() => TransitionRule.NextState(space, 0, -1));
+            Assert.Equal($"0,-1 is out of space range [3,3]", ex.ParamName);
+
+            ex = Assert.Throws<ArgumentOutOfRangeException>
+               (() => TransitionRule.NextState(space, 3, 1));
+            Assert.Equal($"3,1 is out of space range [3,3]", ex.ParamName);
+
+            ex = Assert.Throws<ArgumentOutOfRangeException>
+               (() => TransitionRule.NextState(space, 1, 3));
+            Assert.Equal($"1,3 is out of space range [3,3]", ex.ParamName);
+
+        }
+
+        [Fact]
         public void VioletCellEmptyNeighbourhoodTest()
         {
             Grain expected = new Grain(11, Color.Violet);
             
-            ClearCells();
+            CleanUp();
+
             e = new Cell { GrainMembership = expected  };
+            InitializeSpace();
 
             Grain result = TransitionRule.NextState(space, 1, 1);
 
             Assert.Same(expected, result);
 
+            CleanUp();
+
         }
 
+        [Fact]
         public void GreenNorthNeighbourTest()
         {
             Grain expected = new Grain(11, Color.Red);
 
-            ClearCells();
-            e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
+            CleanUp();
+
+            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
             b = new Cell { GrainMembership = expected};
+            InitializeSpace();
 
             Grain result = TransitionRule.NextState(space, 1, 1);
 
             Assert.Same(expected, result);
+
+            CleanUp();
         }
 
+        [Fact]
         public void GreenNorthGoldEastNeighbourTest()
         {
-            ClearCells();
-            e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
+            CleanUp();
+
+            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
             b = new Cell { GrainMembership = new Grain(1, Color.Green) };
             f = new Cell { GrainMembership = new Grain(12, Color.Gold) };
+            InitializeSpace();
 
             Grain result = TransitionRule.NextState(space, 1, 1);
 
-            Assert.True(result.Equals(b) || result.Equals(f));
+            bool isBGrain = result.Equals(b.GrainMembership);
+            bool isFGrain = result.Equals(f.GrainMembership);
+
+            Assert.True(isBGrain || isFGrain);
+
+            CleanUp();
         }
 
+        [Fact]
         public void GreenNorthGoldEastGoldSouthNeighbourTest()
         {
             Grain expected = new Grain(12, Color.Gold);
 
-            ClearCells();
-            e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
+            CleanUp();
+           
+            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
             b = new Cell { GrainMembership = new Grain(1, Color.Green) };
             f = new Cell { GrainMembership = expected };
             h = new Cell { GrainMembership = expected };
 
+            InitializeSpace();
+
             Grain result = TransitionRule.NextState(space, 1, 1);
 
             Assert.Same(expected, result);
+
+            CleanUp();
         }
 
-        private static void ClearCells()
+        private static void CleanUp()
         {
-            a = b = c = d = e = f = g = h = null;
+            a = b = c = d = e = f = g = h = i = null;
+            space = null;
         }
 
         private static void PopulateCells()
@@ -106,13 +171,16 @@ namespace Test
             g = new Cell { GrainMembership = new Grain(20, Color.Coral) };
             h = new Cell { GrainMembership = new Grain(21, Color.Orange) };
             i = new Cell { GrainMembership = new Grain(22, Color.Azure) };
+            InitializeSpace();
+        }
+
+        private static void InitializeSpace()
+        {
             space = new Cell[,]{
                 { a, b, c },
                 { d, e, f },
                 { g, h, i }
             };
-
-
         }
     }
 }
