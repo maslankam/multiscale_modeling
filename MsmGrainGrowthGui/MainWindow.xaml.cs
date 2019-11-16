@@ -60,44 +60,24 @@ namespace MsmGrainGrowthGui
             space = automaton.Space.currentState;
             previousSpace = automaton.Space.lastState;
 
-            space[10, 10].GrainMembership = redGrain;
-            space[260, 80].GrainMembership = blueGrain;
-            space[0, 290].GrainMembership = cyanGrain;
-            space[130, 190].GrainMembership = magentaGrain;
-            space[260, 210].GrainMembership = yellowGrain;
-            space[280, 140].GrainMembership = greenGrain;
-            space[120, 120].GrainMembership = darkGreenGrain;
+            var r = new Random();
+
+            r.Next();
+
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = redGrain;
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = blueGrain;
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = cyanGrain;
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = magentaGrain;
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = yellowGrain;
+            space[r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = greenGrain;
+            space[ r.Next(0,this.spaceSize - 1), r.Next(0,this.spaceSize - 1)].GrainMembership = darkGreenGrain;
             
             string input = "";
             int step = 0;
             
         }
 
-        private void RunButton_Click(object sender, RoutedEventArgs e)
-        {
-            PixelFormat pf = PixelFormats.Bgr32;
-            int width = this.spaceSize;
-            int height = this.spaceSize;
-            int rawStride = (width * pf.BitsPerPixel + 7) / 8;
-            byte[] rawImage = new byte[rawStride * height];
-
-            // Initialize the image with data.
-            Random value = new Random();
-            value.NextBytes(rawImage);
-
-            // Create a BitmapSource.
-            BitmapSource bitmap = BitmapSource.Create(width, height,
-                96, 96, pf, null,
-                rawImage, rawStride);
-
-            // Create an image element;
-            //Image myImage = new Image();
-            //myImage.Width = 200;
-            // Set image source.
-            CelluralSpaceView.Source = bitmap;
-
-        }
-        
+       
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             PixelFormat pf = PixelFormats.Bgr32;
@@ -160,10 +140,6 @@ namespace MsmGrainGrowthGui
                 this.spaceSize, this.spaceSize, pf, null,
                 rawImage, rawStride);
 
-            // Create an image element;
-            //Image myImage = new Image();
-            //myImage.Width = 200;
-            // Set image source.
             CelluralSpaceView.Source = bitmap;
             
         }

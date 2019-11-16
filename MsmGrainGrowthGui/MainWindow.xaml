@@ -61,11 +61,12 @@
                     <ComboBoxItem>Pentagonal</ComboBoxItem>
                     <ComboBoxItem>Hexagonal</ComboBoxItem>
                 </ComboBox>
-            <Label Content="Colors" />
-            <TextBox Margin="5" Text="3"/>
+            <Label Content="Grains" />
+            <TextBox Margin="5" Text="7"/>
+                
             <Button Margin="5" Padding="5" >Randomize</Button>
             <Button Margin="5" Padding="5" Click="NextButton_Click" Name="NextSpaceView">Next Step</Button>
-            <Button Margin="5" Padding="5" Click="RunButton_Click" Name="RunButton">Run</Button>
+            <Button Margin="5" Padding="5" Name="RunButton">Run</Button>
             <Button Margin="5" Padding="5" >Stop</Button>
             <Button Margin="5" Padding="5" >Reset</Button>
 
