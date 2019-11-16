@@ -13,16 +13,6 @@ namespace Model{
         /// |nl|nl|nl|nl|nl|
         public static Tuple<int,int> BoundaryCondition(Cell[,] space, int x, int y, BoundaryDirection direction) {
             
-            switch(direction){
-                case BoundaryDirection.N : break;
-                case BoundaryDirection.NE : break;
-                case BoundaryDirection.E : break;
-                case BoundaryDirection.SE : break;
-                case BoundaryDirection.S : break;
-                case BoundaryDirection.SW : break;
-                case BoundaryDirection.W : break;
-                case BoundaryDirection.NW : break;
-                default : break; }
             
             return null;
         }
