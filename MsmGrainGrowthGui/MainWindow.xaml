@@ -52,21 +52,20 @@
             <Label Content="Boundary" />
             <ComboBox Margin="5">
                 <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
-                <!-- TODO -->
-                    <!--<ComboBoxItem>Periodic</ComboBoxItem>-->
+                <ComboBoxItem>Periodic</ComboBoxItem>
             </ComboBox>
             <Label Content="Neighborhood" />
             <ComboBox Margin="5">
                 <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
-                    <!--<ComboBoxItem>Moore</ComboBoxItem>-->
-                    <!--<ComboBoxItem>Pentagonal</ComboBoxItem>-->
-                    <!--<ComboBoxItem>Hexagonal</ComboBoxItem>-->
-            </ComboBox>
+                    <ComboBoxItem>Moore</ComboBoxItem>
+                    <ComboBoxItem>Pentagonal</ComboBoxItem>
+                    <ComboBoxItem>Hexagonal</ComboBoxItem>
+                </ComboBox>
             <Label Content="Colors" />
             <TextBox Margin="5" Text="3"/>
             <Button Margin="5" Padding="5" >Randomize</Button>
-            <Button Margin="5" Padding="5" Click="Button_Click" >Next Step</Button>
-            <Button Margin="5" Padding="5" >Run</Button>
+            <Button Margin="5" Padding="5" Click="NextButton_Click" Name="NextSpaceView">Next Step</Button>
+            <Button Margin="5" Padding="5" Click="RunButton_Click" Name="RunButton">Run</Button>
             <Button Margin="5" Padding="5" >Stop</Button>
             <Button Margin="5" Padding="5" >Reset</Button>
 
