@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MsmGrainGrowthGui"
         mc:Ignorable="d"
-        Title="Grain Growth Cellural Automata" Height="595" Width="800">
+        Title="Grain Growth Cellural Automata" Height="700" Width="800">
 
     <StackPanel>
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button Command="Open">
+                    <Button IsEnabled="False">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/folder.png" />
                             <TextBlock Margin="5,0">Open</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Padding="5">
+                    <Button Padding="5" IsEnabled="False">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/diskette.png" />
                             <TextBlock Margin="5,0">Save As</TextBlock>
@@ -25,14 +25,14 @@
                     </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button>
-                        <StackPanel Orientation="Horizontal">
+                    <Button IsEnabled="False">
+                        <StackPanel Orientation="Horizontal" >
                             <Image Source="/icons/excel.png" />
                             <TextBlock Margin="5,0">Export to CSV</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button>
-                        <StackPanel Orientation="Horizontal">
+                    <Button IsEnabled="False">
+                        <StackPanel Orientation="Horizontal" IsEnabled="False">
                             <Image Source="/icons/picture.png" />
                             <TextBlock Margin="5,0">Save image</TextBlock>
                         </StackPanel>
@@ -45,9 +45,13 @@
 			<ColumnDefinition Width="3*" />
 			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
-            <Border BorderThickness="1" BorderBrush="#FF000000">
-                <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
-            </Border>
+            <StackPanel>
+                <Border BorderThickness="1" BorderBrush="#FF000000">
+                    <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
+                </Border>
+                <Label Margin="5" Name="StepLabel" ></Label>
+            </StackPanel>
+            
             <StackPanel Grid.Column="1">
             <Label Content="Boundary" />
             <ComboBox Margin="5">
@@ -62,13 +66,24 @@
                     <ComboBoxItem>Hexagonal</ComboBoxItem>
                 </ComboBox>
             <Label Content="Grains" />
-            <TextBox Margin="5" Text="7"/>
-                
-            <Button Margin="5" Padding="5" >Randomize</Button>
-            <Button Margin="5" Padding="5" Click="NextButton_Click" Name="NextSpaceView">Next Step</Button>
-            <Button Margin="5" Padding="5" Name="RunButton">Run</Button>
-            <Button Margin="5" Padding="5" >Stop</Button>
-            <Button Margin="5" Padding="5" >Reset</Button>
+            <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainCount}"/>
+            <Label Content="Space size" />
+            <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
+            <!--<Button Margin="5" Padding="5" >Randomize</Button>-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2.6*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="5"  Click="NextButton_Click" Name="NextSpaceView">Next</Button>
+                    <TextBlock Grid.Column="1" Padding="5,5,5,5" TextWrapping="Wrap" >Steps per click :</TextBlock>
+                    <TextBox Grid.Column="2" Name="StepsPerClick_TextBox" Margin="0,5,5,5" Text="{Binding StepsPerClick}"></TextBox>
+                </Grid>
+            
+            <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
+            <!--<Button Margin="5" Padding="5" >Stop</Button>-->
+            <Button Margin="5" Padding="5" Click="ResetButton_Click">Reset</Button>
 
             </StackPanel>
     </Grid>
