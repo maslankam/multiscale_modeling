@@ -40,11 +40,11 @@
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
-    <Grid>
-        <Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*" />
-			<ColumnDefinition Width="1*" />
-		</Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000">
                     <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
@@ -53,48 +53,55 @@
             </StackPanel>
 
             <StackPanel  Margin="5" Grid.Column="1">
-            
-            <GroupBox Header="Inclusions">
+
+                <GroupBox Header="Inclusions">
                     <StackPanel>
                         <CheckBox Margin="5">Enabled</CheckBox>
-                        <Label Content="Radius"></Label>
-                        
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Min:" />
-                            <TextBox Grid.Column="1" Margin="5,5,5,5">1</TextBox>
-                            <Label Grid.Column="2" Content="Max:" />
-                            <TextBox Grid.Column="3" Margin="5">3</TextBox>
-                             </Grid>
-                        
-                        <Label Content="Count"></Label>
-                        <TextBox Margin="5">10</TextBox>
+                        <StackPanel Visibility="Visible">
+                            <Label Content="Radius"></Label>
 
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Min:" />
+                                <TextBox Grid.Column="1" Margin="5,5,5,5">1</TextBox>
+                                <Label Grid.Column="2" Content="Max:" />
+                                <TextBox Grid.Column="3" Margin="5">3</TextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1.6*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Count:"></Label>
+                                <TextBox Grid.Column="1" Margin="5,5,5,5">10</TextBox>
+                            </Grid>
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
-                
-            <Label Content="Boundary" />
-            <ComboBox Margin="5">
-                <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
-                <ComboBoxItem>Periodic</ComboBoxItem>
-            </ComboBox>
-            <Label Content="Neighborhood" />
-            <ComboBox Margin="5">
-                <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
+
+                <Label Content="Boundary" />
+                <ComboBox Margin="5">
+                    <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
+                    <ComboBoxItem>Periodic</ComboBoxItem>
+                </ComboBox>
+                <Label Content="Neighborhood" />
+                <ComboBox Margin="5">
+                    <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
                     <ComboBoxItem>Moore</ComboBoxItem>
                     <ComboBoxItem>Pentagonal</ComboBoxItem>
                     <ComboBoxItem>Hexagonal</ComboBoxItem>
                 </ComboBox>
-            <Label Content="Grains" />
-            <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainCount}"/>
-            <Label Content="Space size" />
-            <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
-            <!--<Button Margin="5" Padding="5" >Randomize</Button>-->
+                <Label Content="Grains" />
+                <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainCount}"/>
+                <Label Content="Space size" />
+                <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
+                <!--<Button Margin="5" Padding="5" >Randomize</Button>-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
@@ -102,16 +109,16 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="5"  Click="NextButton_Click" Name="NextSpaceView">Next</Button>
-                    <TextBlock Grid.Column="1" Padding="5,5,5,5" TextWrapping="Wrap" >Steps per click :</TextBlock>
+                    <TextBlock Grid.Column="1" Padding="5,5,5,5" TextWrapping="Wrap">Steps per click :</TextBlock>
                     <TextBox Grid.Column="2" Name="StepsPerClick_TextBox" Margin="0,5,5,5" Text="{Binding StepsPerClick}"></TextBox>
                 </Grid>
-            
-            <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
-            <!--<Button Margin="5" Padding="5" >Stop</Button>-->
-            <Button Margin="5" Padding="5" Click="ResetButton_Click">Reset</Button>
+
+                <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
+                <!--<Button Margin="5" Padding="5" >Stop</Button>-->
+                <Button Margin="5" Padding="5" Click="ResetButton_Click">Reset</Button>
 
             </StackPanel>
-    </Grid>
+        </Grid>
 
     </StackPanel>
 
