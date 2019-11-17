@@ -70,16 +70,18 @@ namespace Model{
             if (space == null)
                 throw new ArgumentNullException("Space cannot be null");
 
+            if (x >= space.GetLength(0) || y >= space.GetLength(1) || x < 0 || y < 0) // TODO: minus indexes will be catched in Argument Exception - change an test!
+                throw new ArgumentOutOfRangeException($"{x},{y} is out of space range " +
+                                    $"[{space.GetLength(0)},{space.GetLength(1)}]");
+
             if (space.GetLength(0) < 2 || space.GetLength(1) < 2)
                 throw new ArgumentException($"Space size [{space.GetLength(0)}," +
                                     $"{space.GetLength(1)}] is less than minimum [2,2]");
 
-            if (x >= space.GetLength(0) || y >= space.GetLength(1) || x < 0 || y < 0)
-                throw new ArgumentOutOfRangeException($"{x},{y} is out of space range " +
-                                    $"[{space.GetLength(0)},{space.GetLength(1)}]");
+        }
         }
     }
 
     
 
-}
+

@@ -51,8 +51,33 @@
                 </Border>
                 <Label Margin="5" Name="StepLabel" ></Label>
             </StackPanel>
+
+            <StackPanel  Margin="5" Grid.Column="1">
             
-            <StackPanel Grid.Column="1">
+            <GroupBox Header="Inclusions">
+                    <StackPanel>
+                        <CheckBox Margin="5">Enabled</CheckBox>
+                        <Label Content="Radius"></Label>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Min:" />
+                            <TextBox Grid.Column="1" Margin="5,5,5,5">1</TextBox>
+                            <Label Grid.Column="2" Content="Max:" />
+                            <TextBox Grid.Column="3" Margin="5">3</TextBox>
+                             </Grid>
+                        
+                        <Label Content="Count"></Label>
+                        <TextBox Margin="5">10</TextBox>
+
+                    </StackPanel>
+                </GroupBox>
+                
             <Label Content="Boundary" />
             <ComboBox Margin="5">
                 <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
@@ -73,7 +98,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2.6*" />
+                        <ColumnDefinition Width="2.8*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="5"  Click="NextButton_Click" Name="NextSpaceView">Next</Button>
