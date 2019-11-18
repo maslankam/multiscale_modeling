@@ -6,20 +6,20 @@ using System.Drawing;
 namespace Model{
     public class SimulationExecutor
     {
-        private CelluralSpace _space;
         public int Step{get; private set;}
 
-        public SimulationExecutor(CelluralSpace space){
-            this._space = space;
+        public SimulationExecutor(){
         }
 
-        public void NextState(ITransitionRule transition, INeighbourhood neighbourhood, IBoundaryCondition boundary){
-            for (int i = 0; i < this._space.GetLength(0); i++)
+        public void NextState(CelluralSpace space, ITransitionRule transition, INeighbourhood neighbourhood){
+            for (int i = 0; i < space.GetXLength(); i++)
             {
-                for (int j = 0; j < _space.GetLength(1); j++)
+                for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    Cell[] neighbours = neighbourhood.GetNeighbours(this, i, j, boundary);
-                    _space[i,j].MicroelementMembership = transition.NextState(neighbourhood);
+                    Cell[] neighbours = neighbourhood.GetNeighbours(space, i, j);
+                    var element = transition.NextState(space.GetCell(i,j), neighbours);
+                    space.SetCellMembership(element, i, j);
+                    Step++;
                 }
             }
         }

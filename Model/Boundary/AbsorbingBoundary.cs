@@ -11,7 +11,7 @@ namespace Model{
         /// |nl|10|11|12|nl|
         /// |nl|20|21|22|nl|
         /// |nl|nl|nl|nl|nl|
-        public static Tuple<int,int> BoundaryCondition(Cell[,] space, int x, int y, BoundaryDirection direction) {
+        public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction) { 
             return null;
         }
     }

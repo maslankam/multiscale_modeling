@@ -30,14 +30,18 @@ namespace Model{
             {
                 for (int j = 0; j < _space.GetLength(1); j++)
                 {
-                    _space[i, j] = new Cell(i,j);
+                    _space[i, j] = new Cell();
                 }
             }
         }
 
-        public int GetLength(int i){
-            if(i < 0 || i > 1) throw new ArgumentException("Cellural space has only 2 dimentions.")
-            return this._space.GetLength(i);
+        public int GetXLength(){
+            return this._space.GetLength(0);
+        }
+
+        public int GetYLength()
+        {
+            return this._space.GetLength(1);
         }
 
         public Cell GetCell(int x, int y){
@@ -46,6 +50,11 @@ namespace Model{
 
         public Cell GetCell(int index){
             return this._space[index / _space.Length, index % _space.Length ];
+        }
+
+        public void SetCellMembership(Microelement element,int x, int y)
+        {
+            this._space[x, y].MicroelementMembership = element;
         }
 
         public CelluralSpace Clone(){

@@ -9,30 +9,13 @@ namespace Model{
     
     public class GrainGrowthRule : ITransitionRule
     {
-        public GrainGrowthRule(IBoundaryCondition boundary, INeighbourhood neighbourhood){
+        public Microelement NextState(Cell cell, Cell[] neighbours){ 
 
-        }
-        
-        
-        /*
-
-        
-        public static Grain NextState(Cell[,] space, int x, int y)
-        {
-            ValidateArguments(space, x, y);
-
-            if (space[x, y]?.GrainMembership == null)
+            if (cell?.MicroelementMembership == null)
             {
-
-                Cell[] neighbours = VonNeumanNeighborhood.Neighbours(
-                    space, x, y, AbsorbingBoundary.BoundaryCondition); 
-                //TODO: Temporary solution !
-                // Too many dependencies
-                // Add More options (boundary and neighbourhood) !!
-
                 var groups = from c in neighbours
-                             where c?.GrainMembership?.Id != null
-                             group c by c.GrainMembership;
+                             where c?.MicroelementMembership?.Id != null && c?.MicroelementMembership is Grain
+                             group c by c.MicroelementMembership;
 
                 if (groups.Count() == 0)
                 {
@@ -69,26 +52,12 @@ namespace Model{
             else
             {
                 //return self
-                return space[x, y].GrainMembership;
+                return cell.MicroelementMembership;
             }
         }
-
-        private static void ValidateArguments(Cell[,] space, int x, int y)
-        {
-            if (space == null)
-                throw new ArgumentNullException("Space cannot be null");
-
-            if (x >= space.GetLength(0) || y >= space.GetLength(1) || x < 0 || y < 0) // TODO: minus indexes will be catched in Argument Exception - change an test!
-                throw new ArgumentOutOfRangeException($"{x},{y} is out of space range " +
-                                    $"[{space.GetLength(0)},{space.GetLength(1)}]");
-
-            if (space.GetLength(0) < 2 || space.GetLength(1) < 2)
-                throw new ArgumentException($"Space size [{space.GetLength(0)}," +
-                                    $"{space.GetLength(1)}] is less than minimum [2,2]");
-
-        }
-        */}
     }
+        
+}
 
     
 

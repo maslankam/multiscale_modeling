@@ -12,82 +12,56 @@ namespace Model{
         private IBoundaryCondition _boundary;
 
         public VonNeumanNeighborhood(IBoundaryCondition boundary){
-
+            this._boundary = boundary;
         }
 
-        public int GetNeighboursSize(){
-            return 4;
-        }
 
-         public Cell[] GetNeighbours(CelluralSpace space, int x, int y, IBoundaryCondition boundary){
+         public Cell[] GetNeighbours(CelluralSpace space, int x, int y){
              Cell[] result = new Cell[4];
-
-             
-             
-             
-             
-             
-             
-             throw new NotImplementedException();
-         }
-        /*
-        public static Cell[] Neighbours(Cell[,] space, int x, int y, 
-                    Func<Cell[,], int, int, BoundaryDirection, Tuple<int,int>> boundaryCondition){
-                    
-            Cell[] result = new Cell[4];
 
             //Check N neighbour
             if (x - 1 >= 0)
             {
-                result[0] = space[x - 1, y];
+                result[0] = space.GetCell(x - 1, y);
             }
             else
             {
-                result[0] = AssignBoundaryCell(space, x, y, BoundaryDirection.W, boundaryCondition);
+                result[0] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.W);
             }
 
             //Check E neighbour
-            if (y + 1 <= space.GetLength(0) - 1)
+            if (y + 1 <= space.GetXLength() - 1)
             {
-                result[1] = space[x, y + 1];
+                result[1] = space.GetCell(x, y + 1);
             }
             else
             {
-                result[1] = AssignBoundaryCell(space, x, y, BoundaryDirection.S, boundaryCondition);
+                result[1] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.S);
             }
 
             //Check S neighbour
-            if (x + 1 <= space.GetLength(0) - 1)
+            if (x + 1 <= space.GetYLength() - 1)
             {
-                result[2] = space[x + 1, y];
+                result[2] = space.GetCell(x + 1, y);
             }
             else
             {
-                result[2] = AssignBoundaryCell(space, x, y, BoundaryDirection.E, boundaryCondition);
+                result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.E);
             }
 
             //Check W neighbour
-            if (y - 1 >= 0){
-                result[3] = space[x, y - 1];
+            if (y - 1 >= 0)
+            {
+                result[3] = space.GetCell(x, y - 1);
             }
-            else{
-                result[3] = AssignBoundaryCell(space, x, y, BoundaryDirection.N, boundaryCondition);
+            else
+            {
+                result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.N);
             }
 
             return result;
-        }
 
-        private static Cell AssignBoundaryCell(Cell[,] space, int x, int y, BoundaryDirection direction, 
-            Func<Cell[,], int, int, BoundaryDirection, Tuple<int,int>> boundaryCondition){
-            var xy = boundaryCondition(space, x, y, direction);
-                if(xy == null){
-                    return null;
-                }
-                else{
-                    return space[xy.Item1, xy.Item2];
-                }
-        }
-        */
+         }
     }
 
     

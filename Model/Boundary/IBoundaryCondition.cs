@@ -8,7 +8,7 @@ namespace Model{
 
     public interface IBoundaryCondition 
     {
-       
+        public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction);
     }
 
     

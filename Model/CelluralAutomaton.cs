@@ -40,17 +40,23 @@ namespace Model{
 
         public void NextStep()
         {
-            
             _lastStepSpace = Space.Clone();
-            Space.NextState(_transition, _neighbourhood, _boundary);
-            
-
+            _executor.NextState(Space, _transition, _neighbourhood);
         }
 
         public void PopulateSimulation()
         {
-        
+            //_grainGenerator.Generate(int number)
+            //_inclusionGenerator(int number, int min, int max);
         }
+
+        public void Reset()
+        {
+
+        }
+
+
+ 
 
    }
    

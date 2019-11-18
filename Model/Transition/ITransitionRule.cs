@@ -6,7 +6,7 @@ namespace Model{
     
     public interface ITransitionRule //TODO: This code probably probably won't be use, to be deleted ! THere is static class instead
     {
-        public Microelement NextState(INeighbourhood neighbourhood);
+        Microelement NextState(Cell cell, Cell[] neighbours);
     }
     
 }
