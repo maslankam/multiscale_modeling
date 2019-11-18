@@ -4,17 +4,10 @@ using System.Drawing;
 
 namespace Model{
     
-    public class Grain
+    public class Grain : Microelement
     {
-        public static List<Grain> List { get; private set; }
-        public Color Color {get; set;}
-        public int Id;
-
-        public Grain()
-        {
-            this.Color = Color.White;
-            this.Id = null;
-        }
+        public override Color Color {get; set;}
+        public override int Id{get; set;}
 
         public Grain(int id, Color color)
         {
