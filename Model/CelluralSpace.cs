@@ -1,62 +1,63 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace Model{
-    public class CelluralSpace
+    public class CelluralSpace : IEnumerable
     {
-        public Cell[,] currentState; //TODO: public for debug, may be changed as public property "Space" 
-        public Cell[,] lastState; 
+        private Cell[,] space; 
 
         public CelluralSpace(int size)
         {
-            this.currentState = new Cell[size, size];
-            this.lastState = new Cell[size, size];
-            Clear();
+            this.space = new Cell[size, size];
         }   
 
-        public void Clear()
+        public void Initialize()
         {
-            //Grain emptyGrain = new Grain(); // fill with null or EmptyGrain ????
-
-            FillCellsWithGrain(currentState, null);
-            FillCellsWithGrain(lastState, null);
-        }
-
-        public Bitmap RenderCelluralSpace() // TODO: This method breaks single responsibility prinicpal, change !!
-        {
-            /*var bitmap = new Bitmap(500, 500); //TODO: Magic number
-            for(int i = 0; i < bitmap.Width; i++)
+            for (int i = 0; i < this.space.GetLength(0); i++)
             {
-                for(int j = 0; j < bitmap.Height; j++)
+                for (int j = 0; j < space.GetLength(1); j++)
                 {
-                    for(int k = 0; k < 10 && k + i < bitmap.Width; k++)// DEBUG!
-                    {
-                        bitmap.SetPixel(i, j, currentState[i, j].GrainMembership.Color);
-                    }
-                    //bitmap.SetPixel(i, j, currentState[i, j].GrainMembership.Color);
-
+                    space[i, j] = new Cell(i,j);
                 }
             }
-                
-                return bitmap;*/
-            return new Bitmap(@"C:\Users\mikim\Desktop\Multiscale Modeling\multiscale_modeling\MsmGrainGrowthGui\icons\excel.png");
+        }
+ 
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
 
-
-        private void FillCellsWithGrain(Cell[,] matrix, Grain grain)
+        public IEnumerator<Cell> GetEnumerator()
         {
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < this.space.GetLength(0); i++)
             {
-                for (int j = 0; j < matrix.GetLength(1); j++)
+                for (int j = 0; j < space.GetLength(1); j++)
                 {
-                    matrix[i, j] = new Cell();
-                    matrix[i, j].GrainMembership = grain;
+                    yield return space[i, j];
                 }
             }
         }
 
+        
     }
 
-    
+    public class CelluralSpaceEnumerator : IEnumerator
+    {
+        public object Current => throw new NotImplementedException();
+
+        public bool MoveNext()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }

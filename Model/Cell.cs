@@ -8,15 +8,17 @@ namespace Model{
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public Cell()
+        public Cell(int x, int y)
         {
+            this.X = x;
+            this.Y = y;
             this.GrainMembership = null;
         }
-
-        public override string ToString()
+        public Cell(int x, int y, Grain grain) : this(x,y)
         {
-            return base.ToString();
+            this.GrainMembership = grain;   
         }
+
     }
 
     
