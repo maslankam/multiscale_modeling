@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Model
 {
-    public class XmlReader
+    public class SpaceRenderingEngine
     {
     }
 }

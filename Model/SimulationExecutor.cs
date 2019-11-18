@@ -24,6 +24,10 @@ namespace Model{
             }
         }
         
+        public void Reset()
+        {
+            
+        }
         
     }
 }
