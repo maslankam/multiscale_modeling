@@ -5,34 +5,26 @@ using System.Drawing;
 using Model;
 using System.Diagnostics;
 
-/*
 namespace Test
 {
-    public class TransitionRuleTest
+    public class GrainGrowTest
     {
-        private static Cell a, b, c, d, e, f, g, h, i;
-        private static Cell[,] space;
-
-
         [Fact]
         public void EmptyCellEmptyNeighbourhoodTest()
         {
             ITransitionRule transition = new GrainGrowthRule();
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 
-            //CleanUp();
-            //InitializeSpace();
+            Cell[] neighbours = neighbourhood.GetNeighbours(space, 1, 1);
+            var element = transition.NextState(space.GetCell(1, 1), neighbours);
 
-            //
-            //Grain grain = transition.NextState(;
-            //
-            //Assert.Null(grain);
-            //
-            //CleanUp();
+            Assert.Null(element);
         }
 
-        [Fact]
+        /*[Fact]
         public void NullArgumentExceptionsTest()
         {
             CleanUp();
@@ -82,25 +74,25 @@ namespace Test
             Assert.Equal($"1,3 is out of space range [3,3]", ex.ParamName);
 
         }
-
+        */
         [Fact]
         public void VioletCellEmptyNeighbourhoodTest()
         {
-            Grain expected = new Grain(11, Color.Violet);
-            
-            CleanUp();
+            ITransitionRule transition = new GrainGrowthRule();
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
 
-            e = new Cell { GrainMembership = expected  };
-            InitializeSpace();
+            CelluralSpace space = new CelluralSpace(3);
 
-            Grain result = TransitionRule.NextState(space, 1, 1);
+            Grain expected = new Grain(11, 0, Color.Violet);
+            space.SetCellMembership(expected, 1, 1);
+
+            Cell[] neighbours = neighbourhood.GetNeighbours(space, 1, 1);
+            var result = transition.NextState(space.GetCell(1, 1), neighbours);
 
             Assert.Same(expected, result);
-
-            CleanUp();
-
         }
-
+     
         [Fact]
         public void GreenNorthNeighbourTest()
         {
@@ -118,7 +110,7 @@ namespace Test
 
             CleanUp();
         }
-
+        /*
         [Fact]
         public void GreenNorthGoldEastNeighbourTest()
         {
@@ -187,7 +179,6 @@ namespace Test
                 { d, e, f },
                 { g, h, i }
             };
-        }
+        }*/
     }
 }
-*/

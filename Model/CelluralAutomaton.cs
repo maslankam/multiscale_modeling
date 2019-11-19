@@ -51,6 +51,8 @@ namespace Model{
             PopulateSimulation(GrainsCount, inclusionsCount, minRadius, maxRadius);
         }
 
+        //Constructor for opening saved state
+
         public void NextStep()
         {
             _lastStepSpace = Space.Clone();
