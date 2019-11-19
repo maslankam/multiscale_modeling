@@ -18,13 +18,81 @@ namespace Model
             switch (direction)
             {
                 case BoundaryDirection.N:  return space.GetCell( space.GetXLength() - 1, y);
-                case BoundaryDirection.NE: return space.GetCell(space.GetXLength() - 1, 0);
+                case BoundaryDirection.NE:
+                    {
+                        if (y == space.GetYLength() - 1)
+                        {
+                            if(x == 0)
+                            {
+                                return space.GetCell(space.GetXLength() - 1, 0);
+                            }
+                            else
+                            {
+                                return space.GetCell(x - 1, 0);
+                            }
+                        }
+                        else
+                        {
+                            return space.GetCell(space.GetXLength() - 1, y + 1);
+                        }
+                    }
                 case BoundaryDirection.E:  return space.GetCell( x, 0);
-                case BoundaryDirection.SE: return space.GetCell( 0, 0);
+                case BoundaryDirection.SE:
+                    {
+                        if (x == space.GetXLength() - 1)
+                        {
+                            if (y == space.GetYLength() - 1)
+                            {
+                                return space.GetCell(0, 0);
+                            }
+                            else
+                            {
+                                return space.GetCell(0, y + 1);
+                            }
+                        }
+                        else
+                        {
+                            return space.GetCell(x + 1, 0);
+                        }
+                    }
                 case BoundaryDirection.S:  return space.GetCell( 0, y);
-                case BoundaryDirection.SW: return space.GetCell( 0, space.GetYLength() - 1);
+                case BoundaryDirection.SW: 
+                    {
+                        if (x == space.GetYLength() - 1)
+                        {
+                            if (y == 0)
+                            {
+                                return space.GetCell(0, 2);
+                            }
+                            else
+                            {
+                                return space.GetCell(0, y - 1);
+                            }
+                        }
+                        else
+                        {
+                            return space.GetCell(x + 1, space.GetYLength() - 1);
+                        }
+                    }
                 case BoundaryDirection.W:  return space.GetCell( x, space.GetYLength() - 1);
-                case BoundaryDirection.NW: return space.GetCell( space.GetXLength(), space.GetYLength() );
+                case BoundaryDirection.NW: 
+                    {
+                        if (y == 0)
+                        {
+                            if (x == 0)
+                            {
+                                return space.GetCell(2, 2);
+                            }
+                            else
+                            {
+                                return space.GetCell(x - 1, space.GetYLength() - 1);
+                            }
+                        }
+                        else
+                        {
+                            return space.GetCell(space.GetXLength() - 1, y - 1);
+                        }
+                    }
                 default: throw new ArgumentException("Wrong direction");
             }
         }
