@@ -27,7 +27,14 @@ namespace Model{
        private GrainSeeder _grainSeeder;
        private InclusionSeeder _inclusionSeeder;
 
-       public CelluralAutomaton(int size, ITransitionRule transition, INeighbourhood neighbourhood, IBoundaryCondition boundary)
+       public CelluralAutomaton(int size, 
+           int GrainsCount, 
+           int inclusionsCount, 
+           int minRadius, 
+           int maxRadius,
+           ITransitionRule transition, 
+           INeighbourhood neighbourhood, 
+           IBoundaryCondition boundary)
        {
            if(transition == null || neighbourhood == null || boundary == null) throw new ArgumentNullException();
            this._transition = transition;
@@ -40,6 +47,8 @@ namespace Model{
            this._inclusionInitializer = new InclusionInitializer();
            this._grainSeeder = new GrainSeeder();
            this._inclusionSeeder = new InclusionSeeder(boundary);
+
+            PopulateSimulation(GrainsCount, inclusionsCount, minRadius, maxRadius);
        }
 
         public void NextStep()
@@ -48,19 +57,14 @@ namespace Model{
             _executor.NextState(Space, _transition, _neighbourhood);
         }
 
-        public void PopulateSimulation()
+        public void PopulateSimulation(int GrainsCount, int inclusionsCount, int minRadius, int maxRadius)
         {
-            //_grainGenerator.Generate(int number)
-            //_inclusionGenerator(int number, int min, int max);
+            _grainInitializer.Initialize(GrainsCount);
+            _grainSeeder.Seed(this.Space, this.Grains);
+            _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
+            _inclusionSeeder.Seed(this.Space, this.Inclusions);
         }
 
-        public void Reset()
-        {
-
-        }
-
-
- 
 
    }
    
