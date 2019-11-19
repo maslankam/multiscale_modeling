@@ -19,14 +19,15 @@ namespace Model{
                     Cell[] neighbours = neighbourhood.GetNeighbours(space, i, j);
                     var element = transition.NextState(space.GetCell(i,j), neighbours);
                     space.SetCellMembership(element, i, j);
-                    Step++;
+                    
                 }
             }
+            Step++;
         }
         
         public void Reset()
         {
-            
+            throw new NotImplementedException();
         }
         
     }

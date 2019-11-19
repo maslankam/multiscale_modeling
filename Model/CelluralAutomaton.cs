@@ -22,8 +22,10 @@ namespace Model{
        private IBoundaryCondition _boundary;
        private SimulationExecutor _executor;
        private SpaceRenderingEngine _renderingEngine;
-       private GrainGenerator _grainGenerator;
-       private InclusionGenerator _inclusionGenerator;
+       private GrainInitializer _grainInitializer;
+       private InclusionInitializer _inclusionInitializer;
+       private GrainSeeder _grainSeeder;
+       private InclusionSeeder _inclusionSeeder;
 
        public CelluralAutomaton(int size, ITransitionRule transition, INeighbourhood neighbourhood, IBoundaryCondition boundary)
        {
@@ -34,8 +36,10 @@ namespace Model{
            this.Space = new CelluralSpace(size);
            this._lastStepSpace = new CelluralSpace(size);
            this._executor = new SimulationExecutor();
-           this._grainGenerator = new GrainGenerator();
-           this._inclusionGenerator = new InclusionGenerator();
+           this._grainInitializer = new GrainInitializer();
+           this._inclusionInitializer = new InclusionInitializer();
+           this._grainSeeder = new GrainSeeder();
+           this._inclusionSeeder = new InclusionSeeder(boundary);
        }
 
         public void NextStep()
