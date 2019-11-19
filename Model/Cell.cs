@@ -4,6 +4,11 @@ using System.Drawing;
 namespace Model{    
     public class Cell
     {
+        public int Phase 
+        {
+            get{return MicroelementMembership.Phase;} 
+            private set{}
+        }
         public Microelement MicroelementMembership { get; set; }
 
         public Cell()
