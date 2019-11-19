@@ -4,67 +4,70 @@ using System.Drawing;
 
 
 namespace Model{
-   public class CelluralAutomaton{
+    public class CelluralAutomaton {
 
-       public List<Grain> Grains{get; private set;}
-       public List<Inclusion> Inclusions{get; private set;}
+        public List<Grain> Grains { get; private set; }
+        public List<Inclusion> Inclusions { get; private set; }
 
-       public CelluralSpace Space {get; private set;} 
-       public int Step
-       {
-           get{ return this._executor.Step;}
-           private set{} 
+        public CelluralSpace Space { get; private set; }
+        public int Step
+        {
+            get { return this._executor.Step; }
+            private set { }
         }
 
-       private CelluralSpace _lastStepSpace;
-       private ITransitionRule _transition;
-       private INeighbourhood _neighbourhood;
-       private IBoundaryCondition _boundary;
-       private SimulationExecutor _executor;
-       private SpaceRenderingEngine _renderingEngine;
-       private GrainInitializer _grainInitializer;
-       private InclusionInitializer _inclusionInitializer;
-       private GrainSeeder _grainSeeder;
-       private InclusionSeeder _inclusionSeeder;
+        private CelluralSpace _lastStepSpace;
+        private readonly ITransitionRule _transition;
+        private readonly INeighbourhood _neighbourhood;
+        private readonly IBoundaryCondition _boundary;
+        private readonly SimulationExecutor _executor;
+        private SpaceRenderingEngine _renderingEngine;
+        private readonly GrainInitializer _grainInitializer;
+        private readonly InclusionInitializer _inclusionInitializer;
+        private readonly GrainSeeder _grainSeeder;
+        private readonly InclusionSeeder _inclusionSeeder;
 
-       public CelluralAutomaton(int size, 
-           int GrainsCount, 
-           int inclusionsCount, 
-           int minRadius, 
-           int maxRadius,
-           ITransitionRule transition, 
-           INeighbourhood neighbourhood, 
-           IBoundaryCondition boundary)
-       {
-           if(transition == null || neighbourhood == null || boundary == null) throw new ArgumentNullException();
-           this._transition = transition;
-           this._neighbourhood = neighbourhood;
-           this._boundary = boundary;
-           this.Space = new CelluralSpace(size);
-           this._lastStepSpace = new CelluralSpace(size);
-           this._executor = new SimulationExecutor();
-           this._grainInitializer = new GrainInitializer();
-           this._inclusionInitializer = new InclusionInitializer();
-           this._grainSeeder = new GrainSeeder();
-           this._inclusionSeeder = new InclusionSeeder(boundary);
+        public CelluralAutomaton(int size,
+            int GrainsCount,
+            int inclusionsCount,
+            int minRadius,
+            int maxRadius,
+            ITransitionRule transition,
+            INeighbourhood neighbourhood,
+            IBoundaryCondition boundary)
+        {
+            if (transition == null || neighbourhood == null || boundary == null) throw new ArgumentNullException();
+            _transition = transition;
+            _neighbourhood = neighbourhood;
+            _boundary = boundary;
+            Space = new CelluralSpace(size);
+            _lastStepSpace = new CelluralSpace(size);
+            _executor = new SimulationExecutor();
+            _grainInitializer = new GrainInitializer();
+            _inclusionInitializer = new InclusionInitializer();
+            _grainSeeder = new GrainSeeder();
+            _inclusionSeeder = new InclusionSeeder(boundary);
 
             PopulateSimulation(GrainsCount, inclusionsCount, minRadius, maxRadius);
-       }
+        }
 
         public void NextStep()
         {
             _lastStepSpace = Space.Clone();
-            _executor.NextState(Space, _transition, _neighbourhood);
+            _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood);
         }
 
         public void PopulateSimulation(int GrainsCount, int inclusionsCount, int minRadius, int maxRadius)
         {
-            _grainInitializer.Initialize(GrainsCount);
-            _grainSeeder.Seed(this.Space, this.Grains);
-            _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
-            _inclusionSeeder.Seed(this.Space, this.Inclusions);
+            Grains = _grainInitializer.Initialize(GrainsCount);
+            _grainSeeder.Seed(Space, Grains);
+            Inclusions = _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
+            _inclusionSeeder.Seed(Space, Inclusions);
         }
 
+        // getSpaceImage(){
+            //SpaceRenderingEngine.Render(Space);
+           //}
 
    }
    

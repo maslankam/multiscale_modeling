@@ -16,17 +16,18 @@ namespace Model{
         public CelluralSpace(int size)
         {
             if(size < 2) throw new ArgumentException("Space size must be more than 1");
-            this._space = new Cell[size, size];
+            _space = new Cell[size, size];
+            Initialize();
         }  
 
         private CelluralSpace(Cell[,] cells)
         {
-            this._space = cells;
+            _space = cells;
         }   
 
         public void Initialize()
         {
-            for (int i = 0; i < this._space.GetLength(0); i++)
+            for (int i = 0; i < _space.GetLength(0); i++)
             {
                 for (int j = 0; j < _space.GetLength(1); j++)
                 {
@@ -36,30 +37,30 @@ namespace Model{
         }
 
         public int GetXLength(){
-            return this._space.GetLength(0);
+            return _space.GetLength(0);
         }
 
         public int GetYLength()
         {
-            return this._space.GetLength(1);
+            return _space.GetLength(1);
         }
 
         public Cell GetCell(int x, int y){
-            return this._space[x, y];
+            return _space[x, y];
         }
 
         public Cell GetCell(int index){
-            return this._space[index / _space.Length, index % _space.Length ];
+            return _space[index / _space.Length, index % _space.Length ];
         }
 
         public void SetCellMembership(Microelement element,int x, int y)
         {
-            this._space[x, y].MicroelementMembership = element;
+            _space[x, y].MicroelementMembership = element;
         }
 
         public CelluralSpace Clone(){
-            var newCells = new Cell[this.Size,this.Size];
-            for (int i = 0; i < this._space.GetLength(0); i++)
+            var newCells = new Cell[Size, Size];
+            for (int i = 0; i < _space.GetLength(0); i++)
             {
                 for (int j = 0; j < _space.GetLength(1); j++)
                 {
@@ -86,7 +87,7 @@ namespace Model{
     
         public IEnumerator<Cell> GetEnumerator()
         {
-            for (int i = 0; i < this._space.GetLength(0); i++)
+            for (int i = 0; i < _space.GetLength(0); i++)
             {
                 for (int j = 0; j < _space.GetLength(1); j++)
                 {

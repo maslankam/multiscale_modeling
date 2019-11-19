@@ -8,10 +8,10 @@ namespace Model
 {
     public class InclusionSeeder
     {
-        private IBoundaryCondition _boundary;
+        private readonly IBoundaryCondition _boundary;
 
         public InclusionSeeder(IBoundaryCondition boundary){
-            this._boundary = boundary;
+            _boundary = boundary;
         }
 
 
@@ -21,18 +21,16 @@ namespace Model
                 var xCenter = r.Next(0, space.GetXLength() - 1);
                 var yCenter = r.Next(0, space.GetYLength() - 1);
                 space.SetCellMembership(inclusion, xCenter, yCenter);
-                if(inclusion.Radius > 1){
-                    Grow(space);//TODO: grow 
-                }
             }
+            Grow(space);//TODO: grow 
         }
 
         private void Grow(CelluralSpace space){
             //In fact inclusions don't grow but to obtain round shape vonNeuman neighbourhood growing fits very weel,
             //This approach also resolves the problem with periodic boundary
             //But if inclusions appears next to each other and collide then they won't be perfect spherical. May apply radius checking for initializing??
-            
-            ITransitionRule transition = new InclusionGrowthRule();
+
+            ITransitionRule transition;
             INeighbourhood neighbourhood = new VonNeumanNeighborhood(_boundary);
 
             for(int step = 0; step < Inclusion.MaxRadius; step++)
@@ -42,6 +40,7 @@ namespace Model
                     for (int j = 0; j < space.GetYLength(); j++)
                     {
                         Cell[] neighbours = neighbourhood.GetNeighbours(space, i, j);
+                        transition = new InclusionGrowthRule(step);
                         var element = transition.NextState(space.GetCell(i,j), neighbours);
                         space.SetCellMembership(element, i, j);
                     }
@@ -54,11 +53,19 @@ namespace Model
         
         private class InclusionGrowthRule : ITransitionRule
         {
+            private int _step;
+                public InclusionGrowthRule(int step)
+                {
+                    _step = step;
+                }
+
                 public Microelement NextState(Cell cell, Cell[] neighbours){
                     if (cell?.MicroelementMembership == null)
                 {
                 var groups = from c in neighbours
-                             where c?.MicroelementMembership?.Id != null && c?.MicroelementMembership is Inclusion
+                             where c?.MicroelementMembership?.Id != null 
+                                    && c?.MicroelementMembership is Inclusion
+                                    && (c.MicroelementMembership as Inclusion).Radius > _step
                              group c by c.MicroelementMembership;
 
                 if (groups.Count() == 0)

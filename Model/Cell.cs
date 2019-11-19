@@ -4,20 +4,20 @@ using System.Drawing;
 namespace Model{    
     public class Cell
     {
-        public int Phase 
+        public int? Phase 
         {
-            get{return MicroelementMembership.Phase;} 
+            get{return MicroelementMembership?.Phase ?? null;} 
             private set{}
         }
         public Microelement MicroelementMembership { get; set; }
 
         public Cell()
         {
-            this.MicroelementMembership = null;
+            MicroelementMembership = null;
         }
         public Cell(Microelement microelement)
         {
-            this.MicroelementMembership = microelement;   
+            MicroelementMembership = microelement;   
         }
 
     }
