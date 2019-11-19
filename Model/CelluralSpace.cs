@@ -11,7 +11,7 @@ namespace Model{
             private set{}
         }
 
-        private Cell[,] _space; 
+        private readonly Cell[,] _space; 
 
         public CelluralSpace(int size)
         {
@@ -47,10 +47,6 @@ namespace Model{
 
         public Cell GetCell(int x, int y){
             return _space[x, y];
-        }
-
-        public Cell GetCell(int index){
-            return _space[index / _space.Length, index % _space.Length ];
         }
 
         public void SetCellMembership(Microelement element,int x, int y)

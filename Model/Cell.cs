@@ -14,10 +14,11 @@ namespace Model{
         public Cell()
         {
             MicroelementMembership = null;
+            Phase = null;
         }
         public Cell(Microelement microelement)
         {
-            MicroelementMembership = microelement;   
+            MicroelementMembership = microelement;
         }
 
     }
