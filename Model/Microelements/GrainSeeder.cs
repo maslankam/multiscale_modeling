@@ -10,7 +10,9 @@ namespace Model
         public void Seed(CelluralSpace space, List<Grain> grains){
             var r = new Random();
             foreach(var grain in grains){
-                space.SetCellMembership(grain, r.Next(0, space.GetXLength() - 1), r.Next(0, space.GetYLength() - 1));
+                var x = r.Next(0, space.GetXLength() - 1);
+                var y = r.Next(0, space.GetYLength() - 1);
+                space.SetCellMembership(grain, x, y);
             }
         }
 
