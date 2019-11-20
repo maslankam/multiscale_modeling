@@ -14,7 +14,6 @@ namespace Model{
         public Cell()
         {
             MicroelementMembership = null;
-            Phase = null;
         }
         public Cell(Microelement microelement)
         {

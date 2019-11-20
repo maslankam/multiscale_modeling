@@ -96,89 +96,64 @@ namespace Test
         [Fact]
         public void GreenNorthNeighbourTest()
         {
-            Grain expected = new Grain(11, Color.Red);
+            ITransitionRule transition = new GrainGrowthRule();
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
 
-            CleanUp();
+            CelluralSpace space = new CelluralSpace(3);
 
-            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
-            b = new Cell { GrainMembership = expected};
-            InitializeSpace();
+            Grain expected = new Grain(12, 0, Color.Green);
+            space.SetCellMembership(expected, 0, 1);
 
-            Grain result = TransitionRule.NextState(space, 1, 1);
+            Cell[] neighbours = neighbourhood.GetNeighbours(space, 1, 1);
+            var result = transition.NextState(space.GetCell(1, 1), neighbours);
 
             Assert.Same(expected, result);
-
-            CleanUp();
         }
-        /*
+        
         [Fact]
         public void GreenNorthGoldEastNeighbourTest()
         {
-            CleanUp();
+            ITransitionRule transition = new GrainGrowthRule();
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
 
-            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
-            b = new Cell { GrainMembership = new Grain(1, Color.Green) };
-            f = new Cell { GrainMembership = new Grain(12, Color.Gold) };
-            InitializeSpace();
+            CelluralSpace space = new CelluralSpace(3);
 
-            Grain result = TransitionRule.NextState(space, 1, 1);
+            Grain expectedA = new Grain(01, 0, Color.Green);
+            Grain expectedB = new Grain(12, 0, Color.Gold);
+            space.SetCellMembership(expectedA, 1, 1);
+            space.SetCellMembership(expectedB, 1, 2);
 
-            bool isBGrain = result.Equals(b.GrainMembership);
-            bool isFGrain = result.Equals(f.GrainMembership);
+            Cell[] neighbours = neighbourhood.GetNeighbours(space, 1, 1);
+            var result = transition.NextState(space.GetCell(1, 1), neighbours);
 
-            Assert.True(isBGrain || isFGrain);
+            bool isAGrain = result.Equals(expectedA);
+            bool isBGrain = result.Equals(expectedB);
 
-            CleanUp();
+            Assert.True(isAGrain ^ isBGrain);
         }
-
+        
         [Fact]
         public void GreenNorthGoldEastGoldSouthNeighbourTest()
         {
-            Grain expected = new Grain(12, Color.Gold);
+            ITransitionRule transition = new GrainGrowthRule();
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
 
-            CleanUp();
-           
-            //e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
-            b = new Cell { GrainMembership = new Grain(1, Color.Green) };
-            f = new Cell { GrainMembership = expected };
-            h = new Cell { GrainMembership = expected };
+            CelluralSpace space = new CelluralSpace(3);
 
-            InitializeSpace();
+            Grain expected = new Grain(12, 0, Color.Gold);
+            Grain green = new Grain(1, 0, Color.Green);
 
-            Grain result = TransitionRule.NextState(space, 1, 1);
+            space.SetCellMembership(green, 0, 1);
+            space.SetCellMembership(expected, 1, 1);
+            space.SetCellMembership(expected, 2, 1);
+
+            Cell[] neighbours = neighbourhood.GetNeighbours(space, 1, 1);
+            var result = transition.NextState(space.GetCell(1, 1), neighbours);
 
             Assert.Same(expected, result);
-
-            CleanUp();
         }
-
-        private static void CleanUp()
-        {
-            a = b = c = d = e = f = g = h = i = null;
-            space = null;
-        }
-
-        private static void PopulateCells()
-        {
-            a = new Cell { GrainMembership = new Grain(0, Color.Red) };
-            b = new Cell { GrainMembership = new Grain(1, Color.Green) };
-            c = new Cell { GrainMembership = new Grain(2, Color.Blue) };
-            d = new Cell { GrainMembership = new Grain(10, Color.Yellow) };
-            e = new Cell { GrainMembership = new Grain(11, Color.Violet) };
-            f = new Cell { GrainMembership = new Grain(12, Color.Gold) };
-            g = new Cell { GrainMembership = new Grain(20, Color.Coral) };
-            h = new Cell { GrainMembership = new Grain(21, Color.Orange) };
-            i = new Cell { GrainMembership = new Grain(22, Color.Azure) };
-            InitializeSpace();
-        }
-
-        private static void InitializeSpace()
-        {
-            space = new Cell[,]{
-                { a, b, c },
-                { d, e, f },
-                { g, h, i }
-            };
-        }*/
     }
 }

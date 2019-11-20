@@ -21,7 +21,7 @@ namespace Model{
         private readonly INeighbourhood _neighbourhood;
         private readonly IBoundaryCondition _boundary;
         private readonly SimulationExecutor _executor;
-        private SpaceRenderingEngine _renderingEngine;
+        //private SpaceRenderingEngine _renderingEngine;
         private readonly GrainInitializer _grainInitializer;
         private readonly InclusionInitializer _inclusionInitializer;
         private readonly GrainSeeder _grainSeeder;

@@ -54,13 +54,26 @@ namespace Model{
             _space[x, y].MicroelementMembership = element;
         }
 
-        public CelluralSpace Clone(){
+        /*public CelluralSpace Clone(){ //copy cell reference
             var newCells = new Cell[Size, Size];
             for (int i = 0; i < _space.GetLength(0); i++)
             {
                 for (int j = 0; j < _space.GetLength(1); j++)
                 {
                     newCells[i, j] = _space[i, j];
+                }
+            }
+            return new CelluralSpace(newCells);
+        }*/
+
+        public CelluralSpace Clone() //copy membership reference
+        {
+            var newCells = new Cell[Size, Size];
+            for (int i = 0; i < _space.GetLength(0); i++)
+            {
+                for (int j = 0; j < _space.GetLength(1); j++)
+                {
+                    newCells[i,j] = new Cell(_space[i,j].MicroelementMembership);
                 }
             }
             return new CelluralSpace(newCells);

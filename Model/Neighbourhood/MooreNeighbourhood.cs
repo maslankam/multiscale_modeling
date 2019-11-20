@@ -8,7 +8,7 @@ namespace Model
     /// |X|c|X|
     /// |X|X|X|
 
-    public class MooreNeighbourhood : INeighbourhood
+    public class MooreNeighbourhood : INeighbourhood 
     {
         private IBoundaryCondition _boundary;
 

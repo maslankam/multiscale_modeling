@@ -16,8 +16,8 @@ namespace Model{
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j);
-                    var element = transition.NextState(space.GetCell(i,j), neighbours);
+                    Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j); //TODO: Storing neighbourhood in Cell object will increase memory consumption                                                   
+                    var element = transition.NextState(space.GetCell(i,j), neighbours); // but may increase performance, instead of O(n) -> O(1)
                     space.SetCellMembership(element, i, j);
                 }
             }

@@ -60,7 +60,10 @@ namespace Test
             {
                 for(int j = 0; j < 0; j++)
                 {
-                    Assert.Same(expected.GetCell(i, j), result.GetCell(i, j));
+                    //Check membership reference same
+                    Assert.Same(expected.GetCell(i, j).MicroelementMembership, result.GetCell(i, j).MicroelementMembership);
+                    //Check if cell is a new object !! 
+                    Assert.False(expected.GetCell(i, j).Equals(result.GetCell(i, j)));
                 }
             }
         }

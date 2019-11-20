@@ -41,7 +41,7 @@ namespace Model
 
             var r = new Random();
 
-            if(r.Next(0,1) == 0)
+            if(r.Next(0,100) > 50)
             {
                 //right side
 

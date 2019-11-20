@@ -11,9 +11,9 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             ITransitionRule transition = new GrainGrowthRule();
-            IBoundaryCondition boundary = new AbsorbingBoundary();
+            IBoundaryCondition boundary = new PeriodicBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
-            Automaton = new CelluralAutomaton(15, 0, 1, 2, 3, transition, neighbourhood, boundary);
+            Automaton = new CelluralAutomaton(60, 4, 10, 1, 5, transition, neighbourhood, boundary);
 
             print();
 
@@ -21,6 +21,22 @@ namespace ConsoleApp1
             Console.WriteLine("###########");
 
             print();
+
+            Automaton.NextStep();
+            Console.WriteLine("###########");
+
+            print();
+
+            string input = "";
+            while(input != "q"){
+                Automaton.NextStep();
+                Console.WriteLine("###########");
+
+            print();
+            input = Console.ReadLine();
+            }
+
+
         }
 
         private static void print()
@@ -29,15 +45,25 @@ namespace ConsoleApp1
             {
                 for(int j = 0; j < Automaton.Space.GetYLength(); j++)
                 {
-                    Console.Write(Automaton.Space.GetCell(i,j)?.Phase?.ToString() ?? "n");
+                    if(Automaton.Space.GetCell(i,j)?.MicroelementMembership is Grain){
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        if(Automaton.Space.GetCell(i,j)?.MicroelementMembership is Inclusion)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+                    
+                    Console.Write(Automaton.Space.GetCell(i,j)?.MicroelementMembership?.Id.ToString() ?? "n");
                 }
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine();
-            }
-
-
-            foreach(var cell in Automaton.Space)
-            {
-               
             }
         }
     }

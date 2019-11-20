@@ -17,11 +17,13 @@ namespace Model
         {
             if (cell?.MicroelementMembership == null)
             {
-                var groups = from c in neighbours
-                             where c?.MicroelementMembership?.Id != null
+                var inclusions = from c in neighbours
+                                    where c?.MicroelementMembership?.Id != null
                                     && c?.MicroelementMembership is Inclusion
-                                    && (c.MicroelementMembership as Inclusion).Radius > _step  // TODO: will it work???
-                             group c by c.MicroelementMembership;
+                                    select (Inclusion)c.MicroelementMembership;   
+                var groups = from i in inclusions
+                                where i.Radius > _step
+                                group i by i.Id;
 
                 if (groups.Count() == 0)
                 {
@@ -33,7 +35,7 @@ namespace Model
                     var top = from g in groups
                               let maxPower = groups.Max(r => r.Count())
                               where g.Count() == maxPower
-                              select g.Key;
+                              select g;
 
                     int topCount = top.Count();
                     if (topCount > 1)
@@ -41,18 +43,18 @@ namespace Model
                         //Take a random one
                         var r = new Random();
                         int randomIndex = r.Next(0, topCount - 1);
-                        return top.ElementAt(randomIndex);
+                        return top.ElementAt(randomIndex).ElementAt(0);
                     }
                     else
                     {
                         //Return the strongest neighbour
-                        return top.First();
+                         return groups.First().ElementAt(0);
                     }
                 }
                 else
                 {
                     //return the only neighbour
-                    return groups.First().Key;
+                    return groups.First().ElementAt(0);
                 }
             }
             else
