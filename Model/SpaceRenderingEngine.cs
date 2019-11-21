@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace Model
 {
     public class SpaceRenderingEngine
-    {
+    {/*
         BitmapSource Render(CelluralSpace space) // BitmapSource is WPF class
         {
             PixelFormat pf = PixelFormats.Bgr32;
@@ -48,5 +48,5 @@ namespace Model
 
                 return bitmap;
         }
-    }
+    */}
 }

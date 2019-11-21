@@ -17,7 +17,7 @@ using System.Diagnostics;
 using Model;
 
 
-namespace MsmGrainGrowthGui
+namespace GrainGrowthGui
 {
         public partial class MainWindow : Window
     {

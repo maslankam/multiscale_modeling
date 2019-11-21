@@ -78,7 +78,7 @@ namespace GrainGrowthGui
         #region constructor
         public CelluralAutomatonViewModel()
         {
-            _isAutomatonGenerated = true; //lazy initialization of automaton
+            _isAutomatonGenerated = false; //lazy initialization of automaton
             //Default values
             _spaceSize = 500;
             _grainsCount = 20;
@@ -118,6 +118,7 @@ namespace GrainGrowthGui
                 _neighbourhood, 
                 _boundary
             );
+            _isAutomatonGenerated = true;
 
             //render 0 step
         }
@@ -133,7 +134,7 @@ namespace GrainGrowthGui
             CanGenerateExecute); } }
         #endregion
 
-         #region NextCommand
+        #region NextCommand
         void NextExecute()
         {
            _automaton.NextStep();
