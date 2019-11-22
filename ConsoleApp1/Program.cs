@@ -1,11 +1,25 @@
-﻿using System;
+using System;
 using Model;
+using Utility;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace ConsoleApp1
 {
     class Program
     {
-        public static CelluralAutomaton Automaton;
+        private static  CelluralAutomaton _automaton;
+        private static  int _spaceSize; 
+        private static  int _grainsCount;
+        private static  int _inclusionsCount;
+        private static  int _minRadius;
+        private static  int _maxRadius;
+        private static  ITransitionRule _transition;
+        private static  INeighbourhood _neighbourhood; 
+        private static  IBoundaryCondition _boundary;
+        private static  bool _isAutomatonGenerated;
+        private static  bool _isSaved;
+
 
 
         static void Main(string[] args)
@@ -13,58 +27,100 @@ namespace ConsoleApp1
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new PeriodicBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
-            Automaton = new CelluralAutomaton(60, 4, 10, 1, 5, transition, neighbourhood, boundary);
+            _automaton = new CelluralAutomaton(500, 40, 30, 1, 5, transition, neighbourhood, boundary);
 
-            print();
+            _spaceSize = 500;
+            _grainsCount = 20;
+            _inclusionsCount = 0;
+            _minRadius = 1;
+            _minRadius = 5;
+            _transition = new GrainGrowthRule();
+            _boundary = new AbsorbingBoundary();
+            _neighbourhood = new VonNeumanNeighborhood(_boundary);
 
-            Automaton.NextStep();
-            Console.WriteLine("###########");
-
-            print();
-
-            Automaton.NextStep();
-            Console.WriteLine("###########");
-
-            print();
-
-            string input = "";
-            while(input != "q"){
-                Automaton.NextStep();
-                Console.WriteLine("###########");
-
-            print();
-            input = Console.ReadLine();
-            }
+            Console.WriteLine("Start");
+            var doc = new XDocument(new XElement("Document"));
 
 
-        }
+            var widowVariables = new XElement("WindowVariables");
+                widowVariables.Add(new XElement("SpaceSize", _spaceSize));
+                widowVariables.Add(new XElement("GrainsCount", _grainsCount));
+                widowVariables.Add(new XElement("InclusionsCount", _inclusionsCount));
+                widowVariables.Add(new XElement("MinRadius", _minRadius));
+                widowVariables.Add(new XElement("MaxRadius", _inclusionsCount));
+                widowVariables.Add( new XElement("Transition"));
+                widowVariables.Add( new XElement("Neighbourhood"));
+                widowVariables.Add(new XElement("Boundary"));
+                widowVariables.Add(new XElement("InclusionsCount", _inclusionsCount)); 
 
-        private static void print()
-        {
-            for(int i = 0; i < Automaton.Space.GetXLength(); i++)
+            doc.Root.Add(widowVariables);
+
+            
+            var grains = new XElement("Grains");
+            foreach(var grain in _automaton.Grains)
             {
-                for(int j = 0; j < Automaton.Space.GetYLength(); j++)
-                {
-                    if(Automaton.Space.GetCell(i,j)?.MicroelementMembership is Grain){
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else
-                    {
-                        if(Automaton.Space.GetCell(i,j)?.MicroelementMembership is Inclusion)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                    }
-                    
-                    Console.Write(Automaton.Space.GetCell(i,j)?.MicroelementMembership?.Id.ToString() ?? "n");
-                }
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine();
+                var grainXmlElement = new XElement("Grain");
+                
+                var id = new XAttribute("Id", grain.Id);
+                grainXmlElement.Add(id);
+
+                var phase = new XAttribute("P", grain.Phase);
+                grainXmlElement.Add(phase);
+                grainXmlElement.Add(new XAttribute("A", grain.Color.A));
+                grainXmlElement.Add(new XAttribute("R", grain.Color.R));
+                grainXmlElement.Add(new XAttribute("G", grain.Color.G));
+                grainXmlElement.Add(new XAttribute("B", grain.Color.B));
+
+                grains.Add(grainXmlElement);
             }
+            doc.Root.Add(grains);
+            
+            var inclusions = new XElement("Inclusions");
+            foreach(var inclusion in _automaton.Inclusions)
+            {
+                var inclusionXmlElement = new XElement("Grain");
+                
+                var id = new XAttribute("Id", inclusion.Id);
+                inclusionXmlElement.Add(id);
+
+                var phase = new XAttribute("P", inclusion.Phase);
+                inclusionXmlElement.Add(phase);
+                inclusionXmlElement.Add(new XAttribute("rad", inclusion.Radius));
+                inclusionXmlElement.Add(new XAttribute("A", inclusion.Color.A));
+                inclusionXmlElement.Add(new XAttribute("R", inclusion.Color.R));
+                inclusionXmlElement.Add(new XAttribute("G", inclusion.Color.G));
+                inclusionXmlElement.Add(new XAttribute("B", inclusion.Color.B));
+
+                inclusions.Add(inclusionXmlElement);
+            }
+
+            doc.Root.Add(inclusions);
+            
+
+            var cells = new XElement("Cells");
+            for(int i = 0; i < _automaton.Space.GetXLength(); i++)
+            {
+                var row = new XElement("Row");
+                row.Add(new XAttribute("x", i));
+                for(int j = 0; j < _automaton.Space.GetYLength(); j++)
+                {
+                    Console.WriteLine($"{i},{j}");
+                    var cell = _automaton.Space.GetCell(i, j);
+
+                    var c = new XElement("c");
+                    c.Add( new XAttribute("y", j));
+                    c.Add( new XAttribute("p", cell?.Phase?.ToString() ?? ""));
+                    c.Add( new XAttribute("i", cell?.MicroelementMembership?.Id.ToString() ?? ""));
+
+                    row.Add(c);
+                }
+                cells.Add(row);
+            }
+            doc.Root.Add(cells);
+            
+            Console.WriteLine("Saving");
+            doc.Save("abc.xml");
+
         }
     }
 }
