@@ -5,6 +5,9 @@ using System.ComponentModel;
 using System.Windows.Input;
 using GrainGrowthGui;
 using Model;
+using System.Windows.Media.Imaging;
+using System.Drawing.Imaging;
+using System.Windows.Media;
 
 namespace GrainGrowthGui
 {
@@ -13,9 +16,9 @@ namespace GrainGrowthGui
         #region Properties
         public int SpaceSize
         {
-            get{return _spaceSize;}
+            get { return _spaceSize; }
             set
-            {    
+            {
                 _spaceSize = value;
                 RaisePropertyChanged("ArtistName");
             }
@@ -23,9 +26,9 @@ namespace GrainGrowthGui
 
         public int GrainsCount
         {
-            get{return _grainsCount;}
+            get { return _grainsCount; }
             set
-            {    
+            {
                 _grainsCount = value;
                 RaisePropertyChanged("GrainsCount");
             }
@@ -33,9 +36,9 @@ namespace GrainGrowthGui
 
         public int InclusionsCount
         {
-            get{return _inclusionsCount;}
+            get { return _inclusionsCount; }
             set
-            {    
+            {
                 _inclusionsCount = value;
                 RaisePropertyChanged("InclusionsCount");
             }
@@ -43,9 +46,9 @@ namespace GrainGrowthGui
 
         public int MinRadius
         {
-            get{return _minRadius;}
+            get { return _minRadius; }
             set
-            {    
+            {
                 _minRadius = value;
                 RaisePropertyChanged("MinRadius");
             }
@@ -53,13 +56,15 @@ namespace GrainGrowthGui
 
         public int MaxRadius
         {
-            get{return _maxRadius;}
+            get { return _maxRadius; }
             set
-            {    
+            {
                 _maxRadius = value;
                 RaisePropertyChanged("MaxRadius");
             }
         }
+
+        public BitmapSource ImageSource {get; set;}
         #endregion
 
         #region private members
@@ -73,6 +78,7 @@ namespace GrainGrowthGui
         private INeighbourhood _neighbourhood; 
         private IBoundaryCondition _boundary;
         private bool _isAutomatonGenerated;
+        private readonly SpaceRenderingEngine _renderEngine;
         #endregion
 
         #region constructor
@@ -84,10 +90,11 @@ namespace GrainGrowthGui
             _grainsCount = 20;
             _inclusionsCount = 0;
             _minRadius = 1;
-            _minRadius = 5;
+            _maxRadius = 5;
             _transition = new GrainGrowthRule();
             _boundary = new AbsorbingBoundary();
             _neighbourhood = new VonNeumanNeighborhood(_boundary);
+            _renderEngine = new SpaceRenderingEngine();
         }
         #endregion
 
@@ -120,6 +127,8 @@ namespace GrainGrowthGui
             );
             _isAutomatonGenerated = true;
 
+            //ImageSource = _renderEngine.Render(_automaton.Space);
+            ImageSource = Render(_automaton.Space);
             //render 0 step
         }
 
@@ -138,7 +147,8 @@ namespace GrainGrowthGui
         void NextExecute()
         {
            _automaton.NextStep();
-           //render
+            ImageSource = _renderEngine.Render(_automaton.Space);
+            //render
         }
 
         bool CanNextExecute()
@@ -184,5 +194,45 @@ namespace GrainGrowthGui
 
         #region StopCommnad
         #endregion
+
+        private BitmapSource Render(CelluralSpace space) // BitmapSource is WPF class
+        {
+            System.Windows.Media.PixelFormat pf = PixelFormats.Bgr32;
+            int width = space.GetXLength();
+            int height = space.GetYLength();
+            int rawStride = (width * pf.BitsPerPixel + 7) / 8;
+            byte[] rawImage = new byte[rawStride * height];
+            int rawImageIndex = 0;
+
+            for (int i = 0; i < space.GetXLength(); i++)
+            {
+                for (int j = 0; j < space.GetYLength(); j++)
+                {
+                    System.Drawing.Color pixelColor = System.Drawing.Color.FromArgb(155, 255, 0, 0);
+                    //space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
+
+                    //write byte[index] with pixelColor
+                    if (rawImageIndex >= rawImage.Length)
+                    {
+                        System.Diagnostics.Trace.WriteLine($"pixel [{i},{j}], rawIndex: {rawImageIndex}, outide of {rawImage.Length} bound");
+                    }
+                    else
+                    {
+                        rawImage[rawImageIndex++] = pixelColor.R;
+                        rawImage[rawImageIndex++] = pixelColor.G;
+                        rawImage[rawImageIndex++] = pixelColor.B;
+                        rawImage[rawImageIndex++] = 0;
+                    }
+
+                }
+
+
+            }
+            BitmapSource bitmap = BitmapSource.Create(width, height,
+                space.GetXLength(), space.GetYLength(), pf, null,
+                rawImage, rawStride);
+
+            return bitmap;
+        }
     }
 }
