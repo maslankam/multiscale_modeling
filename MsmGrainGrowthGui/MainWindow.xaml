@@ -16,13 +16,13 @@
         <!-- Send toolbar to seperate view/viewModel -->
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding Open}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/folder.png" />
                             <TextBlock Margin="5,0">Open</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Padding="5" IsEnabled="False">
+                    <Button Padding="5" Command="{Binding SaveAs}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/diskette.png" />
                             <TextBlock Margin="5,0">Save As</TextBlock>
@@ -30,13 +30,13 @@
                     </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding ExportCsv}">
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="/icons/excel.png" />
                             <TextBlock Margin="5,0">Export to CSV</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding ExportPng}">
                         <StackPanel Orientation="Horizontal" IsEnabled="False">
                             <Image Source="/icons/picture.png" />
                             <TextBlock Margin="5,0">Save image</TextBlock>

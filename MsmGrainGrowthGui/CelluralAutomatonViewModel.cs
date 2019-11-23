@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace GrainGrowthGui
 {
-    class CelluralAutomatonViewModel : INotifyPropertyChanged
+    class CelluralAutomatonViewModel
     {
         #region Properties
         public int SpaceSize
@@ -20,7 +20,7 @@ namespace GrainGrowthGui
             set
             {
                 _spaceSize = value;
-                RaisePropertyChanged("ArtistName");
+
             }
         }
 
@@ -30,7 +30,6 @@ namespace GrainGrowthGui
             set
             {
                 _grainsCount = value;
-                RaisePropertyChanged("GrainsCount");
             }
         }
 
@@ -40,7 +39,6 @@ namespace GrainGrowthGui
             set
             {
                 _inclusionsCount = value;
-                RaisePropertyChanged("InclusionsCount");
             }
         }
 
@@ -50,7 +48,6 @@ namespace GrainGrowthGui
             set
             {
                 _minRadius = value;
-                RaisePropertyChanged("MinRadius");
             }
         }
 
@@ -60,7 +57,6 @@ namespace GrainGrowthGui
             set
             {
                 _maxRadius = value;
-                RaisePropertyChanged("MaxRadius");
             }
         }
 
@@ -94,22 +90,8 @@ namespace GrainGrowthGui
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
             _boundary = new AbsorbingBoundary();
-            _neighbourhood = new VonNeumanNeighborhood(_boundary);
+            _neighbourhood = new MooreNeighbourhood(_boundary);
             _renderEngine = new SpaceRenderingEngine();
-        }
-        #endregion
-
-        #region INotifyPropertyChanged members
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            // take a copy to prevent thread issues
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
         #endregion
 
@@ -200,6 +182,95 @@ namespace GrainGrowthGui
 
         #region StopCommnad
         #endregion
+
+        #region OpenCommand
+        void OpenExecute()
+        {
+            System.Windows.MessageBox.Show("File Open");
+        }
+
+        bool CanOpenExecute()
+        {
+            return true;
+        }
+
+        public ICommand Open
+        {
+            get
+            {
+                return new OpenCommand(
+            OpenExecute,
+            CanOpenExecute);
+            }
+        }
+        #endregion
+
+        #region SaveAsCommand
+        void SaveAsExecute()
+        {
+            System.Windows.MessageBox.Show("File Save");
+        }
+
+        bool CanSaveAsExecute()
+        {
+            return true;
+        }
+
+        public ICommand SaveAs
+        {
+            get
+            {
+                return new SaveAsCommand(
+            SaveAsExecute,
+            CanSaveAsExecute);
+            }
+        }
+        #endregion
+
+        #region ExportCsvCommand
+        void ExportCsvExecute()
+        {
+            System.Windows.MessageBox.Show("Export Csv");
+        }
+
+        bool CanExportCsvExecute()
+        {
+            return true;
+        }
+
+        public ICommand ExportCsv
+        {
+            get
+            {
+                return new ExportCsvCommand(
+            ExportCsvExecute,
+            CanExportCsvExecute);
+            }
+        }
+        #endregion
+
+        #region ExportPngCommand
+        void ExportPngExecute()
+        {
+            System.Windows.MessageBox.Show("Export Png");
+        }
+
+        bool CanExportPngExecute()
+        {
+            return true;
+        }
+
+        public ICommand ExportPng
+        {
+            get
+            {
+                return new ExportPngCommand(
+            ExportPngExecute,
+            CanExportPngExecute);
+            }
+        }
+        #endregion
+
 
         public event EventHandler<BitmapSource> ImageRendered;
         

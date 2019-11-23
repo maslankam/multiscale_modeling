@@ -13,12 +13,12 @@ namespace Model
         public InclusionExecutor(IBoundaryCondition boundary)
         {
             _boundary = boundary;
-            _neighbourhood = new VonNeumanNeighborhood(_boundary);
+            _neighbourhood = new  PentagonNeighbourhood(_boundary);
         }
 
         public void Grow(CelluralSpace space)
         {
-            //In fact inclusions don't grow but to obtain round shape vonNeuman neighbourhood growing fits very weel,
+            //In fact inclusions don't grow but to obtain round shape pentagonal neighbourhood growing fits very weel,
             //This approach also resolves the problem with periodic boundary
             //But if inclusions appears next to each other and collide then they won't be perfect spherical. May apply radius checking for initializing??
 
