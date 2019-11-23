@@ -20,12 +20,17 @@ using Model;
 namespace GrainGrowthGui
 {
         public partial class MainWindow : Window
-    {
-        public MainWindow()
         {
-            InitializeComponent();
-        }
+            public MainWindow()
+            {
+                InitializeComponent();
+                var viewModel = (CelluralAutomatonViewModel)this.DataContext;
+                viewModel.ImageRendered += Render;
+            }
 
-      
+            private void Render(object sender, BitmapSource e)
+            {
+                this.CelluralSpaceImage.Source = e;
+            }
     }
 }

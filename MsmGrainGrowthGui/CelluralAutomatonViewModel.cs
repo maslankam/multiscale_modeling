@@ -64,7 +64,7 @@ namespace GrainGrowthGui
             }
         }
 
-        public BitmapSource ImageSource {get; set;}
+        
         #endregion
 
         #region private members
@@ -79,6 +79,7 @@ namespace GrainGrowthGui
         private IBoundaryCondition _boundary;
         private bool _isAutomatonGenerated;
         private readonly SpaceRenderingEngine _renderEngine;
+        private BitmapSource _imageSource;
         #endregion
 
         #region constructor
@@ -127,8 +128,8 @@ namespace GrainGrowthGui
             );
             _isAutomatonGenerated = true;
 
-            //ImageSource = _renderEngine.Render(_automaton.Space);
-            ImageSource = Render(_automaton.Space);
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered?.Invoke(this, _imageSource);
             //render 0 step
         }
 
@@ -146,8 +147,9 @@ namespace GrainGrowthGui
         #region NextCommand
         void NextExecute()
         {
-           _automaton.NextStep();
-            ImageSource = _renderEngine.Render(_automaton.Space);
+            _automaton.NextStep();
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered.Invoke(this, _imageSource);
             //render
         }
 
@@ -166,15 +168,19 @@ namespace GrainGrowthGui
             void ResetExecute()
         {
            _automaton = new CelluralAutomaton(
-                _spaceSize,
-                _grainsCount,
-                _inclusionsCount,
+                2,
+                0,
+                0,
                 _minRadius,
                 _maxRadius,
                 _transition,
                 _neighbourhood, 
                 _boundary
             );
+            _isAutomatonGenerated = false;
+
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered.Invoke(this, _imageSource);
            //render
         }
 
@@ -195,44 +201,9 @@ namespace GrainGrowthGui
         #region StopCommnad
         #endregion
 
-        private BitmapSource Render(CelluralSpace space) // BitmapSource is WPF class
-        {
-            System.Windows.Media.PixelFormat pf = PixelFormats.Bgr32;
-            int width = space.GetXLength();
-            int height = space.GetYLength();
-            int rawStride = (width * pf.BitsPerPixel + 7) / 8;
-            byte[] rawImage = new byte[rawStride * height];
-            int rawImageIndex = 0;
-
-            for (int i = 0; i < space.GetXLength(); i++)
-            {
-                for (int j = 0; j < space.GetYLength(); j++)
-                {
-                    System.Drawing.Color pixelColor = System.Drawing.Color.FromArgb(155, 255, 0, 0);
-                    //space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
-
-                    //write byte[index] with pixelColor
-                    if (rawImageIndex >= rawImage.Length)
-                    {
-                        System.Diagnostics.Trace.WriteLine($"pixel [{i},{j}], rawIndex: {rawImageIndex}, outide of {rawImage.Length} bound");
-                    }
-                    else
-                    {
-                        rawImage[rawImageIndex++] = pixelColor.R;
-                        rawImage[rawImageIndex++] = pixelColor.G;
-                        rawImage[rawImageIndex++] = pixelColor.B;
-                        rawImage[rawImageIndex++] = 0;
-                    }
-
-                }
-
-
-            }
-            BitmapSource bitmap = BitmapSource.Create(width, height,
-                space.GetXLength(), space.GetYLength(), pf, null,
-                rawImage, rawStride);
-
-            return bitmap;
-        }
+        public event EventHandler<BitmapSource> ImageRendered;
+        
     }
+
+
 }

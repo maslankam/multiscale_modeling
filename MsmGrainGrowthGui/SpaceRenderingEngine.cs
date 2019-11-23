@@ -7,7 +7,7 @@ namespace GrainGrowthGui
 {
     public class SpaceRenderingEngine
     {
-        public BitmapSource Render(CelluralSpace space) // BitmapSource is WPF class
+        public BitmapSource Render(CelluralSpace space)
         {
                 PixelFormat pf = PixelFormats.Bgr32;
                 int width = space.GetXLength();
@@ -20,8 +20,8 @@ namespace GrainGrowthGui
                 {
                     for (int j = 0; j < space.GetYLength(); j++)
                     {
-                    System.Drawing.Color pixelColor = System.Drawing.Color.FromArgb(155, 255, 0, 0);
-                            //space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
+                    System.Drawing.Color pixelColor = 
+                            space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
 
                         //write byte[index] with pixelColor
                         if (rawImageIndex >= rawImage.Length)

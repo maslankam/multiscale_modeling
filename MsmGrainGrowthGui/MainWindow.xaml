@@ -52,7 +52,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000">
-                    <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" Source="{Binding ImageSource}" ></Image>
+                    <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
                 </Border>
                 <Label Margin="5" Name="StepLabel" ></Label>
             </StackPanel>
@@ -109,7 +109,7 @@
                 <Button Name="NextButton" Grid.Column="0" Margin="5"  Command="{Binding Next}" >Next</Button>
                 <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
                 <!--<Button Margin="5" Padding="5" >Stop</Button>-->
-                <!--<Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>-->
+                <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
 
             </StackPanel>
         </Grid>
