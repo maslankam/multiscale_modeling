@@ -11,6 +11,12 @@ namespace Model{
         public SimulationExecutor(){
         }
 
+        public SimulationExecutor(int step)
+        {
+            if (step < 0) throw new ArgumentException();
+            Step = step;
+        }
+
         public void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood){
             for (int i = 0; i < space.GetXLength(); i++)
             {
