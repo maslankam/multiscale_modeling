@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Model;
 
 namespace GrainGrowthGui
@@ -17,6 +17,32 @@ namespace GrainGrowthGui
         public bool isAutomatonGenerated;
         public bool isSaved;
     
+        public ApplicationState(
+                    CelluralAutomaton automaton,
+                    int spaceSize,
+                    int grainsCount,
+                    int inclusionsCount,
+                    int minRadius,
+                    int maxRadius,
+                    ITransitionRule transition,
+                    INeighbourhood neighbourhood,
+                    IBoundaryCondition boundary,
+                    bool isGenerated,
+                    bool isSaved
+                    ){
+                     this.automaton =  automaton;
+                    this.spaceSize =  spaceSize;
+                    this.grainsCount =  grainsCount;
+                    this.inclusionsCount = inclusionsCount;
+                    this.minRadius = minRadius;
+                    this.maxRadius = maxRadius;
+                    this.transition = transition;
+                    this.neighbourhood =  neighbourhood;
+                    this.boundary =  boundary;
+                    this.isAutomatonGenerated =  isGenerated;
+                    this.isSaved = isSaved;
+                    }
+
 
         public static IBoundaryCondition GetBoundaryByName(string name)
         {
