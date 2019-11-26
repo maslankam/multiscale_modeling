@@ -25,7 +25,14 @@ namespace Model
                 var yCenter = r.Next(0, space.GetYLength() - 1);
                 space.SetCellMembership(inclusion, xCenter, yCenter);
             }
-            _executor.Grow(space); 
+
+            int? maxRadius = (from i in inclusions
+                             select i.Radius).Max();
+
+            if(maxRadius.HasValue)
+            {
+                _executor.Grow(space, maxRadius.Value);
+            }
         }
     }
 }

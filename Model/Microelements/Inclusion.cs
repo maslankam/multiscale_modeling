@@ -7,8 +7,6 @@ namespace Model
 {
     public class Inclusion : Microelement
     {
-        public static int MinRadius{get; private set;} //TODO: no use of minRadius
-        public static int MaxRadius{get; private set;} //TODO: after reseting automaton this static field must be reset too
         public int? Radius{get; set;}
         public override int? Phase {get; set;}
 
@@ -21,8 +19,6 @@ namespace Model
             Color = color;
             Phase = phase;
             Radius = radius;
-            if(radius > MaxRadius) MaxRadius = radius;
-            if(radius < MinRadius || MinRadius == 0) MinRadius = radius;
         }
 
     }
