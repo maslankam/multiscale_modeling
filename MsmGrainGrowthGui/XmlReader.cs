@@ -27,14 +27,8 @@ namespace GrainGrowthGui
         private int _step;
 
 
-        public ApplicationState Read(string path)
+        public ApplicationState Read(XDocument doc)
         {
-            if (!Uri.IsWellFormedUriString(path, UriKind.Absolute)) throw new UriFormatException();
-            if (!File.Exists(path)) throw new FileNotFoundException();
-            if (Path.GetExtension(path) != "xml") throw new FormatException();
-
-            var doc = XDocument.Load(path);
-
             ReadWindowVariables(doc);
 
             ReadGrains(doc);
