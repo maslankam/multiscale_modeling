@@ -94,19 +94,19 @@ namespace GrainGrowthGui
 
 
             return new ApplicationState
-            {
-                automaton = _automaton,
-                spaceSize = _spaceSize,
-                grainsCount = _grainsCount,
-                inclusionsCount = _inclusionsCount,
-                minRadius = _minRadius,
-                maxRadius = _maxRadius,
-                transition = _transition,
-                neighbourhood = _neighbourhood,
-                boundary = _boundary,
-                isAutomatonGenerated = _isAutomatonGenerated,
-                isSaved = _isSaved
-            };
+            (
+                _automaton,
+                _spaceSize,
+                _grainsCount,
+                _inclusionsCount,
+                _minRadius,
+                _maxRadius,
+                _transition,
+                _neighbourhood,
+                _boundary,
+                _isAutomatonGenerated,
+                _isSaved
+            );
         }
 
         private void ReadInclusions(XDocument doc)
