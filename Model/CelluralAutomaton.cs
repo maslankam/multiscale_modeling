@@ -35,6 +35,7 @@ namespace Model{
             INeighbourhood neighbourhood,
             IBoundaryCondition boundary)
         {
+            if(minRadius > maxRadius) throw new ArgumentException("MinRadius cannot be greater than MaxRadius");
             if (transition == null || neighbourhood == null || boundary == null) throw new ArgumentNullException();
             _transition = transition;
             _neighbourhood = neighbourhood;
