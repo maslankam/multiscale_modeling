@@ -20,7 +20,7 @@ namespace Model{
             Initialize();
         }  
 
-        private CelluralSpace(Cell[,] cells)
+        public CelluralSpace(Cell[,] cells)
         {
             _space = cells;
         }   
