@@ -1,17 +1,14 @@
-﻿using System;
+using System;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GrainGrowthGui
 {
-    public class XmlWriter
+    public class XmlFactory
     {
-        public void Write(string path, ApplicationState state)
+        public XDocument GetXDocument(ApplicationState state)
         {
-            if (!Uri.IsWellFormedUriString(path, UriKind.Absolute)) throw new UriFormatException();
-            if (state == null) throw new ArgumentNullException();
-
             var doc = new XDocument(new XElement("Document"));
             
             AddVariables(state, doc);
@@ -22,7 +19,7 @@ namespace GrainGrowthGui
 
             AddCells(state, doc);
 
-            doc.Save(path);
+            return doc;
         }
 
         private static void AddVariables(ApplicationState state, XDocument doc)
@@ -32,12 +29,12 @@ namespace GrainGrowthGui
             widowVariables.Add(new XAttribute("GrainsCount", state.grainsCount));
             widowVariables.Add(new XAttribute("InclusionsCount", state.inclusionsCount));
             widowVariables.Add(new XAttribute("MinRadius", state.minRadius));
-            widowVariables.Add(new XAttribute("MaxRadius", state.inclusionsCount));
+            widowVariables.Add(new XAttribute("MaxRadius", state.maxRadius));
             widowVariables.Add(new XAttribute("Transition", state.transition.GetType()));
             widowVariables.Add(new XAttribute("Neighbourhood", state.neighbourhood.GetType()));
             widowVariables.Add(new XAttribute("Boundary", state.boundary.GetType()));
             widowVariables.Add(new XAttribute("IsGenerated", state.isAutomatonGenerated));
-            widowVariables.Add(new XAttribute("IsSaved", state.boundary.GetType()));
+            widowVariables.Add(new XAttribute("IsSaved", state.isSaved));
             doc.Root.Add(widowVariables);
         }
 
@@ -71,7 +68,7 @@ namespace GrainGrowthGui
             var inclusions = new XElement("Inclusions");
             foreach (var inclusion in state.automaton.Inclusions)
             {
-                var inclusionXmlElement = new XElement("Grain");
+                var inclusionXmlElement = new XElement("Inclusion");
 
                 var id = new XAttribute("Id", inclusion.Id);
                 inclusionXmlElement.Add(id);
