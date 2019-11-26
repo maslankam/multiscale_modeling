@@ -8,6 +8,7 @@ using Model;
 using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace GrainGrowthGui
 {
@@ -76,6 +77,9 @@ namespace GrainGrowthGui
         private bool _isAutomatonGenerated;
         private readonly SpaceRenderingEngine _renderEngine;
         private BitmapSource _imageSource;
+        private bool _isSaved;
+
+
         #endregion
 
         #region constructor
@@ -186,7 +190,30 @@ namespace GrainGrowthGui
         #region OpenCommand
         void OpenExecute()
         {
-            System.Windows.MessageBox.Show("File Open");
+            // TODO: Add file dialog!
+
+            var doc = XDocument.Load(@"C:\Users\mikim\Desktop\Nowy folder\hello2.xml");
+            var reader = new XmlReader();
+            var state = reader.Read(doc);
+
+            _automaton = state.automaton;
+            _spaceSize = state.spaceSize;
+            _grainsCount = state.grainsCount;
+            _inclusionsCount = state.inclusionsCount;
+            _minRadius = state.minRadius;
+            _maxRadius = state.maxRadius;
+            _transition = state.transition;
+            _neighbourhood = state.neighbourhood;
+            _boundary = state.boundary;
+            _isAutomatonGenerated = state.isAutomatonGenerated;
+            _isSaved = state.isSaved;
+
+            _isAutomatonGenerated = true;
+
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered.Invoke(this, _imageSource);
+
+            System.Windows.MessageBox.Show("File Opened");
         }
 
         bool CanOpenExecute()
@@ -208,7 +235,26 @@ namespace GrainGrowthGui
         #region SaveAsCommand
         void SaveAsExecute()
         {
-            System.Windows.MessageBox.Show("File Save");
+            var state = new ApplicationState(
+                    _automaton,
+                    _spaceSize,
+                    _grainsCount,
+                    _inclusionsCount,
+                    _minRadius,
+                    _maxRadius,
+                    _transition,
+                    _neighbourhood,
+                    _boundary,
+                    _isAutomatonGenerated,
+                    _isSaved
+                    );
+            var factory = new XmlFactory();
+            var doc = factory.GetXDocument(state);
+
+            doc.Save(@"C:\Users\mikim\Desktop\Nowy folder\hello2.xml");
+
+
+            System.Windows.MessageBox.Show("File Saved");
         }
 
         bool CanSaveAsExecute()
