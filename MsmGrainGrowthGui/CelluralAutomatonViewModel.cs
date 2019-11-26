@@ -79,6 +79,8 @@ namespace GrainGrowthGui
         private readonly SpaceRenderingEngine _renderEngine;
         private BitmapSource _imageSource;
         private bool _isSaved;
+        private bool _isRunning;
+        BackgroundWorker _worker;
 
 
         #endregion
@@ -87,6 +89,7 @@ namespace GrainGrowthGui
         public CelluralAutomatonViewModel()
         {
             _isAutomatonGenerated = false; //lazy initialization of automaton
+            _isRunning = false;
             //Default values
             _spaceSize = 500;
             _grainsCount = 20;
@@ -183,9 +186,97 @@ namespace GrainGrowthGui
         #endregion
 
         #region StartCommand
+        void StartExecute()
+        {
+            _isRunning = true;
+
+            _worker = new BackgroundWorker();
+            _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
+            _worker.DoWork += worker_DoWork;
+            _worker.ProgressChanged += worker_ProgressChanged;
+            _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            _worker.RunWorkerAsync();
+
+            //_automaton.NextStep();
+
+            //_imageSource = _renderEngine.Render(_automaton.Space);
+            // ImageRendered.Invoke(this, _imageSource);
+            //render
+        }
+
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while(true)
+            {
+                if (_worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                System.Diagnostics.Trace.WriteLine("Next step");
+                _automaton.NextStep();
+                _worker.ReportProgress(0);
+                System.Threading.Thread.Sleep(800);
+            }
+                
+        }
+
+        
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered.Invoke(this, _imageSource);
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+            bool CanStartExecute()
+        {
+            return _isAutomatonGenerated && ( ! _isRunning );
+        }
+
+        public ICommand Start
+        {
+            get
+            {
+                return new Command(
+            StartExecute,
+            CanStartExecute);
+            }
+        }
         #endregion
 
         #region StopCommnad
+        void StopExecute()
+        {
+            _worker.CancelAsync();
+            _isRunning = false;
+           // _automaton.NextStep();
+
+           // _imageSource = _renderEngine.Render(_automaton.Space);
+           // ImageRendered.Invoke(this, _imageSource);
+        }
+
+        bool CanStopExecute()
+        {
+            return _isAutomatonGenerated && _isRunning;
+        }
+
+        public ICommand Stop
+        {
+            get
+            {
+                return new Command(
+            StopExecute,
+            CanStopExecute);
+            }
+        }
         #endregion
 
         #region OpenCommand

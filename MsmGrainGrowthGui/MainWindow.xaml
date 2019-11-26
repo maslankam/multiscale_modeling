@@ -54,7 +54,7 @@
                 <Border BorderThickness="1" BorderBrush="#FF000000">
                     <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5"  ></Image>
                 </Border>
-                <Label Margin="5" Name="StepLabel" ></Label>
+                <TextBlock Margin="5" Name="Step_Label" ></TextBlock>
             </StackPanel>
 
             <StackPanel  Margin="5" Grid.Column="1">
@@ -72,7 +72,7 @@
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Min:" />
-                            <TextBox Name="MinRadius_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MinRadius}" /> 
+                            <TextBox Name="MinRadius_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MinRadius}" />
                             <Label Grid.Column="2" Content="Max:" />
                             <TextBox Name="MaxRadius_TextBox" Grid.Column="3" Margin="5" Text="{Binding MaxRadius}"/>
                         </Grid>
@@ -90,7 +90,8 @@
                 </GroupBox>
 
                 <Label Content="Boundary" />
-                <ComboBox Name="Boundary_ComboBox" Margin="5"> <!-- How to ComboBox binding ?-->
+                <ComboBox Name="Boundary_ComboBox" Margin="5">
+                    <!-- How to ComboBox binding ?-->
                     <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
                     <ComboBoxItem>Periodic</ComboBoxItem>
                 </ComboBox>
@@ -107,8 +108,8 @@
                 <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
                 <Button Name="GenerateButton" Grid.Column="0" Margin="5"  Command="{Binding Generate}" >Generate</Button>
                 <Button Name="NextButton" Grid.Column="0" Margin="5"  Command="{Binding Next}" >Next</Button>
-                <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
-                <!--<Button Margin="5" Padding="5" >Stop</Button>-->
+                <Button Margin="5" Padding="5" Name="Run_Button" Command="{Binding Start}">Run</Button>
+                <Button Margin="5" Padding="5" Name="Stop_Button" Command="{Binding Stop}">Stop</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
 
             </StackPanel>
