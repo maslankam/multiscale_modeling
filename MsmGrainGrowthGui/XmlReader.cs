@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -24,6 +24,7 @@ namespace GrainGrowthGui
         private static bool _isSaved;
         private List<Grain> _grains;
         private List<Inclusion> _inclusions;
+        private int _step;
 
 
         public ApplicationState Read(string path)
@@ -40,7 +41,9 @@ namespace GrainGrowthGui
 
             ReadInclusions(doc);
             
-            // make joined Microelements list
+            //TODO: VS quick refactor here !
+
+            var elements = JoinLists(_grains, _inclusions);
 
             int xSize = Convert.ToInt32(GetValueFromElement(doc, "xSize", "Cells"));
             int ySize = Convert.ToInt32(GetValueFromElement(doc, "ySize", "Cells"));
@@ -63,33 +66,36 @@ namespace GrainGrowthGui
                     j++;
                 }
 
-                Microelement microelement;
-
                 if( ! String.IsNullOrEmpty( cell.id ))
                 {
                     int id = Convert.ToInt32(cell.id);
                     int phase = Convert.ToInt32(cell.phase);
 
-                    var element = (from g in _grains
+                    var element = (from g in elements
                                 where g.Id == id && g.Id == phase
-                                select g).First();
-
+                                select g).FirstOrDefault();
 
                     cellsArray[i, j] = new Cell(element);
                 }
-                
-
-
-                
-
-
                 i++;
             }
+
+            var space = new CelluralSpace(cellsArray);
+
+            _automaton = new CelluralAutomaton(
+                space,
+                _grains,
+                _inclusions,
+                _transition,
+                _neighbourhood,
+                _boundary,
+                _step
+            );
 
 
             return new ApplicationState
             {
-                automaton = null,
+                automaton = _automaton,
                 spaceSize = _spaceSize,
                 grainsCount = _grainsCount,
                 inclusionsCount = _inclusionsCount,
@@ -169,6 +175,23 @@ namespace GrainGrowthGui
             return (from v in doc.Root.Descendants(element)
                     where v.Name == name
                     select v.Value).First();
+        }
+
+        private List<Microelement> JoinLists(List<Grain> grains, List<Inclusion> inclusions)
+        {
+            var elements = new List<Microelement>();
+
+            foreach(var grain in grains)
+            {
+                elements.Add((Microelement)grain);
+            }
+
+            foreach(var inclusion in inclusions)
+            {
+                elements.Add((Microelement)inclusion);
+            }
+
+            return elements;
         }
        
 
