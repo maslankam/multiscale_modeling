@@ -4,17 +4,17 @@ using System.Windows.Input;
 
 namespace GrainGrowthGui
 {
-    public class OpenCommand : ICommand
+    public class Command : ICommand
     {
         readonly Func<Boolean> _canExecute;
         readonly Action _execute;
 
-        public OpenCommand(Action execute)
+        public Command(Action execute)
             : this(execute, null)
         {
         }
 
-        public OpenCommand(Action execute, Func<Boolean> canExecute)
+        public Command(Action execute, Func<Boolean> canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");

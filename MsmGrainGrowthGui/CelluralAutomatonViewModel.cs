@@ -125,7 +125,7 @@ namespace GrainGrowthGui
         }
 
         public ICommand Generate 
-        { get { return new GenerateCommand(
+        { get { return new Command(
             GenerateExecute, 
             CanGenerateExecute); } }
         #endregion
@@ -145,7 +145,7 @@ namespace GrainGrowthGui
         }
 
         public ICommand Next 
-        { get { return new NextCommand(
+        { get { return new Command(
             NextExecute, 
             CanNextExecute); } }
         #endregion
@@ -176,7 +176,7 @@ namespace GrainGrowthGui
         }
 
         public ICommand Reset 
-        { get { return new ResetCommand(
+        { get { return new Command(
             ResetExecute, 
             CanResetExecute); } }
         #endregion
@@ -225,7 +225,7 @@ namespace GrainGrowthGui
         {
             get
             {
-                return new OpenCommand(
+                return new Command(
             OpenExecute,
             CanOpenExecute);
             }
@@ -266,7 +266,7 @@ namespace GrainGrowthGui
         {
             get
             {
-                return new SaveAsCommand(
+                return new Command(
             SaveAsExecute,
             CanSaveAsExecute);
             }
@@ -288,7 +288,7 @@ namespace GrainGrowthGui
         {
             get
             {
-                return new ExportCsvCommand(
+                return new Command(
             ExportCsvExecute,
             CanExportCsvExecute);
             }
@@ -310,7 +310,7 @@ namespace GrainGrowthGui
         {
             get
             {
-                return new ExportPngCommand(
+                return new Command(
             ExportPngExecute,
             CanExportPngExecute);
             }
