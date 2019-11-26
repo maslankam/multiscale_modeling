@@ -50,7 +50,7 @@ namespace Model{
         }
 
         //Constructor for opening saved state
-        public CelluralAutomaton(int size,
+        public CelluralAutomaton(
             CelluralSpace space,
             List<Grain> grains,
             List<Inclusion> inclusions,
@@ -104,4 +104,5 @@ namespace Model{
         }
    }
 }
+
 
