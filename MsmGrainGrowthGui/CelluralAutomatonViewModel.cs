@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Xml.Linq;
+using System.IO;
 
 namespace GrainGrowthGui
 {
@@ -259,7 +260,7 @@ namespace GrainGrowthGui
 
         bool CanSaveAsExecute()
         {
-            return true;
+            return _isAutomatonGenerated;
         }
 
         public ICommand SaveAs
@@ -276,12 +277,18 @@ namespace GrainGrowthGui
         #region ExportCsvCommand
         void ExportCsvExecute()
         {
-            System.Windows.MessageBox.Show("Export Csv");
+            var formatter = new CsvSpaceFormatter();
+            string csv = formatter.Format(_automaton.Space);
+            CsvWriter.WriteToCsv(csv, @"C:\Users\mikim\Desktop\Nowy folder\hello3.csv");
+      
+
+
+            System.Windows.MessageBox.Show("Exported to Csv");
         }
 
         bool CanExportCsvExecute()
         {
-            return true;
+            return _isAutomatonGenerated;
         }
 
         public ICommand ExportCsv
@@ -298,12 +305,20 @@ namespace GrainGrowthGui
         #region ExportPngCommand
         void ExportPngExecute()
         {
-            System.Windows.MessageBox.Show("Export Png");
+            var image = _imageSource;
+            using (var fileStream = new FileStream(@"C:\Users\mikim\Desktop\Nowy folder\hello4.png", FileMode.Create))
+            {
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                encoder.Save(fileStream);
+            }
+
+            System.Windows.MessageBox.Show("Exported to  Png");
         }
 
         bool CanExportPngExecute()
         {
-            return true;
+            return _isAutomatonGenerated;
         }
 
         public ICommand ExportPng

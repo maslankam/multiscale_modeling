@@ -11,7 +11,7 @@ namespace Model
         public static void WriteToCsv(string text, string path)// TODO: async?
         {
            if(Directory.Exists(path)) throw new ArgumentException("Path must be a file");
-           if( File.Exists(path))  throw new IOException("File already exist"); //TODO: overwite logic?? Notify dialog?
+           //if( File.Exists(path))  throw new IOException("File already exist"); //TODO: overwite logic?? Notify dialog?
            
            if( String.IsNullOrEmpty( Path.GetExtension(path) )) 
             {
