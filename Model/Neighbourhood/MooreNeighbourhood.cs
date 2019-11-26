@@ -20,7 +20,7 @@ namespace Model
         public Cell[] GetNeighbours(CelluralSpace space, int x, int y)
         {
             Cell[] result = new Cell[8];
-            var vonNeuman = new VonNeumanNeighborhood(_boundary);
+            var vonNeuman = new VonNeumanNeighbourhood(_boundary);
             Cell[] vonNeumanNeighbourhood = vonNeuman.GetNeighbours(space, x, y);
             result[0] = vonNeumanNeighbourhood[0];
             result[1] = vonNeumanNeighbourhood[1];

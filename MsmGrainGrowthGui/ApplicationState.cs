@@ -67,7 +67,7 @@ namespace GrainGrowthGui
                 case "Model.PentagonNeighbourhood":
                     return new MooreNeighbourhood(boundary);
                 case "Model.VonNeumanNeighbourhood":
-                    return new VonNeumanNeighborhood(boundary);
+                    return new VonNeumanNeighbourhood(boundary);
                 default: throw new ArgumentException();
             }
         }

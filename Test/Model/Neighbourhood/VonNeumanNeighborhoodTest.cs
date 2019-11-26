@@ -39,7 +39,7 @@ namespace Test
             space.SetCellMembership(i.MicroelementMembership, 2, 2);
 
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             var neighbours = neighbourhood.GetNeighbours(space, x, y);
             

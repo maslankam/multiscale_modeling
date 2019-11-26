@@ -65,8 +65,19 @@ namespace Test
                 {
                     Microelement exElement = exSpace.GetCell(i, j).MicroelementMembership;
                     Microelement reElement = reSpace.GetCell(i, j).MicroelementMembership;
-                    Assert.Equal(exElement.Id, reElement.Id);
-                    Assert.Equal(exElement.Phase, reElement.Phase);
+                    if(exElement?.Id == null)
+                    {
+                        Assert.Null(reElement?.Id);
+                        Assert.Null(reElement?.Phase);
+                        
+                    }
+                    else
+                    {
+                        Assert.Equal(exElement.Id, reElement.Id);
+                        Assert.Equal(exElement.Phase, reElement.Phase);
+                    }
+
+                    
                 }
             }
 
@@ -86,7 +97,7 @@ namespace Test
             int step = 0;
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             var grains = new List<Grain>();
             grains.Add(new Grain(0, 0, Color.FromArgb(1,2,3,4)));
@@ -138,7 +149,7 @@ namespace Test
         {
             string xmlState = 
 @"<Document>
-  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighborhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" />
+  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" />
   <Grains>
     <Grain Id=""0"" P=""0"" A=""1"" R=""2"" G=""3"" B=""4"" />
     <Grain Id=""1"" P=""0"" A=""5"" R=""6"" G=""7"" B=""8"" />

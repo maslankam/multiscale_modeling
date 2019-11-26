@@ -71,15 +71,10 @@ namespace Model{
             _neighbourhood = neighbourhood;
             
             _executor = new SimulationExecutor();
-            _grainInitializer = new GrainInitializer();
-            _inclusionInitializer = new InclusionInitializer();
-            _grainSeeder = new GrainSeeder();
-            _inclusionSeeder = new InclusionSeeder(boundary);
-
-            _grainInitializer = new GrainInitializer();
-            _inclusionInitializer = new InclusionInitializer();
-            _grainSeeder = new GrainSeeder();
-            _inclusionSeeder = new InclusionSeeder(boundary);
+            _grainInitializer = null;
+            _inclusionInitializer = null;
+            _grainSeeder = null;
+            _inclusionSeeder = null;
 
             Grains = grains;
             Inclusions = inclusions;

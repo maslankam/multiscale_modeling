@@ -14,7 +14,7 @@ namespace Test
         {
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 
@@ -80,7 +80,7 @@ namespace Test
         {
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 
@@ -98,7 +98,7 @@ namespace Test
         {
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 
@@ -116,7 +116,7 @@ namespace Test
         {
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 
@@ -139,7 +139,7 @@ namespace Test
         {
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             CelluralSpace space = new CelluralSpace(3);
 

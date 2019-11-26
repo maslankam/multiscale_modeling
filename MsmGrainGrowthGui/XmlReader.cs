@@ -43,8 +43,8 @@ namespace GrainGrowthGui
             int ySize = Convert.ToInt32(GetValueFromElement(doc, "ySize", "Cells"));
 
 
-            var cells = from r in doc.Root.Descendants("Cells")
-                        from c in r.Descendants()
+            var cells = from c in doc.Root.Descendants()
+                        where c.Name == "C"
                         select new { id = c.Attribute("i").Value, phase = c.Attribute("p").Value};
 
             int i = 0;
@@ -56,8 +56,8 @@ namespace GrainGrowthGui
             {
                 if(j > ySize - 1)
                 {
-                    i = 0;
-                    j++;
+                    j = 0;
+                    i++;
                 }
 
                 if( ! String.IsNullOrEmpty( cell.id ))
@@ -66,12 +66,21 @@ namespace GrainGrowthGui
                     int phase = Convert.ToInt32(cell.phase);
 
                     var element = (from g in elements
-                                where g.Id == id && g.Id == phase
-                                select g).FirstOrDefault();
+                                where (g.Id == id && g.Phase == phase)
+                                select g);
 
-                    cellsArray[i, j] = new Cell(element);
+                    if (element.Count() > 1) throw new FormatException("Ambigious element id");
+
+                    if (element.FirstOrDefault() == null) throw new FormatException("Cannot find element referenced in cell");
+
+                    cellsArray[i, j] = new Cell(element.FirstOrDefault());
+                    
                 }
-                i++;
+                else
+                {
+                    cellsArray[i, j] = new Cell();
+                }
+                j++;
             }
 
             var space = new CelluralSpace(cellsArray);
@@ -105,23 +114,33 @@ namespace GrainGrowthGui
 
         private void ReadInclusions(XDocument doc)
         {
-            _inclusions = (List<Inclusion>)(from g in doc.Root.Descendants("Inclusions")
-                                            select new Inclusion(
-                                                  Convert.ToInt32(g.Attribute("Id").Value),
-                                                  Convert.ToInt32(g.Attribute("P").Value),
-                                                  Convert.ToInt32(g.Attribute("Rad").Value),
-                                                  Color.FromArgb(
-                                                      Convert.ToInt32(g.Attribute("A").Value),
-                                                      Convert.ToInt32(g.Attribute("R").Value),
-                                                      Convert.ToInt32(g.Attribute("G").Value),
-                                                      Convert.ToInt32(g.Attribute("B").Value)
-                                                  )));
+            _inclusions = new List<Inclusion>();
+
+            var querry = (from g in doc.Root.Descendants()
+                          where g.Name == "Inclusion"
+                          select new Inclusion(
+                                        Convert.ToInt32(g.Attribute("Id").Value),
+                                        Convert.ToInt32(g.Attribute("P").Value),
+                                        Convert.ToInt32(g.Attribute("Rad").Value),
+                                        Color.FromArgb(
+                                            Convert.ToInt32(g.Attribute("A").Value),
+                                            Convert.ToInt32(g.Attribute("R").Value),
+                                            Convert.ToInt32(g.Attribute("G").Value),
+                                            Convert.ToInt32(g.Attribute("B").Value)
+                                        )));
+            foreach(var inclusion in querry)
+            {
+                _inclusions.Add(inclusion);
+            }
         }
 
         private void ReadGrains(XDocument doc)
         {
-            _grains = (List<Grain>)(from g in doc.Root.Descendants("Grains")
-                                    select new Grain(
+            _grains = new List<Grain>();
+
+            var querry = (from g in doc.Root.Descendants()
+                              where g.Name == "Grain"
+                              select new Grain(
                                           Convert.ToInt32(g.Attribute("Id").Value),
                                           Convert.ToInt32(g.Attribute("P").Value),
                                           Color.FromArgb(
@@ -130,6 +149,10 @@ namespace GrainGrowthGui
                                               Convert.ToInt32(g.Attribute("G").Value),
                                               Convert.ToInt32(g.Attribute("B").Value)
                                           )));
+            foreach(var grain in querry)
+            {
+                _grains.Add(grain);
+            }
         }
 
         private void ReadWindowVariables(XDocument doc)
@@ -155,8 +178,8 @@ namespace GrainGrowthGui
                 string neighbourhoodName = (GetValueFromElement(doc, "Neighbourhood"));
                 _neighbourhood = ApplicationState.GetNeighbourhoodByName(neighbourhoodName, _boundary);
 
-                _isSaved = GetValueFromElement(doc, "isSaved") == "true" ? true : false;
-                _isAutomatonGenerated = GetValueFromElement(doc, "isGenerated") == "true" ? true : false;
+                _isSaved = GetValueFromElement(doc, "IsSaved") == "true" ? true : false;
+                _isAutomatonGenerated = GetValueFromElement(doc, "IsGenerated") == "true" ? true : false;
             }
             catch (Exception e)
             {
@@ -166,9 +189,12 @@ namespace GrainGrowthGui
 
         public string GetValueFromElement(XDocument doc, string name, string element = "WindowVariables")
         {
-            return (from v in doc.Root.Descendants(element)
-                    where v.Name == name
-                    select v.Value).First();
+           
+
+            var result = (from v in doc.Root.Elements()
+                          where v.Name == element
+                          select v.Attribute(name).Value).First();
+            return result;
         }
 
         private List<Microelement> JoinLists(List<Grain> grains, List<Inclusion> inclusions)

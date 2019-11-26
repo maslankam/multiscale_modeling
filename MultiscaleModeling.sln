@@ -10,8 +10,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{B7CB1591-FF03-496D-8FBA-84DDBD5A8D72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{0C15D3C3-3FA8-4986-9D31-A24B3F26E2A9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B694252B-2108-42C0-A530-3685B0B4DDC8} = {B694252B-2108-42C0-A530-3685B0B4DDC8}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2686237F-5C59-408F-B350-38A417600C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2686237F-5C59-408F-B350-38A417600C86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

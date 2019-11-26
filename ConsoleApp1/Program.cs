@@ -29,7 +29,7 @@ namespace ConsoleApp1
 
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new PeriodicBoundary();
-            INeighbourhood neighbourhood = new VonNeumanNeighborhood(boundary);
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
             _automaton = new CelluralAutomaton(500, 40, 30, 1, 5, transition, neighbourhood, boundary);
 
             _spaceSize = 500;
@@ -39,7 +39,7 @@ namespace ConsoleApp1
             _minRadius = 5;
             _transition = new GrainGrowthRule();
             _boundary = new AbsorbingBoundary();
-            _neighbourhood = new VonNeumanNeighborhood(_boundary);
+            _neighbourhood = new VonNeumanNeighbourhood(_boundary);
 
 
             var doc = new XDocument(new XElement("Document"));

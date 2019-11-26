@@ -7,11 +7,11 @@ namespace Model{
     /// |X|c|X|
     /// |_|X|_|
     
-    public class VonNeumanNeighborhood : INeighbourhood
+    public class VonNeumanNeighbourhood : INeighbourhood
     {
         private IBoundaryCondition _boundary;
 
-        public VonNeumanNeighborhood(IBoundaryCondition boundary){
+        public VonNeumanNeighbourhood(IBoundaryCondition boundary){
             this._boundary = boundary;
         }
 
