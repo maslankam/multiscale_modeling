@@ -202,7 +202,7 @@ namespace GrainGrowthGui
 
         bool CanResetExecute()
         {
-            return _isAutomatonGenerated;
+            return _isAutomatonGenerated && ! _isRunning;
         }
 
         public ICommand Reset 
