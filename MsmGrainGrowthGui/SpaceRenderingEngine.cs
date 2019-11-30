@@ -10,8 +10,8 @@ namespace GrainGrowthGui
         public BitmapSource Render(CelluralSpace space)
         {
             // TODO: Image Control Size as arg, remove magic numbers
-            int imageWidth = 500;
-            int imagespaceHeight = 500;
+            //int imageWidth = 500;
+            //int imagespaceHeight = 500;
 
 
             PixelFormat pf = PixelFormats.Bgr32;
@@ -48,10 +48,6 @@ namespace GrainGrowthGui
             BitmapSource bitmap = BitmapSource.Create(spaceWidth, spaceHeight,
                 space.GetXLength(), space.GetYLength(), pf, null,
                 rawImage, rawStride);
-
-            System.Diagnostics.Trace.WriteLine($"#####");
-            System.Diagnostics.Trace.WriteLine($"dpiX {bitmap.DpiX}");
-            System.Diagnostics.Trace.WriteLine($"dpiX {bitmap.DpiY}");
             return bitmap;
         }
     }

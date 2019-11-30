@@ -52,7 +52,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000">
-                    <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5"  ></Image>
+                    <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
                 </Border>
                 <TextBlock Margin="5" Name="Step_Label" ></TextBlock>
             </StackPanel>
