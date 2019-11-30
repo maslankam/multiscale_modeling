@@ -6,14 +6,18 @@ namespace Model
         {
             private IBoundaryCondition _boundary;
 
-            public PentagonNeighbourhood(IBoundaryCondition boundary)
+        public string Name
+        {
+            get { return this.ToString(); }
+        }
+
+        public PentagonNeighbourhood(IBoundaryCondition boundary)
             {
                 this._boundary = boundary;
             }
 
             public Cell[] GetNeighbours(CelluralSpace space, int x, int y)
             {
-                
 
                 var r = new Random();
 
@@ -115,6 +119,10 @@ namespace Model
                 return result;
             }
            
+        }
+        public override string ToString()
+        {
+            return "PentagonNeighbourhood";
         }
 
 

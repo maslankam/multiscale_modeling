@@ -7,6 +7,11 @@ namespace Model
     {
         private IBoundaryCondition _boundary;
 
+        public string Name
+        {
+            get { return this.ToString();}
+        }
+
         public HexagonNeighborhood(IBoundaryCondition boundary)
         {
             this._boundary = boundary;
@@ -16,55 +21,39 @@ namespace Model
         {
             //TODO: any abstraction for N,W,S,E,NW,NE,SW,SE ??? It apears meany times acros neighbourghood classes?? Abstract class ?
             // Nested if's are hard to read
-            Cell[] result = new Cell[5];
-
-            //Check N neighbour
-            if (x - 1 >= 0)
-            {
-                result[0] = space.GetCell(x - 1, y);
-            }
-            else
-            {
-                result[0] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.W);
-            }
-
-            //Check S neighbour
-            if (x + 1 <= space.GetYLength() - 1)
-            {
-                result[1] = space.GetCell(x + 1, y);
-            }
-            else
-            {
-                result[1] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.E);
-            }
-
+            Cell[] result = new Cell[6];
+            var vonNeuman = new VonNeumanNeighbourhood(_boundary);
+            Cell[] vonNeumanNeighbourhood = vonNeuman.GetNeighbours(space, x, y);
+            result[0] = vonNeumanNeighbourhood[0];
+            result[1] = vonNeumanNeighbourhood[1];
+            result[2] = vonNeumanNeighbourhood[2];
+            result[3] = vonNeumanNeighbourhood[3];
 
             var r = new Random();
 
             if(r.Next(0,100) > 50)
             {
-                //right side
-
-                //Check E
-                if (y + 1 <= space.GetXLength() - 1)
-                {
-                    result[2] = space.GetCell(x, y + 1);
-                }
-                else
-                {
-                    result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.S);
-                }
-
                 //Check NE
                 if (x - 1 >= 0 && y + 1 < space.GetYLength())
                 {
-                    result[3] = space.GetCell(x - 1, y + 1);
+                    result[4] = space.GetCell(x - 1, y + 1);
                 }
                 else
                 {
-                    result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
+                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
                 }
-
+                //Check SW neighbour
+                if (x + 1 < space.GetXLength() && y - 1 >= 0)
+                {
+                    result[5] = space.GetCell(x + 1, y - 1);
+                }
+                else
+                {
+                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
+                }
+            }
+            else
+            {
                 //Check SE neighbour
                 if (x + 1 < space.GetXLength() && y + 1 < space.GetYLength())
                 {
@@ -74,47 +63,24 @@ namespace Model
                 {
                     result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
                 }
-
-            }
-            else
-            {
-                //left side
-
-                //Check W
-                if (y - 1 >= 0)
-                {
-                    result[2] = space.GetCell(x, y - 1);
-                }
-                else
-                {
-                    result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.N);
-                }
-                // Check SW neighbour
-                if (x + 1 < space.GetXLength() && y - 1 >= 0)
-                {
-                    result[3] = space.GetCell(x + 1, y - 1);
-                }
-                else
-                {
-                    result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
-                }
-
                 //Check NW neighbour
                 if (x - 1 >= 0 && y - 1 >= 0)
                 {
-                    result[4] = space.GetCell(x - 1, y - 1);
+                    result[5] = space.GetCell(x - 1, y - 1);
                 }
                 else
                 {
-                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
+                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
                 }
-
-
             }
-
             return result;
 
         }
+        public override string ToString()
+        {
+            return "HexagonNeighbourhood";
+        }
+
     }
 
 

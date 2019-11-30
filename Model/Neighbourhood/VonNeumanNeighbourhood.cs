@@ -11,6 +11,13 @@ namespace Model{
     {
         private IBoundaryCondition _boundary;
 
+
+        public string Name
+        {
+            get { return this.ToString(); }
+        }
+
+
         public VonNeumanNeighbourhood(IBoundaryCondition boundary){
             this._boundary = boundary;
         }
@@ -62,6 +69,10 @@ namespace Model{
             return result;
 
          }
+        public override string ToString()
+        {
+            return "VonNeumanNeighbourhood";
+        }
     }
 
     

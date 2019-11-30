@@ -13,7 +13,7 @@
 
     <StackPanel>
         <DockPanel>
-        <!-- Send toolbar to seperate view/viewModel -->
+        <!-- TODO: Send toolbar to seperate view/viewModel -->
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
                     <Button Command="{Binding Open}">
@@ -61,7 +61,7 @@
 
                 <GroupBox Header="Inclusions">
                     <StackPanel>
-                        <CheckBox Name="Inclusions_CheckBox" Margin="5">Enabled</CheckBox>
+                        <!--<CheckBox Name="Inclusions_CheckBox" Margin="5">Enabled</CheckBox>-->
                         <StackPanel Name="Inclusions_StackPanel" Visibility="Visible"/>
                         <Label Content="Radius"></Label>
                         <Grid>
@@ -93,17 +93,13 @@
                 <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                 DisplayMemberPath="Name"
                                                                 SelectedValuePath="Name"
-                                                                SelectedValue="{Binding Path=Boundary}" >   
-                    <!-- How to ComboBox binding ?-->
-                    <!-- <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>-->
-                    <!-- <ComboBoxItem>Periodic</ComboBoxItem>-->
+                                                                SelectedValue="{Binding Path=Boundary}" > 
                 </ComboBox>
                 <Label Content="Neighborhood" />
-                <ComboBox Name="Neighbourhood_ComboBox" Margin="5">
-                    <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
-                    <ComboBoxItem>Moore</ComboBoxItem>
-                    <ComboBoxItem>Pentagonal</ComboBoxItem>
-                    <ComboBoxItem>Hexagonal</ComboBoxItem>
+                <ComboBox Name="Neighbourhood_ComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
+                                                                DisplayMemberPath="Name"
+                                                                SelectedValuePath="Name"
+                                                                SelectedValue="{Binding Path=Neighbourhood}">
                 </ComboBox>
                 <Label Content="Grains" />
                 <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainsCount}"/>

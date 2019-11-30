@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Xml.Linq;
 using System.IO;
+using Microsoft.Win32;
 
 namespace GrainGrowthGui
 {
@@ -56,7 +57,9 @@ namespace GrainGrowthGui
         public string Neighbourhood
         {
             get { return _neighbourhood.ToString(); }
-            set { _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary); }
+            set { 
+                _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary); 
+            }
         }
 
 
@@ -129,7 +132,7 @@ namespace GrainGrowthGui
             // TODO: Generate can be replaced by OnModelChange event. This also may enable "save" button
 
             // Lazy initialization of boundary.
-            _neighbourhood = new MooreNeighbourhood(_boundary);
+            //_neighbourhood = new MooreNeighbourhood(_boundary);
 
             _automaton = new CelluralAutomaton(
                 _spaceSize,
@@ -308,8 +311,18 @@ namespace GrainGrowthGui
         void OpenExecute()
         {
             // TODO: Add file dialog!
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            string path = "";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                path = openFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
 
-            var doc = XDocument.Load(@"C:\Users\mikim\Desktop\Nowy folder\hello2.xml");
+            var doc = XDocument.Load(path);
             var reader = new XmlReader();
             var state = reader.Read(doc);
 
@@ -329,8 +342,6 @@ namespace GrainGrowthGui
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
-
-            System.Windows.MessageBox.Show("File Opened");
         }
 
         bool CanOpenExecute()
@@ -352,6 +363,18 @@ namespace GrainGrowthGui
         #region SaveAsCommand
         void SaveAsExecute()
         {
+            string path;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                path = saveFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
+                
+
             var state = new ApplicationState(
                     _automaton,
                     _spaceSize,
@@ -368,10 +391,7 @@ namespace GrainGrowthGui
             var factory = new XmlFactory();
             var doc = factory.GetXDocument(state);
 
-            doc.Save(@"C:\Users\mikim\Desktop\Nowy folder\hello2.xml");
-
-
-            System.Windows.MessageBox.Show("File Saved");
+            doc.Save(path);
         }
 
         bool CanSaveAsExecute()
@@ -393,13 +413,20 @@ namespace GrainGrowthGui
         #region ExportCsvCommand
         void ExportCsvExecute()
         {
+            string path;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                path = saveFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
+
             var formatter = new CsvSpaceFormatter();
             string csv = formatter.Format(_automaton.Space);
-            CsvWriter.WriteToCsv(csv, @"C:\Users\mikim\Desktop\Nowy folder\hello3.csv");
-      
-
-
-            System.Windows.MessageBox.Show("Exported to Csv");
+            CsvWriter.WriteToCsv(csv, path);
         }
 
         bool CanExportCsvExecute()
@@ -421,15 +448,25 @@ namespace GrainGrowthGui
         #region ExportPngCommand
         void ExportPngExecute()
         {
+            string path;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                path = saveFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
+
+
             var image = _imageSource;
-            using (var fileStream = new FileStream(@"C:\Users\mikim\Desktop\Nowy folder\hello4.png", FileMode.Create))
+            using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 BitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(image));
                 encoder.Save(fileStream);
             }
-
-            System.Windows.MessageBox.Show("Exported to  Png");
         }
 
         bool CanExportPngExecute()

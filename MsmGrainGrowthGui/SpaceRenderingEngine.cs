@@ -9,11 +9,6 @@ namespace GrainGrowthGui
     {
         public BitmapSource Render(CelluralSpace space)
         {
-            // TODO: Image Control Size as arg, remove magic numbers
-            //int imageWidth = 500;
-            //int imagespaceHeight = 500;
-
-
             PixelFormat pf = PixelFormats.Bgr32;
             int spaceWidth = space.GetXLength();
             int spaceHeight = space.GetYLength();
@@ -29,18 +24,11 @@ namespace GrainGrowthGui
                         space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
 
                     //write byte[index] with pixelColor
-                    if (rawImageIndex >= rawImage.Length)
-                    {
-                        System.Diagnostics.Trace.WriteLine($"pixel [{i},{j}], rawIndex: {rawImageIndex}, outide of {rawImage.Length} bound");
-                    }
-                    else
-                    {
+                   
                         rawImage[rawImageIndex++] = pixelColor.R;
                         rawImage[rawImageIndex++] = pixelColor.G;
                         rawImage[rawImageIndex++] = pixelColor.B;
-                        rawImage[rawImageIndex++] = 0;
-                    }
-                            
+                        rawImage[rawImageIndex++] = 0;  
                 }
 
 
