@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -16,6 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
+    <ProjectReference Include="..\MsmGrainGrowthGui\GrainGrowthGui.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Microelements\" />
   </ItemGroup>
 
 </Project>

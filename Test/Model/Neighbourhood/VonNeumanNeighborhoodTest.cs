@@ -10,28 +10,38 @@ namespace Test
 {
     public class VonNeumanNeighbourhoodTest
     {
-        public static Cell a = new Cell { GrainMembership = new Grain(0, Color.Red) };
-        public static Cell b = new Cell{ GrainMembership = new Grain(1, Color.Green) };
-        public static Cell c = new Cell{ GrainMembership = new Grain(2, Color.Blue) };
-        public static Cell d = new Cell{ GrainMembership = new Grain(10, Color.Yellow) };
-        public static Cell e = new Cell{ GrainMembership = new Grain(11, Color.Violet) };
-        public static Cell f = new Cell{ GrainMembership = new Grain(12, Color.Gold) };
-        public static Cell g = new Cell{ GrainMembership = new Grain(20, Color.Coral) };
-        public static Cell h = new Cell{ GrainMembership = new Grain(21, Color.Orange) };
-        public static Cell i = new Cell{ GrainMembership = new Grain(22, Color.Azure) };   
-        public static Cell[,] space = new Cell[3, 3]
-            {
-                { a, b, c },
-                { d, e, f },
-                { g, h, i }
-            };
-
-
+        public static Cell a = new Cell(new Grain(0, 0, Color.Red) );
+        public static Cell b = new Cell(new Grain(1, 0, Color.Green) );
+        public static Cell c = new Cell(new Grain(2, 0, Color.Blue) );
+        public static Cell d = new Cell(new Grain(10, 0, Color.Yellow) );
+        public static Cell e = new Cell(new Grain(11, 0, Color.Violet) );
+        public static Cell f = new Cell(new Grain(12, 0, Color.Gold) );
+        public static Cell g = new Cell(new Grain(20, 0, Color.Coral) );
+        public static Cell h = new Cell(new Grain(21, 0, Color.Orange) );
+        public static Cell i = new Cell(new Grain(22, 0, Color.Azure) );
+        public static CelluralSpace space;
+        
+       
         [Theory]
         [ClassData(typeof(AbsorbingTestData))]
-        public static void AbsorbingTest(int x, int y, Cell[] expected)
+        public static void Test(int x, int y, Cell[] expected)
         {
-            var neighbours = VonNeumanNeighborhood.Neighbours(space , x, y, AbsorbingBoundary.BoundaryCondition);
+            space = new CelluralSpace(3);
+
+            space.SetCellMembership(a.MicroelementMembership, 0, 0);
+            space.SetCellMembership(b.MicroelementMembership, 0, 1);
+            space.SetCellMembership(c.MicroelementMembership, 0, 2);
+            space.SetCellMembership(d.MicroelementMembership, 1, 0);
+            space.SetCellMembership(e.MicroelementMembership, 1, 1);
+            space.SetCellMembership(f.MicroelementMembership, 1, 2);
+            space.SetCellMembership(g.MicroelementMembership, 2, 0);
+            space.SetCellMembership(h.MicroelementMembership, 2, 1);
+            space.SetCellMembership(i.MicroelementMembership, 2, 2);
+
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
+
+            var neighbours = neighbourhood.GetNeighbours(space, x, y);
             
             for(int i = 0; i < 4; i++)
             {
@@ -41,7 +51,7 @@ namespace Test
                 }
                 else
                 {
-                    Assert.Same(neighbours[i], expected[i]);
+                    Assert.Same(expected[i].MicroelementMembership , neighbours[i].MicroelementMembership);
                 }
             }
  
@@ -73,8 +83,5 @@ namespace Test
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
-
-        
-
     }
 }

@@ -1,23 +1,28 @@
-﻿<Window x:Class="MsmGrainGrowthGui.MainWindow"
+﻿<Window x:Class="GrainGrowthGui.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MsmGrainGrowthGui"
+        xmlns:local="clr-namespace:GrainGrowthGui"
         mc:Ignorable="d"
         Title="Grain Growth Cellural Automata" Height="700" Width="800">
+    
+    <Window.DataContext>
+        <local:CelluralAutomatonViewModel />
+    </Window.DataContext>
 
     <StackPanel>
         <DockPanel>
+        <!-- TODO: Send toolbar to seperate view/viewModel -->
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding Open}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/folder.png" />
                             <TextBlock Margin="5,0">Open</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Padding="5" IsEnabled="False">
+                    <Button Padding="5" Command="{Binding SaveAs}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/icons/diskette.png" />
                             <TextBlock Margin="5,0">Save As</TextBlock>
@@ -25,13 +30,13 @@
                     </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding ExportCsv}">
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="/icons/excel.png" />
                             <TextBlock Margin="5,0">Export to CSV</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button IsEnabled="False">
+                    <Button Command="{Binding ExportPng}">
                         <StackPanel Orientation="Horizontal" IsEnabled="False">
                             <Image Source="/icons/picture.png" />
                             <TextBlock Margin="5,0">Save image</TextBlock>
@@ -40,53 +45,74 @@
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
-    <Grid>
-        <Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*" />
-			<ColumnDefinition Width="1*" />
-		</Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000">
-                    <Image Name="CelluralSpaceView" Grid.Column="0" Height="500" Width="500" Margin="5" ></Image>
+                    <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
                 </Border>
-                <Label Margin="5" Name="StepLabel" ></Label>
+                <TextBlock Margin="5" Name="Step_Label" ></TextBlock>
             </StackPanel>
-            
-            <StackPanel Grid.Column="1">
-            <Label Content="Boundary" />
-            <ComboBox Margin="5">
-                <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
-                <ComboBoxItem>Periodic</ComboBoxItem>
-            </ComboBox>
-            <Label Content="Neighborhood" />
-            <ComboBox Margin="5">
-                <ComboBoxItem IsSelected="True">von Neumann</ComboBoxItem>
-                    <ComboBoxItem>Moore</ComboBoxItem>
-                    <ComboBoxItem>Pentagonal</ComboBoxItem>
-                    <ComboBoxItem>Hexagonal</ComboBoxItem>
+
+            <StackPanel  Margin="5" Grid.Column="1">
+
+                <GroupBox Header="Inclusions">
+                    <StackPanel>
+                        <!--<CheckBox Name="Inclusions_CheckBox" Margin="5">Enabled</CheckBox>-->
+                        <StackPanel Name="Inclusions_StackPanel" Visibility="Visible"/>
+                        <Label Content="Radius"></Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Min:" />
+                            <TextBox Name="MinRadius_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MinRadius}" />
+                            <Label Grid.Column="2" Content="Max:" />
+                            <TextBox Name="MaxRadius_TextBox" Grid.Column="3" Margin="5" Text="{Binding MaxRadius}"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.9*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1.6*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Count:"></Label>
+                            <TextBox Name="InclusionsCount_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding InclusionsCount}" />
+                        </Grid>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <Label Content="Boundary" />
+                <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
+                                                                DisplayMemberPath="Name"
+                                                                SelectedValuePath="Name"
+                                                                SelectedValue="{Binding Path=Boundary}" > 
                 </ComboBox>
-            <Label Content="Grains" />
-            <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainCount}"/>
-            <Label Content="Space size" />
-            <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
-            <!--<Button Margin="5" Padding="5" >Randomize</Button>-->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2.6*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="5"  Click="NextButton_Click" Name="NextSpaceView">Next</Button>
-                    <TextBlock Grid.Column="1" Padding="5,5,5,5" TextWrapping="Wrap" >Steps per click :</TextBlock>
-                    <TextBox Grid.Column="2" Name="StepsPerClick_TextBox" Margin="0,5,5,5" Text="{Binding StepsPerClick}"></TextBox>
-                </Grid>
-            
-            <!--<Button Margin="5" Padding="5" Name="RunButton">Run</Button>-->
-            <!--<Button Margin="5" Padding="5" >Stop</Button>-->
-            <Button Margin="5" Padding="5" Click="ResetButton_Click">Reset</Button>
+                <Label Content="Neighborhood" />
+                <ComboBox Name="Neighbourhood_ComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
+                                                                DisplayMemberPath="Name"
+                                                                SelectedValuePath="Name"
+                                                                SelectedValue="{Binding Path=Neighbourhood}">
+                </ComboBox>
+                <Label Content="Grains" />
+                <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainsCount}"/>
+                <Label Content="Space size" />
+                <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
+                <Button Name="GenerateButton" Grid.Column="0" Margin="5"  Command="{Binding Generate}" >Generate</Button>
+                <Button Name="NextButton" Grid.Column="0" Margin="5"  Command="{Binding Next}" >Next</Button>
+                <Button Margin="5" Padding="5" Name="Run_Button" Command="{Binding Start}">Run</Button>
+                <Button Margin="5" Padding="5" Name="Stop_Button" Command="{Binding Stop}">Stop</Button>
+                <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
 
             </StackPanel>
-    </Grid>
+        </Grid>
 
     </StackPanel>
 
