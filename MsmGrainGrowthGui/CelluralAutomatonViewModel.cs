@@ -13,72 +13,59 @@ using System.IO;
 
 namespace GrainGrowthGui
 {
+    // TODO: SOLID Refactor!!!!!
     class CelluralAutomatonViewModel
     {
         #region Properties
         public int SpaceSize
         {
             get { return _spaceSize; }
-            set
-            {
-                _spaceSize = value;
-
-            }
+            set { _spaceSize = value; }
         }
 
         public int GrainsCount
         {
             get { return _grainsCount; }
-            set
-            {
-                _grainsCount = value;
-            }
+            set { _grainsCount = value; }
         }
 
         public int InclusionsCount
         {
             get { return _inclusionsCount; }
-            set
-            {
-                _inclusionsCount = value;
-            }
+            set { _inclusionsCount = value; }
         }
 
         public int MinRadius
         {
             get { return _minRadius; }
-            set
-            {
-                _minRadius = value;
-            }
+            set { _minRadius = value; }
         }
 
         public int MaxRadius
         {
             get { return _maxRadius; }
-            set
-            {
-                _maxRadius = value;
-            }
+            set { _maxRadius = value; }
         }
 
-        public List<INeighbourhood> Neighbourhoods { get {
-                return _neighbourhoods;
-            } set { } }
-        
-        
-        public string Neighbourhood { get
-            {
-                return _neighbourhood.ToString();
-            }
+        public List<INeighbourhood> Neighbourhoods
+        {
+            get { return _neighbourhoods; }
+            set { }
+        }
 
-            set { } }
+        public string Neighbourhood
+        {
+            get { return _neighbourhood.ToString(); }
+            set { _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary); }
+        }
 
-        public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { } }
-        public string Boundary { get { return _boundary.ToString(); } 
-                                set {
-                _boundary = ApplicationState.GetBoundaryByName("Model." + value); } } // TODO: this is really bad
 
+        public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { _boundaries = value; } }
+        public string Boundary
+        {
+            get { return _boundary.ToString(); }
+            set { _boundary = ApplicationState.GetBoundaryByName("Model." + value); } // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
+        }
         #endregion
 
         #region private members
@@ -106,35 +93,41 @@ namespace GrainGrowthGui
         #region constructor
         public CelluralAutomatonViewModel()
         {
-            
             // Lazy initialization of automaton.
             _isAutomatonGenerated = false; 
             _isRunning = false;
+
             //Default values
-            _spaceSize = 500;
+            _spaceSize = 200;
             _grainsCount = 20;
             _inclusionsCount = 0;
             _minRadius = 1;
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
             
-            //_neighbourhood = new MooreNeighbourhood(_boundary);
             _renderEngine = new SpaceRenderingEngine();
 
             _boundaries = new List<IBoundaryCondition>() {
                new AbsorbingBoundary(),
-               new PeriodicBoundary()};
+               new PeriodicBoundary() };
             _boundary = _boundaries[0];
 
-            // Implementation of neighbours depends on boundary. 
-            // It's managed on boundary changed event.
-            Neighbourhoods = new List<INeighbourhood>(); 
+            _neighbourhoods = new List<INeighbourhood>()
+            {
+                new VonNeumanNeighbourhood(_boundary),
+                new MooreNeighbourhood(_boundary),
+                new HexagonNeighborhood(_boundary),
+                new PentagonNeighbourhood(_boundary)
+            };
+            _neighbourhood = new VonNeumanNeighbourhood(_boundary);
         }
         #endregion
 
         #region GenerateCommand
         void GenerateExecute()
         {
+            // TODO: Generate can be replaced by OnModelChange event. This also may enable "save" button
+
             // Lazy initialization of boundary.
             _neighbourhood = new MooreNeighbourhood(_boundary);
 
@@ -248,10 +241,9 @@ namespace GrainGrowthGui
                     e.Cancel = true;
                     return;
                 }
-                System.Diagnostics.Trace.WriteLine("Next step");
                 _automaton.NextStep();
                 _worker.ReportProgress(0);
-                System.Threading.Thread.Sleep(800);
+                System.Threading.Thread.Sleep(100); // TODO: Remove magic number! Add slider to GUI
             }
                 
         }
