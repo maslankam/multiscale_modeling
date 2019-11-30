@@ -6,6 +6,14 @@ namespace Model
 
     public class PeriodicBoundary : IBoundaryCondition
     {
+        public string Name
+        {
+            get
+            {
+                return this.ToString();
+            }
+        }
+
         // AbsorbingBoundary always return null Cell 
         ///   y ->
         ///x |22|20|21|22|20|
@@ -96,6 +104,12 @@ namespace Model
                 default: throw new ArgumentException("Wrong direction");
             }
         }
+
+        public override string ToString()
+        {
+            return "PeriodicBoundary";
+        }
+
     }
 
 

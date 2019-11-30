@@ -90,10 +90,13 @@
                 </GroupBox>
 
                 <Label Content="Boundary" />
-                <ComboBox Name="Boundary_ComboBox" Margin="5">
+                <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
+                                                                DisplayMemberPath="Name"
+                                                                SelectedValuePath="Name"
+                                                                SelectedValue="{Binding Path=Boundary}" >   
                     <!-- How to ComboBox binding ?-->
-                    <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>
-                    <ComboBoxItem>Periodic</ComboBoxItem>
+                    <!-- <ComboBoxItem IsSelected="True">Absorbing</ComboBoxItem>-->
+                    <!-- <ComboBoxItem>Periodic</ComboBoxItem>-->
                 </ComboBox>
                 <Label Content="Neighborhood" />
                 <ComboBox Name="Neighbourhood_ComboBox" Margin="5">

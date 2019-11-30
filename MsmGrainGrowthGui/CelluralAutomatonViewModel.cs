@@ -62,7 +62,23 @@ namespace GrainGrowthGui
             }
         }
 
+        public List<INeighbourhood> Neighbourhoods { get {
+                return _neighbourhoods;
+            } set { } }
         
+        
+        public string Neighbourhood { get
+            {
+                return _neighbourhood.ToString();
+            }
+
+            set { } }
+
+        public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { } }
+        public string Boundary { get { return _boundary.ToString(); } 
+                                set {
+                _boundary = ApplicationState.GetBoundaryByName("Model." + value); } } // TODO: this is really bad
+
         #endregion
 
         #region private members
@@ -81,6 +97,8 @@ namespace GrainGrowthGui
         private bool _isSaved;
         private bool _isRunning;
         BackgroundWorker _worker;
+        List<IBoundaryCondition> _boundaries;
+        List<INeighbourhood> _neighbourhoods;
 
 
         #endregion
@@ -88,7 +106,9 @@ namespace GrainGrowthGui
         #region constructor
         public CelluralAutomatonViewModel()
         {
-            _isAutomatonGenerated = false; //lazy initialization of automaton
+            
+            // Lazy initialization of automaton.
+            _isAutomatonGenerated = false; 
             _isRunning = false;
             //Default values
             _spaceSize = 500;
@@ -97,15 +117,27 @@ namespace GrainGrowthGui
             _minRadius = 1;
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
-            _boundary = new AbsorbingBoundary();
-            _neighbourhood = new MooreNeighbourhood(_boundary);
+            
+            //_neighbourhood = new MooreNeighbourhood(_boundary);
             _renderEngine = new SpaceRenderingEngine();
+
+            _boundaries = new List<IBoundaryCondition>() {
+               new AbsorbingBoundary(),
+               new PeriodicBoundary()};
+            _boundary = _boundaries[0];
+
+            // Implementation of neighbours depends on boundary. 
+            // It's managed on boundary changed event.
+            Neighbourhoods = new List<INeighbourhood>(); 
         }
         #endregion
 
         #region GenerateCommand
         void GenerateExecute()
         {
+            // Lazy initialization of boundary.
+            _neighbourhood = new MooreNeighbourhood(_boundary);
+
             _automaton = new CelluralAutomaton(
                 _spaceSize,
                 _grainsCount,
@@ -137,6 +169,7 @@ namespace GrainGrowthGui
         #region NextCommand
         void NextExecute()
         {
+           
             _automaton.NextStep();
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
@@ -427,6 +460,9 @@ namespace GrainGrowthGui
         public event EventHandler<BitmapSource> ImageRendered;
         
     }
+
+    
+
 
 
 }

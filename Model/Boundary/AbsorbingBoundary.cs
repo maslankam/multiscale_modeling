@@ -5,6 +5,14 @@ namespace Model{
     
     public class AbsorbingBoundary : IBoundaryCondition
     {
+        public string Name
+        {
+            get
+            {
+                return this.ToString();
+            }
+        }
+
         // AbsorbingBoundary always return null Cell 
         /// |nl|nl|nl|nl|nl|
         /// |nl|00|01|02|nl|
@@ -13,6 +21,11 @@ namespace Model{
         /// |nl|nl|nl|nl|nl|
         public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction) { 
             return null;
+        }
+
+        public override string ToString()
+        {
+            return "AbsorbingBoundary";
         }
     }
 
