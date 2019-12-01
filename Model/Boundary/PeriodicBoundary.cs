@@ -70,7 +70,7 @@ namespace Model
                         {
                             if (y == 0)
                             {
-                                return space.GetCell(0, 2);
+                                return space.GetCell(0, 2);//WTF??
                             }
                             else
                             {
@@ -89,7 +89,7 @@ namespace Model
                         {
                             if (x == 0)
                             {
-                                return space.GetCell(2, 2);
+                                return space.GetCell(2, 2);//WTF??
                             }
                             else
                             {

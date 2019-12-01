@@ -132,7 +132,7 @@ namespace GrainGrowthGui
             // TODO: Generate can be replaced by OnModelChange event. This also may enable "save" button
 
             // Lazy initialization of boundary.
-            //_neighbourhood = new MooreNeighbourhood(_boundary);
+            _neighbourhood = new MooreNeighbourhood(_boundary);
 
             _automaton = new CelluralAutomaton(
                 _spaceSize,
@@ -246,7 +246,7 @@ namespace GrainGrowthGui
                 }
                 _automaton.NextStep();
                 _worker.ReportProgress(0);
-                System.Threading.Thread.Sleep(100); // TODO: Remove magic number! Add slider to GUI
+                System.Threading.Thread.Sleep(80); // TODO: Remove magic number! Add slider to GUI
             }
                 
         }
