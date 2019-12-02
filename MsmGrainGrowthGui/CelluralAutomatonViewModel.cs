@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
-using GrainGrowthGui;
 using Model;
 using System.Windows.Media.Imaging;
-using System.Drawing.Imaging;
-using System.Windows.Media;
 using System.Xml.Linq;
 using System.IO;
 using Microsoft.Win32;
+using Model.Transition;
 
 namespace GrainGrowthGui
 {

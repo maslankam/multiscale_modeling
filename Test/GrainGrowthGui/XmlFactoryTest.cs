@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Model;
 using System.Diagnostics;
 using GrainGrowthGui;
+using Model.Transition;
 
 namespace Test
 {

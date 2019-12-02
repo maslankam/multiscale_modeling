@@ -14,13 +14,6 @@ namespace Model
             }
         }
 
-        // AbsorbingBoundary always return null Cell 
-        ///   y ->
-        ///x |22|20|21|22|20|
-        ///| |02|00|01|02|00|
-        ///v |12|10|11|12|10|
-        ///  |22|20|21|22|20|
-        ///  |02|00|01|02|00|
         public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction)
         {
             switch (direction)
@@ -70,7 +63,7 @@ namespace Model
                         {
                             if (y == 0)
                             {
-                                return space.GetCell(0, 2);//WTF??
+                                return space.GetCell(0, space.GetYLength() - 1);
                             }
                             else
                             {
@@ -89,7 +82,7 @@ namespace Model
                         {
                             if (x == 0)
                             {
-                                return space.GetCell(2, 2);//WTF??
+                                return space.GetCell(space.GetXLength() - 1, space.GetYLength() - 1);
                             }
                             else
                             {

@@ -1,12 +1,10 @@
-using System;
 using Xunit;
 using System.Xml.Linq;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Model;
-using System.Diagnostics;
 using GrainGrowthGui;
+using Model.Transition;
 
 namespace Test
 {
