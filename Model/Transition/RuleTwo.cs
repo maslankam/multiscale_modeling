@@ -10,17 +10,23 @@ namespace Model.Transition
     {
         public Microelement NextState(Cell cell, Cell[] neighbours)
         {
-            Cell[] doubleNeighbours = (Cell[])neighbours.Concat(neighbours);
+            neighbours.Concat(neighbours).ToArray();
 
             int grainsStreak = 0;
             int maxStreak = 0;
             Microelement strongestElement = null;
 
-            for (int i = 1; i < doubleNeighbours.Count(); i++)
+
+            for (int i = 1; i < neighbours.Count(); i++)
             {
-                if (doubleNeighbours[i]?.MicroelementMembership is Grain &&
-                    doubleNeighbours[i - 1]?.MicroelementMembership.Id == doubleNeighbours[i]?.MicroelementMembership.Id &&
-                    doubleNeighbours[i - 1]?.MicroelementMembership.Phase == doubleNeighbours[i]?.MicroelementMembership.Phase)
+                if (neighbours[i - 1]?.MicroelementMembership?.Id == null)
+                {
+                    grainsStreak = 0;
+                    continue;
+                }
+                if (neighbours[i]?.MicroelementMembership is Grain &&
+                    neighbours[i - 1]?.MicroelementMembership.Id == neighbours[i]?.MicroelementMembership.Id &&
+                    neighbours[i - 1]?.MicroelementMembership.Phase == neighbours[i]?.MicroelementMembership.Phase)
                 {
                     grainsStreak++;
                 }
@@ -32,12 +38,12 @@ namespace Model.Transition
                 if (grainsStreak > maxStreak)
                 {
                     maxStreak = grainsStreak;
-                    strongestElement = doubleNeighbours[i].MicroelementMembership;
+                    strongestElement = neighbours[i].MicroelementMembership;
                 }
 
             }
 
-            if (maxStreak < 5) return null;
+            if (maxStreak != 3) return null;
             return strongestElement;
         }
     }

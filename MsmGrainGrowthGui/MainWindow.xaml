@@ -89,6 +89,13 @@
                     </StackPanel>
                 </GroupBox>
 
+                <Label Content="Executor" />
+                <ComboBox Name="Executor_ComboBox"  Margin="5" ItemsSource="{Binding Path=Executors}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Name"
+                          SelectedValue="{Binding Path=Executor}" >
+                </ComboBox>
+
                 <Label Content="Boundary" />
                 <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                 DisplayMemberPath="Name"

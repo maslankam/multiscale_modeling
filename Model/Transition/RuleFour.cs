@@ -25,7 +25,7 @@ namespace Model{
         public RuleFour()
         {
             _random = new Random();
-            Threshhold = 50;
+            Threshhold = 90;
         }
 
         public Microelement NextState(Cell cell, Cell[] neighbours){ 
