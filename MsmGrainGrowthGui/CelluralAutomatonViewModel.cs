@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
-using GrainGrowthGui;
 using Model;
 using System.Windows.Media.Imaging;
-using System.Drawing.Imaging;
-using System.Windows.Media;
 using System.Xml.Linq;
 using System.IO;
 using Microsoft.Win32;
+using Model.Transition;
 
 namespace GrainGrowthGui
 {
@@ -72,7 +69,7 @@ namespace GrainGrowthGui
         #endregion
 
         #region private members
-        private CelluralAutomaton _automaton;
+        private CellularAutomaton _automaton;
         private int _spaceSize; 
         private int _grainsCount;
         private int _inclusionsCount;
@@ -132,9 +129,9 @@ namespace GrainGrowthGui
             // TODO: Generate can be replaced by OnModelChange event. This also may enable "save" button
 
             // Lazy initialization of boundary.
-            //_neighbourhood = new MooreNeighbourhood(_boundary);
+            _neighbourhood = new MooreNeighbourhood(_boundary);
 
-            _automaton = new CelluralAutomaton(
+            _automaton = new CellularAutomaton(
                 _spaceSize,
                 _grainsCount,
                 _inclusionsCount,
@@ -186,7 +183,7 @@ namespace GrainGrowthGui
         #region ResetCommand
             void ResetExecute()
         {
-           _automaton = new CelluralAutomaton(
+           _automaton = new CellularAutomaton(
                 2,
                 0,
                 0,
@@ -246,7 +243,7 @@ namespace GrainGrowthGui
                 }
                 _automaton.NextStep();
                 _worker.ReportProgress(0);
-                System.Threading.Thread.Sleep(100); // TODO: Remove magic number! Add slider to GUI
+                System.Threading.Thread.Sleep(80); // TODO: Remove magic number! Add slider to GUI
             }
                 
         }

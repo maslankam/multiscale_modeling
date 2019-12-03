@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Model;
 using System.Diagnostics;
 using GrainGrowthGui;
+using Model.Transition;
 
 namespace Test
 {
@@ -82,7 +83,7 @@ namespace Test
             var space = new CelluralSpace(cells);
 
             
-            var automaton = new CelluralAutomaton(
+            var automaton = new CellularAutomaton(
                 space,
                 grains,
                 inclusions,

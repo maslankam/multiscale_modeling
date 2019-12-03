@@ -1,12 +1,9 @@
 using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using Model;
 
+namespace Model.Transition
+{
 
-namespace Model{
-    
     public class GrainGrowthRule : ITransitionRule
     {
         public Microelement NextState(Cell cell, Cell[] neighbours){ 

@@ -11,7 +11,7 @@ namespace GrainGrowthGui
 {
     public class XmlReader
     {
-        private static CelluralAutomaton _automaton;
+        private static CellularAutomaton _automaton;
         private static int _spaceSize;
         private static int _grainsCount;
         private static int _inclusionsCount;
@@ -24,7 +24,7 @@ namespace GrainGrowthGui
         private static bool _isSaved;
         private List<Grain> _grains;
         private List<Inclusion> _inclusions;
-        private int _step;
+        private int _step; // TODO: Add step
 
 
         public ApplicationState Read(XDocument doc)
@@ -85,7 +85,7 @@ namespace GrainGrowthGui
 
             var space = new CelluralSpace(cellsArray);
 
-            _automaton = new CelluralAutomaton(
+            _automaton = new CellularAutomaton(
                 space,
                 _grains,
                 _inclusions,

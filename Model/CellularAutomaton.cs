@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 
 namespace Model{
-    public class CelluralAutomaton {
+    public class CellularAutomaton {
 
         public List<Grain> Grains { get; private set; }
         public List<Inclusion> Inclusions { get; private set; }
 
-        public CelluralSpace Space { get; private set; }
-        public int Step
-        {
-            get { return this._executor.Step; }
-            private set { }
-        }
+        public CelluralSpace Space { get; }
+        public int Step => this._executor.Step;
 
         private CelluralSpace _lastStepSpace;
         private readonly ITransitionRule _transition;
@@ -26,8 +21,8 @@ namespace Model{
         private readonly GrainSeeder _grainSeeder;
         private readonly InclusionSeeder _inclusionSeeder;
 
-        public CelluralAutomaton(int size,
-            int GrainsCount,
+        public CellularAutomaton(int size,
+            int grainsCount,
             int inclusionsCount,
             int minRadius,
             int maxRadius,
@@ -47,11 +42,11 @@ namespace Model{
             _inclusionSeeder = new InclusionSeeder(boundary);
 
             Space = new CelluralSpace(size);
-            PopulateSimulation(GrainsCount, inclusionsCount, minRadius, maxRadius);
+            PopulateSimulation(grainsCount, inclusionsCount, minRadius, maxRadius);
         }
 
         //Constructor for opening saved state
-        public CelluralAutomaton(
+        public CellularAutomaton(
             CelluralSpace space,
             List<Grain> grains,
             List<Inclusion> inclusions,
@@ -91,9 +86,9 @@ namespace Model{
             _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood);
         }
 
-        public void PopulateSimulation(int GrainsCount, int inclusionsCount, int minRadius, int maxRadius)
+        public void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
         {
-            Grains = _grainInitializer.Initialize(GrainsCount);
+            Grains = _grainInitializer.Initialize(grainsCount);
             _grainSeeder.Seed(Space, Grains);
             Inclusions = _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
             _inclusionSeeder.Seed(Space, Inclusions);
