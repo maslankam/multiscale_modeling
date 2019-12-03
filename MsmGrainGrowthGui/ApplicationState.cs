@@ -6,7 +6,7 @@ namespace GrainGrowthGui
 {
     public class ApplicationState
     {
-        public CelluralAutomaton automaton;
+        public CellularAutomaton automaton;
         public int spaceSize;
         public int grainsCount;
         public int inclusionsCount;
@@ -19,7 +19,7 @@ namespace GrainGrowthGui
         public bool isSaved;
     
         public ApplicationState(
-                    CelluralAutomaton automaton,
+                    CellularAutomaton automaton,
                     int spaceSize,
                     int grainsCount,
                     int inclusionsCount,

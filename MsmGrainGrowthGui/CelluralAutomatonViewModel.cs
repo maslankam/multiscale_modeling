@@ -69,7 +69,7 @@ namespace GrainGrowthGui
         #endregion
 
         #region private members
-        private CelluralAutomaton _automaton;
+        private CellularAutomaton _automaton;
         private int _spaceSize; 
         private int _grainsCount;
         private int _inclusionsCount;
@@ -131,7 +131,7 @@ namespace GrainGrowthGui
             // Lazy initialization of boundary.
             _neighbourhood = new MooreNeighbourhood(_boundary);
 
-            _automaton = new CelluralAutomaton(
+            _automaton = new CellularAutomaton(
                 _spaceSize,
                 _grainsCount,
                 _inclusionsCount,
@@ -183,7 +183,7 @@ namespace GrainGrowthGui
         #region ResetCommand
             void ResetExecute()
         {
-           _automaton = new CelluralAutomaton(
+           _automaton = new CellularAutomaton(
                 2,
                 0,
                 0,

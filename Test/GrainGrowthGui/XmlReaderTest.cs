@@ -118,7 +118,7 @@ namespace Test
             var space = new CelluralSpace(cells);
 
             
-            var automaton = new CelluralAutomaton(
+            var automaton = new CellularAutomaton(
                 space,
                 grains,
                 inclusions,
