@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Model.Transition
 {
-    class RuleTwo : ITransitionRule
+    public class RuleTwo : ITransitionRule
     {
         public Microelement NextState(Cell cell, Cell[] neighbours)
         {
