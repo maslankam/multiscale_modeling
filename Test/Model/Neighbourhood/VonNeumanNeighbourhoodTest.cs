@@ -11,14 +11,14 @@ namespace Test
     public class VonNeumanNeighbourhoodTest
     {
         public static Cell a = new Cell(new Grain(0, 0, Color.Red) );
-        public static Cell b = new Cell(new Grain(1, 0, Color.Green) );
-        public static Cell c = new Cell(new Grain(2, 0, Color.Blue) );
-        public static Cell d = new Cell(new Grain(10, 0, Color.Yellow) );
-        public static Cell e = new Cell(new Grain(11, 0, Color.Violet) );
-        public static Cell f = new Cell(new Grain(12, 0, Color.Gold) );
-        public static Cell g = new Cell(new Grain(20, 0, Color.Coral) );
-        public static Cell h = new Cell(new Grain(21, 0, Color.Orange) );
-        public static Cell i = new Cell(new Grain(22, 0, Color.Azure) );
+        public static Cell b = new Cell(new Grain(1, 1, Color.Green) );
+        public static Cell c = new Cell(new Grain(2, 2, Color.Blue) );
+        public static Cell d = new Cell(new Grain(10, 10, Color.Yellow) );
+        public static Cell e = new Cell(new Grain(11, 11, Color.Violet) );
+        public static Cell f = new Cell(new Grain(12, 12, Color.Gold) );
+        public static Cell g = new Cell(new Grain(20, 20, Color.Coral) );
+        public static Cell h = new Cell(new Grain(21, 21, Color.Orange) );
+        public static Cell i = new Cell(new Grain(22, 22, Color.Azure) );
         public static CelluralSpace space;
         
        
@@ -73,19 +73,20 @@ namespace Test
             space.SetCellMembership(h.MicroelementMembership, 2, 1);
             space.SetCellMembership(i.MicroelementMembership, 2, 2);
 
-            IBoundaryCondition boundary = new AbsorbingBoundary();
+            IBoundaryCondition boundary = new PeriodicBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
 
             var neighbours = neighbourhood.GetNeighbours(space, x, y);
             
             for(int i = 0; i < 4; i++)
             {
-                if(expected[i] == null)
+                if(expected?[i]?.MicroelementMembership == null)
                 {
-                    Assert.Null(neighbours[i]);
+                    Assert.Null(neighbours[i].MicroelementMembership);
                 }
                 else
                 {
+                    Assert.False(neighbours?[i]?.MicroelementMembership == null);
                     Assert.Same(expected[i].MicroelementMembership , neighbours[i].MicroelementMembership);
                 }
             }
@@ -116,20 +117,20 @@ namespace Test
 
             private class PeriodicTestData : IEnumerable<object[]>
             {   ///x\y 0 1 2
-            /// 0 |a|b|c|
-            /// 1 |d|e|f|
-            /// 2 |g|h|i|
+                /// 0 |a|b|c|
+                /// 1 |d|e|f|
+                /// 2 |g|h|i|
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[] { 0, 0, new Cell[]{g, b, d, c} }; //a
                 yield return new object[] { 0, 1, new Cell[]{h,c, e, a} }; //b
-                yield return new object[] { 0, 2, new Cell[]{a, i, f, b} }; //c
+                yield return new object[] { 0, 2, new Cell[]{i, a, f, b} }; //c
                 yield return new object[] { 1, 0, new Cell[]{a, e, g, f} }; //d
                 yield return new object[] { 1, 1, new Cell[] { b, f, h, d } }; //e - center
                 yield return new object[] { 1, 2, new Cell[]{c, d, i, e} }; //f
                 yield return new object[] { 2, 0, new Cell[]{d, h, a, i} }; //g
                 yield return new object[] { 2, 1, new Cell[]{e, i, b, g} }; //h
-                yield return new object[] { 2, 2, new Cell[]{f, c, g, h} }; //i
+                yield return new object[] { 2, 2, new Cell[]{f, g, c, h} }; //i
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

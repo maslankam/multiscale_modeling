@@ -120,7 +120,7 @@ namespace Test
             /// 2 |g|h|i|
             public IEnumerator<object[]> GetEnumerator()
             {                                                //N NE E SE S SW W NW                 
-                yield return new object[] { 0, 0, new Cell[] { g,h, b,e, d,e, f,f  } }; //a
+                yield return new object[] { 0, 0, new Cell[] { g,h, b,e, d,f, c,i  } }; //a
                 yield return new object[] { 0, 1, new Cell[] { h,i, c,f, e,d, a,g  } }; //b
                 yield return new object[] { 0, 2, new Cell[] { i,g, a,d, f,e, b,h  } }; //c
                 yield return new object[] { 1, 0, new Cell[] { a,b, e,h, g,i, f,c  } }; //d
