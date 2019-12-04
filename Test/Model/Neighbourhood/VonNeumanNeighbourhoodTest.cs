@@ -24,7 +24,7 @@ namespace Test
        
         [Theory]
         [ClassData(typeof(AbsorbingTestData))]
-        public static void Test(int x, int y, Cell[] expected)
+        public static void AbsorbingTest(int x, int y, Cell[] expected)
         {
             space = new CelluralSpace(3);
 
@@ -57,11 +57,41 @@ namespace Test
  
         }
 
-        public static IEnumerable<object[]> GetNumbers()
+        [Theory]
+        [ClassData(typeof(PeriodicTestData))]
+        public static void PeriodicTest(int x, int y, Cell[] expected)
         {
-            yield return new object[] { 1, 1, new Cell[] { b, f, h, d } }; //e - center
-            yield return new object[] { 0, 0, new Cell[] { null, b, d, null } }; //a
+            space = new CelluralSpace(3);
+
+            space.SetCellMembership(a.MicroelementMembership, 0, 0);
+            space.SetCellMembership(b.MicroelementMembership, 0, 1);
+            space.SetCellMembership(c.MicroelementMembership, 0, 2);
+            space.SetCellMembership(d.MicroelementMembership, 1, 0);
+            space.SetCellMembership(e.MicroelementMembership, 1, 1);
+            space.SetCellMembership(f.MicroelementMembership, 1, 2);
+            space.SetCellMembership(g.MicroelementMembership, 2, 0);
+            space.SetCellMembership(h.MicroelementMembership, 2, 1);
+            space.SetCellMembership(i.MicroelementMembership, 2, 2);
+
+            IBoundaryCondition boundary = new AbsorbingBoundary();
+            INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
+
+            var neighbours = neighbourhood.GetNeighbours(space, x, y);
+            
+            for(int i = 0; i < 4; i++)
+            {
+                if(expected[i] == null)
+                {
+                    Assert.Null(neighbours[i]);
+                }
+                else
+                {
+                    Assert.Same(expected[i].MicroelementMembership , neighbours[i].MicroelementMembership);
+                }
+            }
+ 
         }
+
 
         private class AbsorbingTestData : IEnumerable<object[]>
         {   ///x\y 0 1 2
@@ -79,6 +109,27 @@ namespace Test
                 yield return new object[] { 2, 0, new Cell[]{d, h, null, null} }; //g
                 yield return new object[] { 2, 1, new Cell[]{e, i, null, g} }; //h
                 yield return new object[] { 2, 2, new Cell[]{f,null, null, h} }; //i
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+
+            private class PeriodicTestData : IEnumerable<object[]>
+            {   ///x\y 0 1 2
+            /// 0 |a|b|c|
+            /// 1 |d|e|f|
+            /// 2 |g|h|i|
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { 0, 0, new Cell[]{g, b, d, c} }; //a
+                yield return new object[] { 0, 1, new Cell[]{h,c, e, a} }; //b
+                yield return new object[] { 0, 2, new Cell[]{a, i, f, b} }; //c
+                yield return new object[] { 1, 0, new Cell[]{a, e, g, f} }; //d
+                yield return new object[] { 1, 1, new Cell[] { b, f, h, d } }; //e - center
+                yield return new object[] { 1, 2, new Cell[]{c, d, i, e} }; //f
+                yield return new object[] { 2, 0, new Cell[]{d, h, a, i} }; //g
+                yield return new object[] { 2, 1, new Cell[]{e, i, b, g} }; //h
+                yield return new object[] { 2, 2, new Cell[]{f, c, g, h} }; //i
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

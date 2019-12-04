@@ -10,6 +10,7 @@ namespace Test
     public class AbsorbingBoundaryTest
     {
 
+
         [Fact]
         public void BoundaryTest()
         {
@@ -17,6 +18,13 @@ namespace Test
 
             CelluralSpace space = new CelluralSpace(3);
 
+            int index = 0;
+            foreach(var cell in space)
+            {
+                cell.MicroelementMembership = new Grain(index, index, Color.White);
+                index++;
+            }
+            
             //N boundary
             Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.N));
             Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 1, BoundaryDirection.N));
