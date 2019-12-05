@@ -59,6 +59,29 @@ namespace GrainGrowthGui
             }
         }
 
+        public List<ISimulationExecutor> Executors
+        {
+            get { return _executors; }
+            set { }
+        }
+
+        public string Executor
+        {
+            get { return _executor.ToString(); }
+            set
+            {
+                _executor = GetExecutorByName("Model." + value);
+            }
+        }
+
+        // TODO: Temporary solution
+        private ISimulationExecutor GetExecutorByName(string name)
+        {
+            if (name == "Model.SimulationExecutor") return new SimulationExecutor();
+            if (name == "Model.CurvatureExecutor") return new CurvatureExecutor();
+            else throw new ArgumentException();
+        }
+
 
         public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { _boundaries = value; } }
         public string Boundary
@@ -84,8 +107,10 @@ namespace GrainGrowthGui
         private bool _isSaved;
         private bool _isRunning;
         BackgroundWorker _worker;
-        List<IBoundaryCondition> _boundaries;
-        List<INeighbourhood> _neighbourhoods;
+        private List<IBoundaryCondition> _boundaries;
+        private List<INeighbourhood> _neighbourhoods;
+        private ISimulationExecutor _executor;
+        private List<ISimulationExecutor> _executors;
 
 
         #endregion
@@ -120,6 +145,13 @@ namespace GrainGrowthGui
                 new PentagonNeighbourhood(_boundary)
             };
             _neighbourhood = new VonNeumanNeighbourhood(_boundary);
+
+            _executors = new List<ISimulationExecutor>()
+            {
+                new SimulationExecutor(),
+                new CurvatureExecutor()
+            };
+            _executor = new SimulationExecutor();
         }
         #endregion
 
@@ -129,7 +161,7 @@ namespace GrainGrowthGui
             // TODO: Generate can be replaced by OnModelChange event. This also may enable "save" button
 
             // Lazy initialization of boundary.
-            _neighbourhood = new MooreNeighbourhood(_boundary);
+            //_neighbourhood = new MooreNeighbourhood(_boundary);
 
             _automaton = new CellularAutomaton(
                 _spaceSize,
@@ -139,7 +171,8 @@ namespace GrainGrowthGui
                 _maxRadius,
                 _transition,
                 _neighbourhood, 
-                _boundary
+                _boundary,
+                _executor
             );
             _isAutomatonGenerated = true;
 
@@ -191,7 +224,8 @@ namespace GrainGrowthGui
                 _maxRadius,
                 _transition,
                 _neighbourhood, 
-                _boundary
+                _boundary,
+                _executor
             );
             _isAutomatonGenerated = false;
 

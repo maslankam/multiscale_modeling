@@ -43,27 +43,27 @@ namespace Model{
             }
             else
             {
-                result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
+                result[1] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
             }
 
             //Check SW neighbour
             if (x + 1 < space.GetXLength() && y - 1 >= 0)
             {
-                result[3] = space.GetCell(x + 1, y - 1);
+                result[2] = space.GetCell(x + 1, y - 1);
             }
             else
             {
-                result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
+                result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
             }
 
             //Check NW neighbour
             if (x - 1 >= 0 && y - 1 >= 0)
             {
-                result[5] = space.GetCell(x - 1, y - 1);
+                result[3] = space.GetCell(x - 1, y - 1);
             }
             else
             {
-                result[6] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
+                result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
             }
 
             return result;

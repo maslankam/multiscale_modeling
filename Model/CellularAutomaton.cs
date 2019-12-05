@@ -9,12 +9,12 @@ namespace Model{
         public List<Inclusion> Inclusions { get; private set; }
 
         public CelluralSpace Space { get; }
-        public int Step => this._executor.Step;
+        public int Step => this._executor.ReturnStep();
 
         private CelluralSpace _lastStepSpace;
         private readonly ITransitionRule _transition;
         private readonly INeighbourhood _neighbourhood;
-        private readonly SimulationExecutor _executor;
+        private readonly ISimulationExecutor _executor;
         //private SpaceRenderingEngine _renderingEngine;
         private readonly GrainInitializer _grainInitializer;
         private readonly InclusionInitializer _inclusionInitializer;
@@ -28,14 +28,15 @@ namespace Model{
             int maxRadius,
             ITransitionRule transition,
             INeighbourhood neighbourhood,
-            IBoundaryCondition boundary)
+            IBoundaryCondition boundary,
+            ISimulationExecutor executor)
         {
             if(minRadius > maxRadius) throw new ArgumentException("MinRadius cannot be greater than MaxRadius");
             if (transition == null || neighbourhood == null || boundary == null) throw new ArgumentNullException();
             _transition = transition;
             _neighbourhood = neighbourhood;
             _lastStepSpace = new CelluralSpace(size);
-            _executor = new SimulationExecutor();
+            _executor = executor;
             _grainInitializer = new GrainInitializer();
             _inclusionInitializer = new InclusionInitializer();
             _grainSeeder = new GrainSeeder();
@@ -65,7 +66,7 @@ namespace Model{
             _transition = transition;
             _neighbourhood = neighbourhood;
             
-            _executor = new SimulationExecutor();
+            
             _grainInitializer = null;
             _inclusionInitializer = null;
             _grainSeeder = null;
