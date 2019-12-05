@@ -10,41 +10,47 @@ namespace Model.Transition
     {
         public Microelement NextState(Cell cell, Cell[] neighbours)
         {
-            neighbours.Concat(neighbours).ToArray();
+            if (cell?.MicroelementMembership != null) return cell.MicroelementMembership;
+
+            var twiCells = neighbours.Concat(neighbours).ToArray();
 
             int grainsStreak = 0;
-            int maxStreak = 0;
-            Microelement strongestElement = null;
+            int streakId = -1;
 
-
-            for (int i = 1; i < neighbours.Count(); i++)
+            for (int i = 0; i < twiCells.Count(); i++)
             {
-                if (neighbours[i - 1]?.MicroelementMembership?.Id == null)
+                if (twiCells[i]?.MicroelementMembership == null)
                 {
                     grainsStreak = 0;
+                    streakId = -1;
                     continue;
                 }
-                if (neighbours[i]?.MicroelementMembership is Grain &&
-                    neighbours[i - 1]?.MicroelementMembership.Id == neighbours[i]?.MicroelementMembership.Id &&
-                    neighbours[i - 1]?.MicroelementMembership.Phase == neighbours[i]?.MicroelementMembership.Phase)
+                var element = twiCells[i].MicroelementMembership;
+
+                if (!(element is Grain))
                 {
-                    grainsStreak++;
+                    grainsStreak = 0;
+                    streakId = -1;
                 }
                 else
                 {
-                    grainsStreak = 0;
-                }
+                    if (element.Id == streakId || streakId == -1)
+                    {
+                        grainsStreak++;
+                        streakId = element.Id;
 
-                if (grainsStreak > maxStreak)
-                {
-                    maxStreak = grainsStreak;
-                    strongestElement = neighbours[i].MicroelementMembership;
-                }
+                        if (grainsStreak > 2) return element;
+                    }
+                    else
+                    {
+                        grainsStreak = 0;
+                        streakId = -1;
+                    }
 
+                }
             }
 
-            if (maxStreak != 3) return null;
-            return strongestElement;
+            return null;
         }
     }
 }

@@ -23,16 +23,16 @@ namespace Test.Model.Transition
             ITransitionRule rule = new RuleTwo();
             Cell cell = null;
             Grain result = (Grain)rule.NextState(cell, neighbours);
-            Assert.Same(expected, result);
+            Assert.Same(expected?.MicroelementMembership, result);
         }
 
         [Fact]
         public void FilledCellTest()
         {
             var neighbours = new Cell[]{ b, c, a, d};
-            ITransitionRule rule = new RuleOne();
+            ITransitionRule rule = new RuleTwo();
             var cell = a;
-            Assert.Same(a, rule.NextState(cell, neighbours));
+            Assert.Same(a.MicroelementMembership, rule.NextState(cell, neighbours));
         }
 
 
@@ -46,9 +46,10 @@ namespace Test.Model.Transition
                 yield return new object[] { a, new Cell[] { a, a, a, null  } }; 
                 yield return new object[] { a, new Cell[] { null, a, a, a  } };
                 yield return new object[] { a, new Cell[] { a, a, null, a   } };  
-                yield return new object[] { a, new Cell[] { a, null, a, a   } };  
+                yield return new object[] { a, new Cell[] { a, null, a, a   } };
+                yield return new object[] { a, new Cell[] { a, a, a, a } };
                 yield return new object[] { a, new Cell[] { a, b, a, a   } };
-                yield return new object[] { null, new Cell[] { null, null, null, null   } };
+                yield return new object[] { null, new Cell[] { null, null, null, null } };
                 yield return new object[] { null, new Cell[] { a, b, a, b   } };
                 yield return new object[] { null, new Cell[] { a, null, a, null   } };
                 yield return new object[] { null, new Cell[] { a, null, null, a   } };

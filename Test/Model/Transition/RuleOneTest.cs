@@ -30,8 +30,8 @@ namespace Test.Model.Transition
         {
             ITransitionRule rule = new RuleOne();
             var cell = new Cell();
-            Grain result = (Grain)rule.NextState(cell, neighbours);
-            Assert.Same(expected, result);
+            Microelement result = rule.NextState(cell, neighbours);
+            Assert.Same(expected?.MicroelementMembership, result);
         }
 
         [Fact]
@@ -39,8 +39,8 @@ namespace Test.Model.Transition
         {
             var neighbours = new Cell[]{ b, c, a, a, a, a, a, a };
             ITransitionRule rule = new RuleOne();
-            var cell = new Cell();
-            Assert.Null(rule.NextState(cell, neighbours));
+            var cell = c;
+            Assert.Same(c.MicroelementMembership, rule.NextState(cell, neighbours));
         }
 
 
