@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Model{
     /// Further Moore checks NE, SE, SW, NW neighbours and return as Cell[]
     /// |X|_|X|

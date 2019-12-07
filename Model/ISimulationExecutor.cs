@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-
-namespace Model
+﻿namespace Model
 {
     public interface ISimulationExecutor
     {

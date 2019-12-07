@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Model{
     /// Von Neuman checks N, E, S, W neighbours and return as Cell array[N,E,S,W]
     /// |_|X|_|

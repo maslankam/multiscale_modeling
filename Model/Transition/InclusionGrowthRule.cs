@@ -17,23 +17,23 @@ namespace Model.Transition
             {
                 var inclusions = from c in neighbours
                                     where c?.MicroelementMembership?.Id != null
-                                    && c?.MicroelementMembership is Inclusion
+                                    && c.MicroelementMembership is Inclusion
                                     select (Inclusion)c.MicroelementMembership;   
-                var groups = from i in inclusions
+                var groups = (from i in inclusions
                                 where i.Radius > _step
-                                group i by i.Id;
+                                group i by i.Id).ToArray();
 
-                if (groups.Count() == 0)
+                if (!groups.Any())
                 {
                     return null;
                 }
                 else if (groups.Count() > 1)
                 {
                     //Check if groups has this same count
-                    var top = from g in groups
+                    var top = (from g in groups
                               let maxPower = groups.Max(r => r.Count())
                               where g.Count() == maxPower
-                              select g;
+                              select g).ToArray();
 
                     int topCount = top.Count();
                     if (topCount > 1)

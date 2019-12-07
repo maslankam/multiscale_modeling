@@ -4,14 +4,12 @@ namespace Model
 {
     class InclusionExecutor
     {
-        private IBoundaryCondition _boundary;
         private ITransitionRule _transition;
-        private INeighbourhood _neighbourhood;
+        private readonly INeighbourhood _neighbourhood;
 
         public InclusionExecutor(IBoundaryCondition boundary)
         {
-            _boundary = boundary;
-            _neighbourhood = new  PentagonNeighbourhood(_boundary);
+            _neighbourhood = new  PentagonNeighbourhood(boundary);
         }
 
         public void Grow(CelluralSpace space, int maxRadius)

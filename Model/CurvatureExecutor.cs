@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using Model.Transition;
 
 namespace Model
@@ -10,8 +7,7 @@ namespace Model
     {
         public string Name
         {
-            get { return ToString(); }
-            set { }
+            get => ToString();
         }
     
 
@@ -39,7 +35,6 @@ namespace Model
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
                     // TODO: refactor, injected arguments are not used !!
-                    IBoundaryCondition boun = new AbsorbingBoundary();
                     INeighbourhood nei = new MooreNeighbourhood(new AbsorbingBoundary());
                     ITransitionRule rule = new RuleOne();
                     Cell[] neighbours = nei.GetNeighbours(lastSpace, i, j);

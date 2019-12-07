@@ -10,21 +10,21 @@ namespace Model.Transition
 
             if (cell?.MicroelementMembership == null)
             {
-                var groups = from c in neighbours
-                             where c?.MicroelementMembership?.Id != null && c?.MicroelementMembership is Grain
-                             group c by c.MicroelementMembership;
+                var groups = (from c in neighbours
+                             where c?.MicroelementMembership?.Id != null && c.MicroelementMembership is Grain
+                             group c by c.MicroelementMembership).ToArray();
 
-                if (groups.Count() == 0)
+                if (!groups.Any())
                 {
                     return null;
                 }
                 else if (groups.Count() > 1)
                 {
                     //Check if groups has this same count
-                    var top = from g in groups
+                    var top = (from g in groups
                               let maxPower = groups.Max(r => r.Count())
                               where g.Count() == maxPower
-                              select g.Key;
+                              select g.Key).ToArray();
 
                     int topCount = top.Count();
                     if (topCount > 1)
