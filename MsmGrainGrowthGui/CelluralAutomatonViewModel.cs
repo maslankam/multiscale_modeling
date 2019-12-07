@@ -385,6 +385,7 @@ namespace GrainGrowthGui
             _boundary = state.boundary;
             IsGenerated = state.isAutomatonGenerated;
             _isSaved = state.isSaved;
+            _executor = state.executor;
 
             //IsGenerated = true;
 
@@ -434,7 +435,8 @@ namespace GrainGrowthGui
                     _neighbourhood,
                     _boundary,
                     _isAutomatonGenerated,
-                    _isSaved
+                    _isSaved,
+                    _executor
                     );
             var factory = new XmlFactory();
             var doc = factory.GetXDocument(state);

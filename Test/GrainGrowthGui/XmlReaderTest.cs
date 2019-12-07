@@ -32,7 +32,8 @@ namespace Test
             Assert.Equal(expected.maxRadius, result.maxRadius);
             Assert.Equal(expected.minRadius, result.minRadius);
             Assert.Equal(expected.spaceSize, result.spaceSize);
-            
+            Assert.Equal(expected.executor.GetType(), result.executor.GetType());
+
             int i = 0;
             foreach(var grain in expected.automaton.Grains)
             {
@@ -96,6 +97,7 @@ namespace Test
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
+            ISimulationExecutor executor = new SimulationExecutor();
 
             var grains = new List<Grain>();
             grains.Add(new Grain(0, 0, Color.FromArgb(1,2,3,4)));
@@ -125,7 +127,8 @@ namespace Test
                 transition,
                 neighbourhood,
                 boundary,
-                step
+                step,
+                executor
             );
 
             return new ApplicationState(
@@ -139,15 +142,16 @@ namespace Test
                     neighbourhood,
                     boundary,
                     isGenerated,
-                    isSaved
+                    isSaved,
+                    executor
                     );
         }
 
         private XDocument BuildMockInput()
         {
-            string xmlState = 
+            string xmlState =
 @"<Document>
-  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" />
+  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.SimulationExecutor"" />
   <Grains>
     <Grain Id=""0"" P=""0"" A=""1"" R=""2"" G=""3"" B=""4"" />
     <Grain Id=""1"" P=""0"" A=""5"" R=""6"" G=""7"" B=""8"" />

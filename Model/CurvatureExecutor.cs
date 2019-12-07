@@ -38,7 +38,7 @@ namespace Model
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    // TODO: refactor
+                    // TODO: refactor, injected arguments are not used !!
                     IBoundaryCondition boun = new AbsorbingBoundary();
                     INeighbourhood nei = new MooreNeighbourhood(new AbsorbingBoundary());
                     ITransitionRule rule = new RuleOne();

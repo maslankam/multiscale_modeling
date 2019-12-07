@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Model;
 using System.Drawing;
+using MsmGrainGrowthGui;
 
 namespace GrainGrowthGui
 {
@@ -25,6 +26,7 @@ namespace GrainGrowthGui
         private List<Grain> _grains;
         private List<Inclusion> _inclusions;
         private int _step; // TODO: Add step
+        private ISimulationExecutor _executor;
 
 
         public ApplicationState Read(XDocument doc)
@@ -92,7 +94,8 @@ namespace GrainGrowthGui
                 _transition,
                 _neighbourhood,
                 _boundary,
-                _step
+                _step,
+                _executor
             );
 
 
@@ -108,7 +111,8 @@ namespace GrainGrowthGui
                 _neighbourhood,
                 _boundary,
                 _isAutomatonGenerated,
-                _isSaved
+                _isSaved,
+                _executor
             );
         }
 
@@ -180,6 +184,11 @@ namespace GrainGrowthGui
 
                 _isSaved = GetValueFromElement(doc, "IsSaved") == "true" ? true : false;
                 _isAutomatonGenerated = GetValueFromElement(doc, "IsGenerated") == "true" ? true : false;
+
+                _step = Convert.ToInt32(GetValueFromElement(doc, "Step"));
+
+                string executorName = (GetValueFromElement(doc, "Executor"));
+                _executor = ApplicationState.GetExecutorByName(executorName, _step);
             }
             catch (Exception e)
             {
