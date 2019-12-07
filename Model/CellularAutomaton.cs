@@ -54,7 +54,7 @@ namespace Model{
             ITransitionRule transition,
             INeighbourhood neighbourhood,
             IBoundaryCondition boundary,
-            int step)
+            int step, ISimulationExecutor executor)
         {
             if (transition == null     ||
                 neighbourhood == null  ||
@@ -78,7 +78,7 @@ namespace Model{
             Space = space;
             _lastStepSpace = space.Clone();
 
-            _executor = new SimulationExecutor(step);
+            _executor = executor;
         }
         
         public void NextStep()
