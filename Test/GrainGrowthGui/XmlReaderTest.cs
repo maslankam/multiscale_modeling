@@ -67,8 +67,6 @@ namespace Test
                     if(exElement?.Id == null)
                     {
                         Assert.Null(reElement?.Id);
-                        Assert.Null(reElement?.Phase);
-                        
                     }
                     else
                     {
@@ -91,9 +89,6 @@ namespace Test
             int inclusionsCount = 2;
             int minRadius = 1;
             int maxRadius = 1;
-            bool isSaved = false;
-            bool isGenerated = false;
-            int step = 0;
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
@@ -140,8 +135,8 @@ namespace Test
                     transition,
                     neighbourhood,
                     boundary,
-                    isGenerated,
-                    isSaved,
+                    false,
+                    false,
                     executor
                     );
         }

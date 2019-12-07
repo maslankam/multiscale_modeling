@@ -1,9 +1,7 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using System.Drawing;
 
 using Model;
-using System.Diagnostics;
 
 namespace Test
 {
@@ -26,10 +24,10 @@ namespace Test
                 index++;
             }
 
-            ///x\y 0 1 2
-            /// 0 |a|b|c|
-            /// 1 |d|e|f|
-            /// 2 |g|h|i|
+            //x\y 0 1 2
+            // 0 |a|b|c|
+            // 1 |d|e|f|
+            // 2 |g|h|i|
 
             //N boundary
             Assert.Same(space.GetCell(2,0), boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.N));

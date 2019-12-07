@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
-using Xunit;
-using Model;
+using System.Collections.Generic;
 using System.Drawing;
+using Model;
 using Model.Transition;
+using Xunit;
 
 namespace Test.Model.Transition
 {
@@ -21,15 +19,14 @@ namespace Test.Model.Transition
         public void EmptyCellTest(Cell expected, Cell[] neighbours)
         {
             ITransitionRule rule = new RuleTwo();
-            Cell cell = null;
-            Grain result = (Grain)rule.NextState(cell, neighbours);
+            Grain result = (Grain)rule.NextState(null, neighbours);
             Assert.Same(expected?.MicroelementMembership, result);
         }
 
         [Fact]
         public void FilledCellTest()
         {
-            var neighbours = new Cell[]{ b, c, a, d};
+            var neighbours = new[]{ b, c, a, d};
             ITransitionRule rule = new RuleTwo();
             var cell = a;
             Assert.Same(a.MicroelementMembership, rule.NextState(cell, neighbours));
@@ -43,16 +40,16 @@ namespace Test.Model.Transition
             /// 2 |g|h|i|
             public IEnumerator<object[]> GetEnumerator()
             {                                                  
-                yield return new object[] { a, new Cell[] { a, a, a, null  } }; 
-                yield return new object[] { a, new Cell[] { null, a, a, a  } };
-                yield return new object[] { a, new Cell[] { a, a, null, a   } };  
-                yield return new object[] { a, new Cell[] { a, null, a, a   } };
-                yield return new object[] { a, new Cell[] { a, a, a, a } };
-                yield return new object[] { a, new Cell[] { a, b, a, a   } };
+                yield return new object[] { a, new[] { a, a, a, null  } }; 
+                yield return new object[] { a, new[] { null, a, a, a  } };
+                yield return new object[] { a, new[] { a, a, null, a   } };  
+                yield return new object[] { a, new[] { a, null, a, a   } };
+                yield return new object[] { a, new[] { a, a, a, a } };
+                yield return new object[] { a, new[] { a, b, a, a   } };
                 yield return new object[] { null, new Cell[] { null, null, null, null } };
-                yield return new object[] { null, new Cell[] { a, b, a, b   } };
-                yield return new object[] { null, new Cell[] { a, null, a, null   } };
-                yield return new object[] { null, new Cell[] { a, null, null, a   } };
+                yield return new object[] { null, new[] { a, b, a, b   } };
+                yield return new object[] { null, new[] { a, null, a, null   } };
+                yield return new object[] { null, new[] { a, null, null, a   } };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

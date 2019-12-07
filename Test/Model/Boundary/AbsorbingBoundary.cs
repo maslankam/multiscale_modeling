@@ -1,9 +1,7 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using System.Drawing;
 
 using Model;
-using System.Diagnostics;
 
 namespace Test
 {

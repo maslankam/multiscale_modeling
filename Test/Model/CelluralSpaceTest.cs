@@ -3,7 +3,6 @@ using Xunit;
 using System.Drawing;
 
 using Model;
-using System.Diagnostics;
 
 namespace Test
 {
@@ -32,7 +31,7 @@ namespace Test
         [InlineData(1)]
         public void InvalidArgumentInitializationTest(int size)
         {
-            var ex = Assert.Throws<ArgumentException>(() => new CelluralSpace(size));
+            Assert.Throws<ArgumentException>(() => new CelluralSpace(size));
         }
 
         [Fact]
@@ -41,7 +40,6 @@ namespace Test
             CelluralSpace space = new CelluralSpace(3);
 
             Grain expectedGrain = new Grain(0, 0, Color.White);
-            Cell cell = new Cell(expectedGrain);
 
             space.SetCellMembership(expectedGrain, 1, 1);
             var resultMicroelement = space.GetCell(1, 1).MicroelementMembership;

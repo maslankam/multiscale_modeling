@@ -1,10 +1,7 @@
-using System;
 using Xunit;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Model;
-using System.Diagnostics;
 using GrainGrowthGui;
 using Model.Transition;
 
@@ -55,9 +52,6 @@ namespace Test
             int inclusionsCount = 2;
             int minRadius = 1;
             int maxRadius = 1;
-            bool isSaved = false;
-            bool isGenerated = false;
-            int step = 0;
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
@@ -104,8 +98,8 @@ namespace Test
                     transition,
                     neighbourhood,
                     boundary,
-                    isGenerated,
-                    isSaved,
+                    false,
+                    false,
                     executor
                     );
             
