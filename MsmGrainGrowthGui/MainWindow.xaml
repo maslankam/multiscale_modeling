@@ -95,7 +95,7 @@
                           SelectedValuePath="Name"
                           SelectedValue="{Binding Path=Executor}" >
                 </ComboBox>
-
+                <StackPanel  Name="AutomatonOptions_StackPanel">
                 <Label Content="Boundary" />
                 <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                 DisplayMemberPath="Name"
@@ -108,6 +108,8 @@
                                                                 SelectedValuePath="Name"
                                                                 SelectedValue="{Binding Path=Neighbourhood}">
                 </ComboBox>
+
+                </StackPanel>
                 <Label Content="Grains" />
                 <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainsCount}"/>
                 <Label Content="Space size" />
