@@ -9,6 +9,8 @@ namespace Test
 {
     public class PeriodicBoundaryTest
     {
+    
+
 
         [Fact]
         public void BoundaryTest()
@@ -16,12 +18,18 @@ namespace Test
             IBoundaryCondition boundary = new PeriodicBoundary();
 
             CelluralSpace space = new CelluralSpace(3);
-            int i = 0;
+
+            int index = 0;
             foreach(var cell in space)
             {
-                cell.MicroelementMembership = new Grain(i, i, Color.White);
-                i++;
+                cell.MicroelementMembership = new Grain(index, index, Color.White);
+                index++;
             }
+
+            ///x\y 0 1 2
+            /// 0 |a|b|c|
+            /// 1 |d|e|f|
+            /// 2 |g|h|i|
 
             //N boundary
             Assert.Same(space.GetCell(2,0), boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.N));

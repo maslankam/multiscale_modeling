@@ -1,11 +1,12 @@
 using System;
 using Model;
+using Model.Transition;
 
 namespace GrainGrowthGui
 {
     public class ApplicationState
     {
-        public CelluralAutomaton automaton;
+        public CellularAutomaton automaton;
         public int spaceSize;
         public int grainsCount;
         public int inclusionsCount;
@@ -16,9 +17,10 @@ namespace GrainGrowthGui
         public IBoundaryCondition boundary;
         public bool isAutomatonGenerated;
         public bool isSaved;
+        public ISimulationExecutor executor;
     
         public ApplicationState(
-                    CelluralAutomaton automaton,
+                    CellularAutomaton automaton,
                     int spaceSize,
                     int grainsCount,
                     int inclusionsCount,
@@ -28,7 +30,8 @@ namespace GrainGrowthGui
                     INeighbourhood neighbourhood,
                     IBoundaryCondition boundary,
                     bool isGenerated,
-                    bool isSaved
+                    bool isSaved,
+                    ISimulationExecutor executor
                     ){
                      this.automaton =  automaton;
                     this.spaceSize =  spaceSize;
@@ -41,7 +44,8 @@ namespace GrainGrowthGui
                     this.boundary =  boundary;
                     this.isAutomatonGenerated =  isGenerated;
                     this.isSaved = isSaved;
-                    }
+                    this.executor = executor;
+        }
 
 
         public static IBoundaryCondition GetBoundaryByName(string name)
@@ -76,11 +80,26 @@ namespace GrainGrowthGui
         {
             switch(name)
             {
-                case "Model.GrainGrowthRule":
+                case "Model.Transition.GrainGrowthRule":
                     return new GrainGrowthRule();
                 default: throw new ArgumentException();
             }
         }
+
+        public static ISimulationExecutor GetExecutorByName(string name, int step = 0)
+        {
+            switch (name)
+            {
+                case "Model.SimulationExecutor":
+
+                    return new SimulationExecutor(step);
+                case "Model.CurvatureExecutor":
+                    return new CurvatureExecutor(step);
+
+                default: throw new ArgumentException();
+            }
+        }
+
     }
 
 }

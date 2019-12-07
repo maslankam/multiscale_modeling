@@ -18,13 +18,11 @@
                 <ToolBar>
                     <Button Command="{Binding Open}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/icons/folder.png" />
                             <TextBlock Margin="5,0">Open</TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Padding="5" Command="{Binding SaveAs}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/icons/diskette.png" />
                             <TextBlock Margin="5,0">Save As</TextBlock>
                         </StackPanel>
                     </Button>
@@ -32,13 +30,11 @@
                 <ToolBar>
                     <Button Command="{Binding ExportCsv}">
                         <StackPanel Orientation="Horizontal" >
-                            <Image Source="/icons/excel.png" />
                             <TextBlock Margin="5,0">Export to CSV</TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Command="{Binding ExportPng}">
                         <StackPanel Orientation="Horizontal" IsEnabled="False">
-                            <Image Source="/icons/picture.png" />
                             <TextBlock Margin="5,0">Save image</TextBlock>
                         </StackPanel>
                     </Button>
@@ -89,6 +85,13 @@
                     </StackPanel>
                 </GroupBox>
 
+                <Label Content="Executor" />
+                <ComboBox Name="Executor_ComboBox"  Margin="5" ItemsSource="{Binding Path=Executors}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Name"
+                          SelectedValue="{Binding Path=Executor}" >
+                </ComboBox>
+                <StackPanel  Name="AutomatonOptions_StackPanel">
                 <Label Content="Boundary" />
                 <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                 DisplayMemberPath="Name"
@@ -101,6 +104,8 @@
                                                                 SelectedValuePath="Name"
                                                                 SelectedValue="{Binding Path=Neighbourhood}">
                 </ComboBox>
+
+                </StackPanel>
                 <Label Content="Grains" />
                 <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainsCount}"/>
                 <Label Content="Space size" />

@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
-using GrainGrowthGui;
 using Model;
 using System.Windows.Media.Imaging;
-using System.Drawing.Imaging;
-using System.Windows.Media;
 using System.Xml.Linq;
 using System.IO;
 using Microsoft.Win32;
+using Model.Transition;
+using System.Runtime.CompilerServices;
 
 namespace GrainGrowthGui
 {
     // TODO: SOLID Refactor!!!!!
-    class CelluralAutomatonViewModel
+    class CelluralAutomatonViewModel : INotifyPropertyChanged
     {
         #region Properties
         public int SpaceSize
@@ -62,6 +60,30 @@ namespace GrainGrowthGui
             }
         }
 
+        public List<ISimulationExecutor> Executors
+        {
+            get { return _executors; }
+            set { }
+        }
+
+        public string Executor
+        {
+            get { return _executor.ToString(); }
+            set
+            {
+                _executor = GetExecutorByName("Model." + value);
+                NotifyPropertyChanged();
+            }
+        }
+
+        // TODO: Temporary solution
+        private ISimulationExecutor GetExecutorByName(string name)
+        {
+            if (name == "Model.SimulationExecutor") return new SimulationExecutor();
+            if (name == "Model.CurvatureExecutor") return new CurvatureExecutor();
+            else throw new ArgumentException();
+        }
+
 
         public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { _boundaries = value; } }
         public string Boundary
@@ -69,10 +91,25 @@ namespace GrainGrowthGui
             get { return _boundary.ToString(); }
             set { _boundary = ApplicationState.GetBoundaryByName("Model." + value); } // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
         }
+
+        public bool IsGenerated
+        {
+            get
+            {
+                return _isAutomatonGenerated;
+            }
+            set
+            {
+                _isAutomatonGenerated = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         #endregion
 
         #region private members
-        private CelluralAutomaton _automaton;
+        private CellularAutomaton _automaton;
         private int _spaceSize; 
         private int _grainsCount;
         private int _inclusionsCount;
@@ -87,8 +124,10 @@ namespace GrainGrowthGui
         private bool _isSaved;
         private bool _isRunning;
         BackgroundWorker _worker;
-        List<IBoundaryCondition> _boundaries;
-        List<INeighbourhood> _neighbourhoods;
+        private List<IBoundaryCondition> _boundaries;
+        private List<INeighbourhood> _neighbourhoods;
+        private ISimulationExecutor _executor;
+        private List<ISimulationExecutor> _executors;
 
 
         #endregion
@@ -97,7 +136,7 @@ namespace GrainGrowthGui
         public CelluralAutomatonViewModel()
         {
             // Lazy initialization of automaton.
-            _isAutomatonGenerated = false; 
+            IsGenerated = false; 
             _isRunning = false;
 
             //Default values
@@ -123,6 +162,13 @@ namespace GrainGrowthGui
                 new PentagonNeighbourhood(_boundary)
             };
             _neighbourhood = new VonNeumanNeighbourhood(_boundary);
+
+            _executors = new List<ISimulationExecutor>()
+            {
+                new SimulationExecutor(),
+                new CurvatureExecutor()
+            };
+            _executor = new SimulationExecutor();
         }
         #endregion
 
@@ -134,7 +180,7 @@ namespace GrainGrowthGui
             // Lazy initialization of boundary.
             //_neighbourhood = new MooreNeighbourhood(_boundary);
 
-            _automaton = new CelluralAutomaton(
+            _automaton = new CellularAutomaton(
                 _spaceSize,
                 _grainsCount,
                 _inclusionsCount,
@@ -142,9 +188,10 @@ namespace GrainGrowthGui
                 _maxRadius,
                 _transition,
                 _neighbourhood, 
-                _boundary
+                _boundary,
+                _executor
             );
-            _isAutomatonGenerated = true;
+            IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered?.Invoke(this, _imageSource);
@@ -186,7 +233,7 @@ namespace GrainGrowthGui
         #region ResetCommand
             void ResetExecute()
         {
-           _automaton = new CelluralAutomaton(
+           _automaton = new CellularAutomaton(
                 2,
                 0,
                 0,
@@ -194,9 +241,10 @@ namespace GrainGrowthGui
                 _maxRadius,
                 _transition,
                 _neighbourhood, 
-                _boundary
+                _boundary,
+                _executor
             );
-            _isAutomatonGenerated = false;
+            IsGenerated = false;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
@@ -246,7 +294,7 @@ namespace GrainGrowthGui
                 }
                 _automaton.NextStep();
                 _worker.ReportProgress(0);
-                System.Threading.Thread.Sleep(100); // TODO: Remove magic number! Add slider to GUI
+                System.Threading.Thread.Sleep(80); // TODO: Remove magic number! Add slider to GUI
             }
                 
         }
@@ -335,10 +383,11 @@ namespace GrainGrowthGui
             _transition = state.transition;
             _neighbourhood = state.neighbourhood;
             _boundary = state.boundary;
-            _isAutomatonGenerated = state.isAutomatonGenerated;
+            IsGenerated = state.isAutomatonGenerated;
             _isSaved = state.isSaved;
+            _executor = state.executor;
 
-            _isAutomatonGenerated = true;
+            //IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
@@ -386,7 +435,8 @@ namespace GrainGrowthGui
                     _neighbourhood,
                     _boundary,
                     _isAutomatonGenerated,
-                    _isSaved
+                    _isSaved,
+                    _executor
                     );
             var factory = new XmlFactory();
             var doc = factory.GetXDocument(state);
@@ -487,10 +537,21 @@ namespace GrainGrowthGui
 
 
         public event EventHandler<BitmapSource> ImageRendered;
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessor of each property.  
+        // The CallerMemberName attribute that is applied to the optional propertyName  
+        // parameter causes the property name of the caller to be substituted as an argument.  
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
     }
 
-    
 
 
 

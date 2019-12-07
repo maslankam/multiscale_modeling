@@ -36,7 +36,7 @@ namespace Model
                     }
                     else
                     {
-                        result[0] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.S);
+                        result[0] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.E);
                     }
 
                     //Check W neighbour
@@ -46,80 +46,80 @@ namespace Model
                     }
                     else
                     {
-                        result[1] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.N);
+                        result[1] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.W);
                     }
-                if (r.Next(0, 1) == 0)
-                {
-                    //Check N neighbour
-                    if (x - 1 >= 0)
+                    if (r.Next(0, 1) == 0)
                     {
-                        result[2] = space.GetCell(x - 1, y);
+                        //Check N neighbour
+                        if (x - 1 >= 0)
+                        {
+                            result[2] = space.GetCell(x - 1, y);
+                        }
+                        else
+                        {
+                            result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.N);
+                        }
+
+                        //Check NW neighbour
+                        if (x - 1 >= 0 && y - 1 >= 0)
+                        {
+                            result[3] = space.GetCell(x - 1, y - 1);
+                        }
+                        else
+                        {
+                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
+                        }
+
+                        //Check NE
+                        if (x - 1 >= 0 && y + 1 < space.GetYLength())
+                        {
+                            result[4] = space.GetCell(x - 1, y + 1);
+                        }
+                        else
+                        {
+                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
+                        }
+
+
                     }
                     else
                     {
-                        result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.W);
-                    }
+                        //Check S neighbour
+                        if (x + 1 <= space.GetYLength() - 1)
+                        {
+                            result[2] = space.GetCell(x + 1, y);
+                        }
+                        else
+                        {
+                            result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.S);
+                        }
 
-                    //Check NW neighbour
-                    if (x - 1 >= 0 && y - 1 >= 0)
-                    {
-                        result[3] = space.GetCell(x - 1, y - 1);
-                    }
-                    else
-                    {
-                        result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
-                    }
-
-                    //Check NE
-                    if (x - 1 >= 0 && y + 1 < space.GetYLength())
-                    {
-                        result[4] = space.GetCell(x - 1, y + 1);
-                    }
-                    else
-                    {
-                        result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
-                    }
+                        //Check SE neighbour
+                        if (x + 1 < space.GetXLength() && y + 1 < space.GetYLength())
+                        {
+                            result[3] = space.GetCell(x + 1, y + 1);
+                        }
+                        else
+                        {
+                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
+                        }
 
 
+                        //Check SW neighbour
+                        if (x + 1 < space.GetXLength() && y - 1 >= 0)
+                        {
+                            result[4] = space.GetCell(x + 1, y - 1);
+                        }
+                        else
+                        {
+                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
+                        }
+
+                    }
+                    return result;
                 }
-                else
-                {
-                    //Check S neighbour
-                    if (x + 1 <= space.GetYLength() - 1)
-                    {
-                        result[2] = space.GetCell(x + 1, y);
-                    }
-                    else
-                    {
-                        result[2] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.E);
-                    }
-
-                    //Check SE neighbour
-                    if (x + 1 < space.GetXLength() && y + 1 < space.GetYLength())
-                    {
-                        result[3] = space.GetCell(x + 1, y + 1);
-                    }
-                    else
-                    {
-                        result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
-                    }
-
-
-                    //Check SW neighbour
-                    if (x + 1 < space.GetXLength() && y - 1 >= 0)
-                    {
-                        result[4] = space.GetCell(x + 1, y - 1);
-                    }
-                    else
-                    {
-                        result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
-                    }
-
-                }
-                return result;
-            }
            
-        }
+            }
         public override string ToString()
         {
             return "PentagonNeighbourhood";

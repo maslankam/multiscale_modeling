@@ -35,6 +35,8 @@ namespace GrainGrowthGui
             widowVariables.Add(new XAttribute("Boundary", state.boundary.GetType()));
             widowVariables.Add(new XAttribute("IsGenerated", state.isAutomatonGenerated));
             widowVariables.Add(new XAttribute("IsSaved", state.isSaved));
+            widowVariables.Add(new XAttribute("Step", state.automaton.Step));
+            widowVariables.Add(new XAttribute("Executor", state.executor.GetType()));
             doc.Root.Add(widowVariables);
         }
 

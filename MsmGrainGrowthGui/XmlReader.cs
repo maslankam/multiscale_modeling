@@ -6,12 +6,13 @@ using System.Linq;
 using System.Xml.Linq;
 using Model;
 using System.Drawing;
+using MsmGrainGrowthGui;
 
 namespace GrainGrowthGui
 {
     public class XmlReader
     {
-        private static CelluralAutomaton _automaton;
+        private static CellularAutomaton _automaton;
         private static int _spaceSize;
         private static int _grainsCount;
         private static int _inclusionsCount;
@@ -24,7 +25,8 @@ namespace GrainGrowthGui
         private static bool _isSaved;
         private List<Grain> _grains;
         private List<Inclusion> _inclusions;
-        private int _step;
+        private int _step; // TODO: Add step
+        private ISimulationExecutor _executor;
 
 
         public ApplicationState Read(XDocument doc)
@@ -85,14 +87,15 @@ namespace GrainGrowthGui
 
             var space = new CelluralSpace(cellsArray);
 
-            _automaton = new CelluralAutomaton(
+            _automaton = new CellularAutomaton(
                 space,
                 _grains,
                 _inclusions,
                 _transition,
                 _neighbourhood,
                 _boundary,
-                _step
+                _step,
+                _executor
             );
 
 
@@ -108,7 +111,8 @@ namespace GrainGrowthGui
                 _neighbourhood,
                 _boundary,
                 _isAutomatonGenerated,
-                _isSaved
+                _isSaved,
+                _executor
             );
         }
 
@@ -180,6 +184,11 @@ namespace GrainGrowthGui
 
                 _isSaved = GetValueFromElement(doc, "IsSaved") == "true" ? true : false;
                 _isAutomatonGenerated = GetValueFromElement(doc, "IsGenerated") == "true" ? true : false;
+
+                _step = Convert.ToInt32(GetValueFromElement(doc, "Step"));
+
+                string executorName = (GetValueFromElement(doc, "Executor"));
+                _executor = ApplicationState.GetExecutorByName(executorName, _step);
             }
             catch (Exception e)
             {
