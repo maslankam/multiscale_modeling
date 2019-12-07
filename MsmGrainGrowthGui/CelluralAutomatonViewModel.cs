@@ -72,7 +72,7 @@ namespace GrainGrowthGui
             set
             {
                 _executor = GetExecutorByName("Model." + value);
-                NotifyPropertyChanged("Executor");
+                NotifyPropertyChanged();
             }
         }
 
@@ -91,6 +91,21 @@ namespace GrainGrowthGui
             get { return _boundary.ToString(); }
             set { _boundary = ApplicationState.GetBoundaryByName("Model." + value); } // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
         }
+
+        public bool IsGenerated
+        {
+            get
+            {
+                return _isAutomatonGenerated;
+            }
+            set
+            {
+                _isAutomatonGenerated = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         #endregion
 
         #region private members
@@ -121,7 +136,7 @@ namespace GrainGrowthGui
         public CelluralAutomatonViewModel()
         {
             // Lazy initialization of automaton.
-            _isAutomatonGenerated = false; 
+            IsGenerated = false; 
             _isRunning = false;
 
             //Default values
@@ -176,7 +191,7 @@ namespace GrainGrowthGui
                 _boundary,
                 _executor
             );
-            _isAutomatonGenerated = true;
+            IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered?.Invoke(this, _imageSource);
@@ -229,7 +244,7 @@ namespace GrainGrowthGui
                 _boundary,
                 _executor
             );
-            _isAutomatonGenerated = false;
+            IsGenerated = false;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
@@ -368,10 +383,10 @@ namespace GrainGrowthGui
             _transition = state.transition;
             _neighbourhood = state.neighbourhood;
             _boundary = state.boundary;
-            _isAutomatonGenerated = state.isAutomatonGenerated;
+            IsGenerated = state.isAutomatonGenerated;
             _isSaved = state.isSaved;
 
-            _isAutomatonGenerated = true;
+            //IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
             ImageRendered.Invoke(this, _imageSource);
