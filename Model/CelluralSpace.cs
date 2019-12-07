@@ -6,9 +6,7 @@ using Model.Microelements;
 namespace Model{
     public class CelluralSpace : IEnumerable<Cell>, ICloneable
     {
-        public int Size{
-            get {return _space.GetLength(0); }
-        }
+        public int Size => _space.GetLength(0);
 
         private readonly Cell[,] _space; 
 
@@ -22,9 +20,9 @@ namespace Model{
         public CelluralSpace(Cell[,] cells)
         {
             _space = cells;
-        }   
+        }
 
-        public void Initialize()
+        private void Initialize()
         {
             for (int i = 0; i < _space.GetLength(0); i++)
             {

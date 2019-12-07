@@ -5,12 +5,9 @@ namespace Model.Neighbourhood
     {
         public class PentagonNeighbourhood : INeighbourhood
         {
-            private IBoundaryCondition _boundary;
+            private readonly IBoundaryCondition _boundary;
 
-        public string Name
-        {
-            get { return this.ToString(); }
-        }
+        public string Name => this.ToString();
 
         public PentagonNeighbourhood(IBoundaryCondition boundary)
             {

@@ -61,12 +61,15 @@ namespace Test.GrainGrowthGui
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
             ISimulationExecutor executor = new SimulationExecutor();
 
-            var grains = new List<Grain>();
-            grains.Add(new Grain(0, 0, Color.FromArgb(1,2,3,4)));
-            grains.Add(new Grain(1, 0, Color.FromArgb(5,6,7,8)));
-            var inclusions = new List<Inclusion>();
-            inclusions.Add(new Inclusion(0, 1, 1, Color.FromArgb(1,2,3,4)));
-            inclusions.Add(new Inclusion(1, 1, 1, Color.FromArgb(5,6,7,8)));
+            var grains = new List<Grain>
+            {
+                new Grain(0, 0, Color.FromArgb(1, 2, 3, 4)), new Grain(1, 0, Color.FromArgb(5, 6, 7, 8))
+            };
+            var inclusions = new List<Inclusion>
+            {
+                new Inclusion(0, 1, 1, Color.FromArgb(1, 2, 3, 4)),
+                new Inclusion(1, 1, 1, Color.FromArgb(5, 6, 7, 8))
+            };
 
             var cells = new Cell[spaceSize,spaceSize];
             cells[0,0] = new Cell(grains[0]);

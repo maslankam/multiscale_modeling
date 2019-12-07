@@ -6,9 +6,9 @@ namespace Model.Transition{
     
     public class RuleFour : ITransitionRule
     {
-        public int Threshhold
+        private int Threshhold
         {
-            get {return _threshold;}
+            get => _threshold;
             set
             {
                 if(value > 100) _threshold = 100;
@@ -16,7 +16,7 @@ namespace Model.Transition{
                 _threshold = value;
             }
         }
-        private Random _random;
+        private readonly Random _random;
         private int _threshold;
 
         public RuleFour()
@@ -33,11 +33,11 @@ namespace Model.Transition{
                              where c?.MicroelementMembership?.Id != null && c.MicroelementMembership is Grain
                              group c by c.MicroelementMembership).ToArray();
 
-                if (groups.Count() == 0)
+                if (!groups.Any())
                 {
                     return null;
                 }
-                else if (groups.Count() > 1)
+                else if (groups.Length > 1)
                 {
                     //Check if groups has this same count
                     var top = (from g in groups
@@ -45,7 +45,7 @@ namespace Model.Transition{
                               where g.Count() == maxPower
                               select g.Key).ToArray();
 
-                    int topCount = top.Count();
+                    int topCount = top.Length;
                     if (topCount > 1)
                     {
                         //Take a random one

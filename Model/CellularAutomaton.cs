@@ -91,7 +91,7 @@ namespace Model{
             _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood);
         }
 
-        public void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
+        private void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
         {
             Grains = _grainInitializer.Initialize(grainsCount);
             _grainSeeder.Seed(Space, Grains);

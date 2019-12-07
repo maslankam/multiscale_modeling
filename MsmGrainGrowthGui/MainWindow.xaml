@@ -50,7 +50,7 @@
                 <Border BorderThickness="1" BorderBrush="#FF000000">
                     <Image Name="CelluralSpaceImage" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
                 </Border>
-                <TextBlock Margin="5" Name="StepLabel" ></TextBlock>
+                <TextBlock Margin="5"></TextBlock>
             </StackPanel>
 
             <StackPanel  Margin="5" Grid.Column="1">
@@ -58,7 +58,7 @@
                 <GroupBox Header="Inclusions">
                     <StackPanel>
                         <!--<CheckBox Name="Inclusions_CheckBox" Margin="5">Enabled</CheckBox>-->
-                        <StackPanel Name="InclusionsStackPanel" Visibility="Visible"/>
+                        <StackPanel Visibility="Visible"/>
                         <Label Content="Radius"></Label>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -110,8 +110,8 @@
                 <TextBox Name="GrainsTextBox" Margin="5" Text="{Binding GrainsCount}"/>
                 <Label Content="Space size" />
                 <TextBox Name="SpaceSizeTextBox" Margin="5" Text="{Binding SpaceSize}" />
-                <Button Name="GenerateButton" Margin="5"  Command="{Binding Generate}" >Generate</Button>
-                <Button Name="NextButton" Margin="5"  Command="{Binding Next}" >Next</Button>
+                <Button Margin="5"  Command="{Binding Generate}" >Generate</Button>
+                <Button Margin="5"  Command="{Binding Next}" >Next</Button>
                 <Button Margin="5" Padding="5" Name="RunButton" Command="{Binding Start}">Run</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Stop}">Stop</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>

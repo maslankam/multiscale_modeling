@@ -3,10 +3,7 @@ using Model.Microelements;
 namespace Model{    
     public class Cell
     {
-        public int? Phase 
-        {
-            get{return MicroelementMembership?.Phase;}
-        }
+        public int? Phase => MicroelementMembership?.Phase;
         public Microelement MicroelementMembership { get; set; }
 
         public Cell()

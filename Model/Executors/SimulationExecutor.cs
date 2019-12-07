@@ -5,12 +5,9 @@ using Model.Transition;
 namespace Model.Executors{
     public class SimulationExecutor : ISimulationExecutor
     {
-        public string Name
-        {
-            get { return ToString(); }
-        }
+        public string Name => ToString();
 
-        public int Step{get; private set;}
+        private int Step{get; set;}
 
         public SimulationExecutor(){
         }

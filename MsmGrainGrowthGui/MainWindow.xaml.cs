@@ -8,7 +8,7 @@ namespace GrainGrowthGui
 {
         public partial class MainWindow
         {
-            private CelluralAutomatonViewModel _viewModel;
+            private readonly CelluralAutomatonViewModel _viewModel;
             public MainWindow()
             {
                 InitializeComponent();
@@ -45,15 +45,15 @@ namespace GrainGrowthGui
                         }
                         else
                         {
-                        this.BoundaryComboBox.IsEnabled = true;
-                        this.ExecutorComboBox.IsEnabled = true;
-                        this.NeighbourhoodComboBox.IsEnabled = true;
-                        this.GrainsTextBox.IsEnabled = true;
-                        this.InclusionsCountTextBox.IsEnabled = true;
-                        this.MaxRadiusTextBox.IsEnabled = true;
-                        this.SpaceSizeTextBox.IsEnabled = true;
-                        this.MinRadiusTextBox.IsEnabled = true;
-                    }
+                            this.BoundaryComboBox.IsEnabled = true;
+                            this.ExecutorComboBox.IsEnabled = true;
+                            this.NeighbourhoodComboBox.IsEnabled = true;
+                            this.GrainsTextBox.IsEnabled = true;
+                            this.InclusionsCountTextBox.IsEnabled = true;
+                            this.MaxRadiusTextBox.IsEnabled = true;
+                            this.SpaceSizeTextBox.IsEnabled = true;
+                            this.MinRadiusTextBox.IsEnabled = true;
+                        }
 
                         break;
                 }

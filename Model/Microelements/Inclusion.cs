@@ -4,7 +4,7 @@ namespace Model.Microelements
 {
     public class Inclusion : Microelement
     {
-        public int? Radius{get; set;}
+        public int? Radius{get; }
         public sealed override int? Phase {get; set;}
 
         public sealed override Color Color {get; set;}

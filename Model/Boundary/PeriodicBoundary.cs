@@ -6,13 +6,7 @@ namespace Model.Boundary
 
     public class PeriodicBoundary : IBoundaryCondition
     {
-        public string Name
-        {
-            get
-            {
-                return this.ToString();
-            }
-        }
+        public string Name => this.ToString();
 
         public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction)
         {

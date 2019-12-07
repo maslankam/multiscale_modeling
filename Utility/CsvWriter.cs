@@ -11,18 +11,18 @@ namespace Utility
            //if( File.Exists(path))  throw new IOException("File already exist"); //TODO: overwite logic?? Notify dialog?
            
            if( String.IsNullOrEmpty( Path.GetExtension(path) )) 
-            {
-                Path.ChangeExtension(path, "csv");
-            }
+           {
+               Path.ChangeExtension(path, "csv");
+           }
 
-            try
-            {
-                File.WriteAllText(path, text);
-            }
-            catch(Exception e)
-            {
-                throw new IOException("Cannot write csv file", e);
-            }
+           try
+           {
+               File.WriteAllText(path, text);
+           }
+           catch(Exception e)
+           {
+               throw new IOException("Cannot write csv file", e);
+           }
             
         }
     }

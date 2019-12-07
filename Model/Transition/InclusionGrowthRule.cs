@@ -6,7 +6,7 @@ namespace Model.Transition
 {
     public class InclusionGrowthRule : ITransitionRule
     {
-        private int _step;
+        private readonly int _step;
         public InclusionGrowthRule(int step)
         {
             _step = step;
@@ -28,7 +28,7 @@ namespace Model.Transition
                 {
                     return null;
                 }
-                else if (groups.Count() > 1)
+                else if (groups.Length > 1)
                 {
                     //Check if groups has this same count
                     var top = (from g in groups
@@ -36,7 +36,7 @@ namespace Model.Transition
                               where g.Count() == maxPower
                               select g).ToArray();
 
-                    int topCount = top.Count();
+                    int topCount = top.Length;
                     if (topCount > 1)
                     {
                         //Take a random one

@@ -9,12 +9,9 @@ namespace Model.Neighbourhood
 
     public class MooreNeighbourhood : INeighbourhood 
     {
-        private IBoundaryCondition _boundary;
+        private readonly IBoundaryCondition _boundary;
 
-        public string Name
-        {
-            get { return this.ToString(); }
-        }
+        public string Name => this.ToString();
 
         public MooreNeighbourhood(IBoundaryCondition boundary)
         {

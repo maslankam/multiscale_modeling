@@ -14,7 +14,7 @@ namespace Model.Transition
             int grainsStreak = 0;
             int streakId = -1;
 
-            for (int i = 0 ; i < twiCells.Count(); i++)
+            for (int i = 0 ; i < twiCells.Length; i++)
             {
                 if (twiCells[i]?.MicroelementMembership == null)
                 {

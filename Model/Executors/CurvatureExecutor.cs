@@ -7,13 +7,10 @@ namespace Model.Executors
 {
     public class CurvatureExecutor : ISimulationExecutor
     {
-        public string Name
-        {
-            get => ToString();
-        }
-    
+        public string Name => ToString();
 
-        public int Step { get; private set; }
+
+        private int Step { get; set; }
 
         public CurvatureExecutor()
         {

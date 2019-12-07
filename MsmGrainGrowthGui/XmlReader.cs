@@ -74,7 +74,7 @@ namespace GrainGrowthGui
                                 select g);
 
                     var microelements = element as Microelement[] ?? element.ToArray();
-                    if (microelements.Count() > 1) throw new FormatException("Ambigious element id");
+                    if (microelements.Length > 1) throw new FormatException("Ambigious element id");
 
                     if (microelements.FirstOrDefault() == null) throw new FormatException("Cannot find element referenced in cell");
 
@@ -198,7 +198,7 @@ namespace GrainGrowthGui
             }
         }
 
-        public string GetValueFromElement(XDocument doc, string name, string element = "WindowVariables")
+        private string GetValueFromElement(XDocument doc, string name, string element = "WindowVariables")
         {
            
 

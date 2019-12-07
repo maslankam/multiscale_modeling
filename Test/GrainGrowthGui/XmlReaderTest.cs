@@ -98,12 +98,15 @@ namespace Test.GrainGrowthGui
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
             ISimulationExecutor executor = new SimulationExecutor();
 
-            var grains = new List<Grain>();
-            grains.Add(new Grain(0, 0, Color.FromArgb(1,2,3,4)));
-            grains.Add(new Grain(1, 0, Color.FromArgb(5,6,7,8)));
-            var inclusions = new List<Inclusion>();
-            inclusions.Add(new Inclusion(0, 1, 1, Color.FromArgb(1,2,3,4)));
-            inclusions.Add(new Inclusion(1, 1, 1, Color.FromArgb(5,6,7,8)));
+            var grains = new List<Grain>
+            {
+                new Grain(0, 0, Color.FromArgb(1, 2, 3, 4)), new Grain(1, 0, Color.FromArgb(5, 6, 7, 8))
+            };
+            var inclusions = new List<Inclusion>
+            {
+                new Inclusion(0, 1, 1, Color.FromArgb(1, 2, 3, 4)),
+                new Inclusion(1, 1, 1, Color.FromArgb(5, 6, 7, 8))
+            };
 
             var cells = new Cell[spaceSize,spaceSize];
             cells[0,0] = new Cell(grains[0]);
@@ -149,7 +152,7 @@ namespace Test.GrainGrowthGui
         {
             string xmlState =
 @"<Document>
-  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.SimulationExecutor"" />
+  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.Neighbourhood.VonNeumanNeighbourhood"" Boundary=""Model.Boundary.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.Executors.SimulationExecutor"" />
   <Grains>
     <Grain Id=""0"" P=""0"" A=""1"" R=""2"" G=""3"" B=""4"" />
     <Grain Id=""1"" P=""0"" A=""5"" R=""6"" G=""7"" B=""8"" />
