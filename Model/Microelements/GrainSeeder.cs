@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Model
+namespace Model.Microelements
 {
     public class GrainSeeder
     {

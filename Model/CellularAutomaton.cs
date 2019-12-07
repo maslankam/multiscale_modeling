@@ -1,5 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
+using Model.Transition;
 
 
 namespace Model{

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Model.Microelements;
 
 namespace Model{
     public class CelluralSpace : IEnumerable<Cell>, ICloneable

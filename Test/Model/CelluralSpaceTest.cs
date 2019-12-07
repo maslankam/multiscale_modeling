@@ -1,10 +1,10 @@
 ﻿using System;
-using Xunit;
 using System.Drawing;
-
 using Model;
+using Model.Microelements;
+using Xunit;
 
-namespace Test
+namespace Test.Model
 {
     public class CellueralSpaceTest
     {

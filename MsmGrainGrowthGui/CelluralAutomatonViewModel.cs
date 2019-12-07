@@ -9,6 +9,11 @@ using System.IO;
 using Microsoft.Win32;
 using Model.Transition;
 using System.Runtime.CompilerServices;
+using GrainGrowthGui.Commands;
+using Model.Boundary;
+using Model.Executors;
+using Model.Neighbourhood;
+using Utility;
 
 namespace GrainGrowthGui
 {

@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using Model.Microelements;
 
-
-namespace Model{
+namespace Model.Transition{
     
     public class RuleFour : ITransitionRule
     {

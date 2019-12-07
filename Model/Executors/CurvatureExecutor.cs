@@ -1,7 +1,9 @@
 ﻿using System;
+using Model.Boundary;
+using Model.Neighbourhood;
 using Model.Transition;
 
-namespace Model
+namespace Model.Executors
 {
     public class CurvatureExecutor : ISimulationExecutor
     {

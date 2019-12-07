@@ -1,4 +1,7 @@
-﻿namespace Model
+﻿using Model.Neighbourhood;
+using Model.Transition;
+
+namespace Model.Executors
 {
     public interface ISimulationExecutor
     {

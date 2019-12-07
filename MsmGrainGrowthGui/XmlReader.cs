@@ -4,6 +4,11 @@ using System.Linq;
 using System.Xml.Linq;
 using Model;
 using System.Drawing;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
+using Model.Transition;
 
 namespace GrainGrowthGui
 {

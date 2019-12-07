@@ -1,12 +1,16 @@
-using Xunit;
-using System.Xml.Linq;
-using System.Drawing;
 using System.Collections.Generic;
-using Model;
+using System.Drawing;
+using System.Xml.Linq;
 using GrainGrowthGui;
+using Model;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
 using Model.Transition;
+using Xunit;
 
-namespace Test
+namespace Test.GrainGrowthGui
 {
     public class XmlReaderTest
     {

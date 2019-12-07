@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Model;
+using Model.Microelements;
 using Model.Transition;
 using Xunit;
 

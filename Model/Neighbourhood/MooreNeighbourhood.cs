@@ -1,4 +1,6 @@
-namespace Model
+using Model.Boundary;
+
+namespace Model.Neighbourhood
 {
     /// Moore checks N, E, S, W, NE, SE, SW, NW neighbours and return as Cell array
     /// |X|X|X|

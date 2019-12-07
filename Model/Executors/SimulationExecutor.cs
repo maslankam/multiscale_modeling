@@ -1,6 +1,8 @@
 using System;
+using Model.Neighbourhood;
+using Model.Transition;
 
-namespace Model{
+namespace Model.Executors{
     public class SimulationExecutor : ISimulationExecutor
     {
         public string Name

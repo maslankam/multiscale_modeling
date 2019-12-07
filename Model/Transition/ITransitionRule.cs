@@ -1,4 +1,6 @@
-namespace Model{
+using Model.Microelements;
+
+namespace Model.Transition{
     
     
     public interface ITransitionRule 

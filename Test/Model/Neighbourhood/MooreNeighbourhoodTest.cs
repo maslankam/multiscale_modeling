@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Model;
+using Model.Boundary;
+using Model.Microelements;
+using Model.Neighbourhood;
 using Xunit;
 
-namespace Test
+namespace Test.Model.Neighbourhood
 {
     public class MooreNeighbourhoodTest
     {

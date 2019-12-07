@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Model
+namespace Utility
 {
     public static class CsvWriter
     {

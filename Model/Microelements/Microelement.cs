@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace Model{
+namespace Model.Microelements{
     
     public abstract class Microelement
     {

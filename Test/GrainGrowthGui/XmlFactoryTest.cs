@@ -1,11 +1,15 @@
-using Xunit;
-using System.Drawing;
 using System.Collections.Generic;
-using Model;
+using System.Drawing;
 using GrainGrowthGui;
+using Model;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
 using Model.Transition;
+using Xunit;
 
-namespace Test
+namespace Test.GrainGrowthGui
 {
     public class XmlFactoryTest
     {
@@ -16,7 +20,7 @@ namespace Test
             #region expectedXml
             string expected =
 @"<Document>
-  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.SimulationExecutor"" />
+  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.Neighbourhood.VonNeumanNeighbourhood"" Boundary=""Model.Boundary.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.Executors.SimulationExecutor"" />
   <Grains>
     <Grain Id=""0"" P=""0"" A=""1"" R=""2"" G=""3"" B=""4"" />
     <Grain Id=""1"" P=""0"" A=""5"" R=""6"" G=""7"" B=""8"" />

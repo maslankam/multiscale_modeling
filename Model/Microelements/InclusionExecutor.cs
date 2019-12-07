@@ -1,6 +1,8 @@
-﻿using Model.Transition;
+﻿using Model.Boundary;
+using Model.Neighbourhood;
+using Model.Transition;
 
-namespace Model
+namespace Model.Microelements
 {
     class InclusionExecutor
     {

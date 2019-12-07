@@ -1,4 +1,4 @@
-namespace Model{
+namespace Model.Boundary{
     
     public enum BoundaryDirection{
         N, Ne, E, Se , S, Sw, W, Nw

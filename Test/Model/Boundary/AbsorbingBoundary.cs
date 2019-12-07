@@ -1,9 +1,10 @@
-﻿using Xunit;
-using System.Drawing;
-
+﻿using System.Drawing;
 using Model;
+using Model.Boundary;
+using Model.Microelements;
+using Xunit;
 
-namespace Test
+namespace Test.Model.Boundary
 {
     public class AbsorbingBoundaryTest
     {

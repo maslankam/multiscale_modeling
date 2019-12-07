@@ -1,6 +1,7 @@
 ﻿using System;
+using Model.Boundary;
 
-namespace Model
+namespace Model.Neighbourhood
 {
     public class HexagonNeighborhood : INeighbourhood
     {

@@ -1,5 +1,8 @@
 using System;
 using Model;
+using Model.Boundary;
+using Model.Executors;
+using Model.Neighbourhood;
 using Model.Transition;
 
 namespace GrainGrowthGui
@@ -52,9 +55,9 @@ namespace GrainGrowthGui
         {
             switch(name)
             {
-                case "Model.AbsorbingBoundary": 
+                case "Model.Boundary.AbsorbingBoundary": 
                     return new AbsorbingBoundary();
-                case "Model.PeriodicBoundary":
+                case "Model.Boundary.PeriodicBoundary":
                     return new PeriodicBoundary();
                 default: throw new ArgumentException();
             }
@@ -64,13 +67,13 @@ namespace GrainGrowthGui
         {
             switch(name)
             {
-                case "Model.HexagonNeighbourhood":
+                case "Model.Neighbourhood.HexagonNeighbourhood":
                     return new HexagonNeighborhood(boundary);
-                case "Model.MooreNeighbourhood":
+                case "Model.Neighbourhood.MooreNeighbourhood":
                     return new MooreNeighbourhood(boundary);
-                case "Model.PentagonNeighbourhood":
+                case "Model.Neighbourhood.PentagonNeighbourhood":
                     return new PentagonNeighbourhood(boundary);
-                case "Model.VonNeumanNeighbourhood":
+                case "Model.Neighbourhood.VonNeumanNeighbourhood":
                     return new VonNeumanNeighbourhood(boundary);
                 default: throw new ArgumentException();
             }
@@ -90,10 +93,10 @@ namespace GrainGrowthGui
         {
             switch (name)
             {
-                case "Model.SimulationExecutor":
+                case "Model.Executors.SimulationExecutor":
 
                     return new SimulationExecutor(step);
-                case "Model.CurvatureExecutor":
+                case "Model.Executors.CurvatureExecutor":
                     return new CurvatureExecutor(step);
 
                 default: throw new ArgumentException();

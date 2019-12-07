@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace GrainGrowthGui
+namespace GrainGrowthGui.Commands
 {
     public class Command : ICommand
     {

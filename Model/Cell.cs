@@ -1,3 +1,5 @@
+using Model.Microelements;
+
 namespace Model{    
     public class Cell
     {

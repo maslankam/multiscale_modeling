@@ -1,4 +1,6 @@
-namespace Model{
+using Model.Boundary;
+
+namespace Model.Neighbourhood{
     /// Von Neuman checks N, E, S, W neighbours and return as Cell array[N,E,S,W]
     /// |_|X|_|
     /// |X|c|X|

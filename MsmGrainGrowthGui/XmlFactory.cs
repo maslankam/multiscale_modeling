@@ -75,9 +75,9 @@ namespace GrainGrowthGui
                 var id = new XAttribute("Id", inclusion.Id);
                 inclusionXmlElement.Add(id);
 
-                var phase = new XAttribute("P", inclusion.Phase);
+                var phase = new XAttribute("P", inclusion.Phase ?? throw new InvalidOperationException());
                 inclusionXmlElement.Add(phase);
-                inclusionXmlElement.Add(new XAttribute("Rad", inclusion.Radius));
+                inclusionXmlElement.Add(new XAttribute("Rad", inclusion.Radius ?? throw new InvalidOperationException()));
                 inclusionXmlElement.Add(new XAttribute("A", inclusion.Color.A));
                 inclusionXmlElement.Add(new XAttribute("R", inclusion.Color.R));
                 inclusionXmlElement.Add(new XAttribute("G", inclusion.Color.G));
@@ -97,7 +97,7 @@ namespace GrainGrowthGui
                 var grainXmlElement = new XElement("Grain");
 
                 grainXmlElement.Add(new XAttribute("Id", grain.Id));
-                grainXmlElement.Add(new XAttribute("P", grain.Phase));
+                grainXmlElement.Add(new XAttribute("P", grain.Phase ?? throw new InvalidOperationException()));
                 grainXmlElement.Add(new XAttribute("A", grain.Color.A));
                 grainXmlElement.Add(new XAttribute("R", grain.Color.R));
                 grainXmlElement.Add(new XAttribute("G", grain.Color.G));
