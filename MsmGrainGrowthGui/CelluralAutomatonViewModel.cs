@@ -8,11 +8,12 @@ using System.Xml.Linq;
 using System.IO;
 using Microsoft.Win32;
 using Model.Transition;
+using System.Runtime.CompilerServices;
 
 namespace GrainGrowthGui
 {
     // TODO: SOLID Refactor!!!!!
-    class CelluralAutomatonViewModel
+    class CelluralAutomatonViewModel : INotifyPropertyChanged
     {
         #region Properties
         public int SpaceSize
@@ -71,6 +72,7 @@ namespace GrainGrowthGui
             set
             {
                 _executor = GetExecutorByName("Model." + value);
+                NotifyPropertyChanged("Executor");
             }
         }
 
@@ -518,10 +520,21 @@ namespace GrainGrowthGui
 
 
         public event EventHandler<BitmapSource> ImageRendered;
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessor of each property.  
+        // The CallerMemberName attribute that is applied to the optional propertyName  
+        // parameter causes the property name of the caller to be substituted as an argument.  
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
     }
 
-    
 
 
 
