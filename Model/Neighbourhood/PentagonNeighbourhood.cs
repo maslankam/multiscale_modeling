@@ -67,7 +67,7 @@ namespace Model
                         }
                         else
                         {
-                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
+                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Nw);
                         }
 
                         //Check NE
@@ -77,7 +77,7 @@ namespace Model
                         }
                         else
                         {
-                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
+                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Ne);
                         }
 
 
@@ -101,7 +101,7 @@ namespace Model
                         }
                         else
                         {
-                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
+                            result[3] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Se);
                         }
 
 
@@ -112,7 +112,7 @@ namespace Model
                         }
                         else
                         {
-                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
+                            result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Sw);
                         }
 
                     }

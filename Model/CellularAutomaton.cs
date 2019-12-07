@@ -53,8 +53,7 @@ namespace Model{
             List<Inclusion> inclusions,
             ITransitionRule transition,
             INeighbourhood neighbourhood,
-            IBoundaryCondition boundary,
-            int step, ISimulationExecutor executor)
+            IBoundaryCondition boundary, ISimulationExecutor executor)
         {
             if (transition == null     ||
                 neighbourhood == null  ||

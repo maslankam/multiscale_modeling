@@ -1,14 +1,12 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 
 
 namespace GrainGrowthGui
 {
-        public partial class MainWindow : Window
+        public partial class MainWindow
         {
             private CelluralAutomatonViewModel _viewModel;
             public MainWindow()
@@ -29,32 +27,32 @@ namespace GrainGrowthGui
                 switch (e.PropertyName)
                 {
                     case "Executor":
-                        this.AutomatonOptions_StackPanel.Visibility = _viewModel.Executor == "SimulationExecutor"
+                        this.AutomatonOptionsStackPanel.Visibility = _viewModel.Executor == "SimulationExecutor"
                             ? Visibility.Visible
                             : Visibility.Hidden;
                         break;
                     case "IsGenerated":
                         if (_viewModel.IsGenerated)
                         {
-                            this.Boundary_ComboBox.IsEnabled = false;
-                            this.Executor_ComboBox.IsEnabled = false;
-                            this.Neighbourhood_ComboBox.IsEnabled = false;
-                            this.Grains_TextBox.IsEnabled = false;
-                            this.InclusionsCount_TextBox.IsEnabled = false;
-                            this.MaxRadius_TextBox.IsEnabled = false;
-                            this.SpaceSize_TextBox.IsEnabled = false;
-                            this.MinRadius_TextBox.IsEnabled = false;
+                            this.BoundaryComboBox.IsEnabled = false;
+                            this.ExecutorComboBox.IsEnabled = false;
+                            this.NeighbourhoodComboBox.IsEnabled = false;
+                            this.GrainsTextBox.IsEnabled = false;
+                            this.InclusionsCountTextBox.IsEnabled = false;
+                            this.MaxRadiusTextBox.IsEnabled = false;
+                            this.SpaceSizeTextBox.IsEnabled = false;
+                            this.MinRadiusTextBox.IsEnabled = false;
                         }
                         else
                         {
-                        this.Boundary_ComboBox.IsEnabled = true;
-                        this.Executor_ComboBox.IsEnabled = true;
-                        this.Neighbourhood_ComboBox.IsEnabled = true;
-                        this.Grains_TextBox.IsEnabled = true;
-                        this.InclusionsCount_TextBox.IsEnabled = true;
-                        this.MaxRadius_TextBox.IsEnabled = true;
-                        this.SpaceSize_TextBox.IsEnabled = true;
-                        this.MinRadius_TextBox.IsEnabled = true;
+                        this.BoundaryComboBox.IsEnabled = true;
+                        this.ExecutorComboBox.IsEnabled = true;
+                        this.NeighbourhoodComboBox.IsEnabled = true;
+                        this.GrainsTextBox.IsEnabled = true;
+                        this.InclusionsCountTextBox.IsEnabled = true;
+                        this.MaxRadiusTextBox.IsEnabled = true;
+                        this.SpaceSizeTextBox.IsEnabled = true;
+                        this.MinRadiusTextBox.IsEnabled = true;
                     }
 
                         break;

@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace Model{
     public class CelluralSpace : IEnumerable<Cell>, ICloneable
     {
         public int Size{
             get {return _space.GetLength(0); }
-            private set{}
         }
 
         private readonly Cell[,] _space; 
@@ -80,17 +78,17 @@ namespace Model{
         }
 
         object ICloneable.Clone(){
-            return (object)Clone();
+            return Clone();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
+            return GetEnumerator();
         }
 
         IEnumerator<Cell> IEnumerable<Cell>.GetEnumerator()
         {
-            return (IEnumerator<Cell>)GetEnumerator();
+            return GetEnumerator();
         }
         
     

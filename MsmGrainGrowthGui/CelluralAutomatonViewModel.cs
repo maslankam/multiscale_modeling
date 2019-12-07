@@ -49,7 +49,7 @@ namespace GrainGrowthGui
         public List<INeighbourhood> Neighbourhoods
         {
             get { return _neighbourhoods; }
-            set { }
+            set { _neighbourhoods = value; }
         }
 
         public string Neighbourhood
@@ -63,7 +63,7 @@ namespace GrainGrowthGui
         public List<ISimulationExecutor> Executors
         {
             get { return _executors; }
-            set { }
+            set { _executors = value; }
         }
 
         public string Executor
@@ -215,7 +215,7 @@ namespace GrainGrowthGui
            
             _automaton.NextStep();
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
             //render
         }
 
@@ -247,7 +247,7 @@ namespace GrainGrowthGui
             IsGenerated = false;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
            //render
         }
 
@@ -287,7 +287,7 @@ namespace GrainGrowthGui
         {
             while(true)
             {
-                if (_worker.CancellationPending == true)
+                if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
@@ -304,7 +304,7 @@ namespace GrainGrowthGui
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -360,7 +360,7 @@ namespace GrainGrowthGui
         {
             // TODO: Add file dialog!
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            string path = "";
+            string path;
             if (openFileDialog.ShowDialog() == true)
             {
                 path = openFileDialog.FileName;
@@ -374,23 +374,23 @@ namespace GrainGrowthGui
             var reader = new XmlReader();
             var state = reader.Read(doc);
 
-            _automaton = state.automaton;
-            _spaceSize = state.spaceSize;
-            _grainsCount = state.grainsCount;
-            _inclusionsCount = state.inclusionsCount;
-            _minRadius = state.minRadius;
-            _maxRadius = state.maxRadius;
-            _transition = state.transition;
-            _neighbourhood = state.neighbourhood;
-            _boundary = state.boundary;
-            IsGenerated = state.isAutomatonGenerated;
-            _isSaved = state.isSaved;
-            _executor = state.executor;
+            _automaton = state.Automaton;
+            _spaceSize = state.SpaceSize;
+            _grainsCount = state.GrainsCount;
+            _inclusionsCount = state.InclusionsCount;
+            _minRadius = state.MinRadius;
+            _maxRadius = state.MaxRadius;
+            _transition = state.Transition;
+            _neighbourhood = state.Neighbourhood;
+            _boundary = state.Boundary;
+            IsGenerated = state.IsAutomatonGenerated;
+            _isSaved = state.IsSaved;
+            _executor = state.Executor;
 
             //IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
         bool CanOpenExecute()

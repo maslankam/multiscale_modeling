@@ -21,23 +21,23 @@ namespace Test
 
             var result = reader.Read(input);
 
-            Assert.Equal(expected.automaton.Step, result.automaton.Step);
-            Assert.Equal(expected.boundary.GetType(), result.boundary.GetType());
-            Assert.Equal(expected.neighbourhood.GetType(), result.neighbourhood.GetType()); 
-            Assert.Equal(expected.transition.GetType(), result.transition.GetType());
-            Assert.Equal(expected.inclusionsCount, result.inclusionsCount );
-            Assert.Equal(expected.grainsCount, result.grainsCount);
-            Assert.Equal(expected.isAutomatonGenerated, result.isAutomatonGenerated);
-            Assert.Equal(expected.isSaved, result.isSaved);
-            Assert.Equal(expected.maxRadius, result.maxRadius);
-            Assert.Equal(expected.minRadius, result.minRadius);
-            Assert.Equal(expected.spaceSize, result.spaceSize);
-            Assert.Equal(expected.executor.GetType(), result.executor.GetType());
+            Assert.Equal(expected.Automaton.Step, result.Automaton.Step);
+            Assert.Equal(expected.Boundary.GetType(), result.Boundary.GetType());
+            Assert.Equal(expected.Neighbourhood.GetType(), result.Neighbourhood.GetType()); 
+            Assert.Equal(expected.Transition.GetType(), result.Transition.GetType());
+            Assert.Equal(expected.InclusionsCount, result.InclusionsCount );
+            Assert.Equal(expected.GrainsCount, result.GrainsCount);
+            Assert.Equal(expected.IsAutomatonGenerated, result.IsAutomatonGenerated);
+            Assert.Equal(expected.IsSaved, result.IsSaved);
+            Assert.Equal(expected.MaxRadius, result.MaxRadius);
+            Assert.Equal(expected.MinRadius, result.MinRadius);
+            Assert.Equal(expected.SpaceSize, result.SpaceSize);
+            Assert.Equal(expected.Executor.GetType(), result.Executor.GetType());
 
             int i = 0;
-            foreach(var grain in expected.automaton.Grains)
+            foreach(var grain in expected.Automaton.Grains)
             {
-                var resultGrain = result.automaton.Grains[i];
+                var resultGrain = result.Automaton.Grains[i];
                 Assert.Equal(grain.Id, resultGrain.Id);
                 Assert.Equal(grain.Phase, resultGrain.Phase);
                 Assert.Equal(grain.Color, resultGrain.Color);
@@ -45,9 +45,9 @@ namespace Test
             }
 
             i = 0;
-            foreach(var inclusion in expected.automaton.Inclusions)
+            foreach(var inclusion in expected.Automaton.Inclusions)
             {
-                var resultInclusion = result.automaton.Inclusions[i];
+                var resultInclusion = result.Automaton.Inclusions[i];
                 Assert.Equal(inclusion.Id, resultInclusion.Id);
                 Assert.Equal(inclusion.Phase, resultInclusion.Phase);
                 Assert.Equal(inclusion.Color, resultInclusion.Color);
@@ -55,8 +55,8 @@ namespace Test
                 i++;
             }
 
-            var exSpace = expected.automaton.Space;
-            var reSpace = result.automaton.Space;
+            var exSpace = expected.Automaton.Space;
+            var reSpace = result.Automaton.Space;
 
             for(i = 0; i < exSpace.GetXLength(); i++)
             {
@@ -127,7 +127,6 @@ namespace Test
                 transition,
                 neighbourhood,
                 boundary,
-                step,
                 executor
             );
 

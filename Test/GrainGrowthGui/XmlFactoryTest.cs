@@ -91,7 +91,6 @@ namespace Test
                 transition,
                 neighbourhood,
                 boundary,
-                step,
                 executor
             );
 

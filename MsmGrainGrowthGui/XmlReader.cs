@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Model;
 using System.Drawing;
-using MsmGrainGrowthGui;
 
 namespace GrainGrowthGui
 {
@@ -45,9 +42,9 @@ namespace GrainGrowthGui
             int ySize = Convert.ToInt32(GetValueFromElement(doc, "ySize", "Cells"));
 
 
-            var cells = from c in doc.Root.Descendants()
+            var cells = from c in doc.Root?.Descendants()
                         where c.Name == "C"
-                        select new { id = c.Attribute("i").Value, phase = c.Attribute("p").Value};
+                        select new { id = c.Attribute("i")?.Value, phase = c.Attribute("p")?.Value};
 
             int i = 0;
             int j = 0;
@@ -71,11 +68,12 @@ namespace GrainGrowthGui
                                 where (g.Id == id && g.Phase == phase)
                                 select g);
 
-                    if (element.Count() > 1) throw new FormatException("Ambigious element id");
+                    var microelements = element as Microelement[] ?? element.ToArray();
+                    if (microelements.Count() > 1) throw new FormatException("Ambigious element id");
 
-                    if (element.FirstOrDefault() == null) throw new FormatException("Cannot find element referenced in cell");
+                    if (microelements.FirstOrDefault() == null) throw new FormatException("Cannot find element referenced in cell");
 
-                    cellsArray[i, j] = new Cell(element.FirstOrDefault());
+                    cellsArray[i, j] = new Cell(microelements.FirstOrDefault());
                     
                 }
                 else
@@ -94,7 +92,6 @@ namespace GrainGrowthGui
                 _transition,
                 _neighbourhood,
                 _boundary,
-                _step,
                 _executor
             );
 
@@ -120,17 +117,17 @@ namespace GrainGrowthGui
         {
             _inclusions = new List<Inclusion>();
 
-            var querry = (from g in doc.Root.Descendants()
+            var querry = (from g in doc.Root?.Descendants()
                           where g.Name == "Inclusion"
                           select new Inclusion(
-                                        Convert.ToInt32(g.Attribute("Id").Value),
-                                        Convert.ToInt32(g.Attribute("P").Value),
-                                        Convert.ToInt32(g.Attribute("Rad").Value),
+                                        Convert.ToInt32(g.Attribute("Id")?.Value),
+                                        Convert.ToInt32(g.Attribute("P")?.Value),
+                                        Convert.ToInt32(g.Attribute("Rad")?.Value),
                                         Color.FromArgb(
-                                            Convert.ToInt32(g.Attribute("A").Value),
-                                            Convert.ToInt32(g.Attribute("R").Value),
-                                            Convert.ToInt32(g.Attribute("G").Value),
-                                            Convert.ToInt32(g.Attribute("B").Value)
+                                            Convert.ToInt32(g.Attribute("A")?.Value),
+                                            Convert.ToInt32(g.Attribute("R")?.Value),
+                                            Convert.ToInt32(g.Attribute("G")?.Value),
+                                            Convert.ToInt32(g.Attribute("B")?.Value)
                                         )));
             foreach(var inclusion in querry)
             {
@@ -142,16 +139,16 @@ namespace GrainGrowthGui
         {
             _grains = new List<Grain>();
 
-            var querry = (from g in doc.Root.Descendants()
+            var querry = (from g in doc.Root?.Descendants()
                               where g.Name == "Grain"
                               select new Grain(
-                                          Convert.ToInt32(g.Attribute("Id").Value),
-                                          Convert.ToInt32(g.Attribute("P").Value),
+                                          Convert.ToInt32(g.Attribute("Id")?.Value),
+                                          Convert.ToInt32(g.Attribute("P")?.Value),
                                           Color.FromArgb(
-                                              Convert.ToInt32(g.Attribute("A").Value),
-                                              Convert.ToInt32(g.Attribute("R").Value),
-                                              Convert.ToInt32(g.Attribute("G").Value),
-                                              Convert.ToInt32(g.Attribute("B").Value)
+                                              Convert.ToInt32(g.Attribute("A")?.Value),
+                                              Convert.ToInt32(g.Attribute("R")?.Value),
+                                              Convert.ToInt32(g.Attribute("G")?.Value),
+                                              Convert.ToInt32(g.Attribute("B")?.Value)
                                           )));
             foreach(var grain in querry)
             {
@@ -182,8 +179,8 @@ namespace GrainGrowthGui
                 string neighbourhoodName = (GetValueFromElement(doc, "Neighbourhood"));
                 _neighbourhood = ApplicationState.GetNeighbourhoodByName(neighbourhoodName, _boundary);
 
-                _isSaved = GetValueFromElement(doc, "IsSaved") == "true" ? true : false;
-                _isAutomatonGenerated = GetValueFromElement(doc, "IsGenerated") == "true" ? true : false;
+                _isSaved = GetValueFromElement(doc, "IsSaved") == "true";
+                _isAutomatonGenerated = GetValueFromElement(doc, "IsGenerated") == "true";
 
                 _step = Convert.ToInt32(GetValueFromElement(doc, "Step"));
 
@@ -200,9 +197,9 @@ namespace GrainGrowthGui
         {
            
 
-            var result = (from v in doc.Root.Elements()
+            var result = (from v in doc.Root?.Elements()
                           where v.Name == element
-                          select v.Attribute(name).Value).First();
+                          select v.Attribute(name)?.Value).First();
             return result;
         }
 
@@ -212,12 +209,12 @@ namespace GrainGrowthGui
 
             foreach(var grain in grains)
             {
-                elements.Add((Microelement)grain);
+                elements.Add(grain);
             }
 
             foreach(var inclusion in inclusions)
             {
-                elements.Add((Microelement)inclusion);
+                elements.Add(inclusion);
             }
 
             return elements;

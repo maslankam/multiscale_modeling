@@ -1,9 +1,7 @@
-using System;
-
 namespace Model{
     
     public enum BoundaryDirection{
-        N, NE, E, SE , S, SW, W, NW
+        N, Ne, E, Se , S, Sw, W, Nw
     }
 
     public interface IBoundaryCondition 
