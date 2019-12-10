@@ -10,7 +10,10 @@ namespace Model.Executors
         public string Name => ToString();
 
 
-        private int Step { get; set; }
+        public int Step { get; set; }
+
+        public int Threshold { get; set; }
+
 
         public CurvatureExecutor()
         {
@@ -67,10 +70,11 @@ namespace Model.Executors
                         continue;
                     }
 
-                    nei = new FurtherMooreNeighbourhood(new AbsorbingBoundary());
-                    rule = new RuleFour();
+                    nei = new MooreNeighbourhood(new AbsorbingBoundary());
+                    var ruleFour = new RuleFour();
+                    ruleFour.Threshhold = Threshold;
                     neighbours = nei.GetNeighbours(lastSpace, i, j);
-                    element = rule.NextState(space.GetCell(i, j), neighbours);
+                    element = ruleFour.NextState(space.GetCell(i, j), neighbours);
                     space.SetCellMembership(element, i, j);
 
                 }

@@ -91,19 +91,24 @@
                           SelectedValuePath="Name"
                           SelectedValue="{Binding Path=Executor}" >
                 </ComboBox>
+                <StackPanel  Name="ThresholdStackPanel">
+                    <Label Content="Threshold" />
+                    <TextBox Name="ThresholdTextBox" Margin="5" Text="{Binding Threshold}"/>
+                </StackPanel>
                 <StackPanel  Name="AutomatonOptionsStackPanel">
-                <Label Content="Boundary" />
-                <ComboBox Name="BoundaryComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
-                                                                DisplayMemberPath="Name"
-                                                                SelectedValuePath="Name"
-                                                                SelectedValue="{Binding Path=Boundary}" > 
-                </ComboBox>
-                <Label Content="Neighborhood" />
-                <ComboBox Name="NeighbourhoodComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
-                                                                DisplayMemberPath="Name"
-                                                                SelectedValuePath="Name"
-                                                                SelectedValue="{Binding Path=Neighbourhood}">
-                </ComboBox>
+                    
+                    <Label Content="Boundary" />
+                    <ComboBox Name="BoundaryComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
+                                                                    DisplayMemberPath="Name"
+                                                                    SelectedValuePath="Name"
+                                                                    SelectedValue="{Binding Path=Boundary}" > 
+                    </ComboBox>
+                    <Label Content="Neighborhood" />
+                    <ComboBox Name="NeighbourhoodComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
+                                                                    DisplayMemberPath="Name"
+                                                                    SelectedValuePath="Name"
+                                                                    SelectedValue="{Binding Path=Neighbourhood}">
+                    </ComboBox>
 
                 </StackPanel>
                 <Label Content="Grains" />

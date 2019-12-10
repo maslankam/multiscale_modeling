@@ -66,19 +66,20 @@ namespace GrainGrowthGui
             get => _executor.ToString();
             set
             {
-                _executor = GetExecutorByName("Model." + value);
+                _executor = ApplicationState.GetExecutorByName("Model.Executors." + value);
+                if (_executor is CurvatureExecutor)
+                {
+                    (_executor as CurvatureExecutor).Threshold = _threshold;
+                }
                 NotifyPropertyChanged();
             }
         }
 
-        // TODO: Temporary solution
-        private ISimulationExecutor GetExecutorByName(string name)
+        public string Threshold
         {
-            if (name == "Model.SimulationExecutor") return new SimulationExecutor();
-            if (name == "Model.CurvatureExecutor") return new CurvatureExecutor();
-            else throw new ArgumentException();
+            get => _threshold.ToString(); 
+            set => _threshold = Convert.ToInt32(value);
         }
-
 
         public List<IBoundaryCondition> Boundaries { get => _boundaries;
             set => _boundaries = value;
@@ -87,7 +88,7 @@ namespace GrainGrowthGui
         {
             get => _boundary.ToString();
             set => _boundary = ApplicationState.GetBoundaryByName("Model." + value);
-// TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
+        // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
         }
 
         public bool IsGenerated
@@ -121,6 +122,7 @@ namespace GrainGrowthGui
         BackgroundWorker _worker;
         private List<IBoundaryCondition> _boundaries;
         private ISimulationExecutor _executor;
+        private int _threshold;
 
         #endregion
 
@@ -138,7 +140,9 @@ namespace GrainGrowthGui
             _minRadius = 1;
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
+            _threshold = 90;
             
+
             _renderEngine = new SpaceRenderingEngine();
 
             _boundaries = new List<IBoundaryCondition>() {
