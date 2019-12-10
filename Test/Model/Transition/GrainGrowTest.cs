@@ -1,12 +1,12 @@
-using System;
-using Xunit;
 using System.Drawing;
-
 using Model;
-using System.Diagnostics;
+using Model.Boundary;
+using Model.Microelements;
+using Model.Neighbourhood;
 using Model.Transition;
+using Xunit;
 
-namespace Test
+namespace Test.Model.Transition
 {
     public class GrainGrowTest
     {

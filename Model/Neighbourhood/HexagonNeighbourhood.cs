@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using Model.Boundary;
 
-namespace Model
+namespace Model.Neighbourhood
 {
     public class HexagonNeighborhood : INeighbourhood
     {
-        private IBoundaryCondition _boundary;
+        private readonly IBoundaryCondition _boundary;
 
-        public string Name
-        {
-            get { return this.ToString();}
-        }
+        public string Name => this.ToString();
 
         public HexagonNeighborhood(IBoundaryCondition boundary)
         {
@@ -40,7 +37,7 @@ namespace Model
                 }
                 else
                 {
-                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NE);
+                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Ne);
                 }
                 //Check SW neighbour
                 if (x + 1 < space.GetXLength() && y - 1 >= 0)
@@ -49,7 +46,7 @@ namespace Model
                 }
                 else
                 {
-                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SW);
+                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Sw);
                 }
             }
             else
@@ -61,7 +58,7 @@ namespace Model
                 }
                 else
                 {
-                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.SE);
+                    result[4] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Se);
                 }
                 //Check NW neighbour
                 if (x - 1 >= 0 && y - 1 >= 0)
@@ -70,7 +67,7 @@ namespace Model
                 }
                 else
                 {
-                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.NW);
+                    result[5] = _boundary.GetBoundaryNeighbour(space, x, y, BoundaryDirection.Nw);
                 }
             }
             return result;

@@ -48,9 +48,9 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000">
-                    <Image Name="CelluralSpaceImage" Grid.Column="0" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
+                    <Image Name="CelluralSpaceImage" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
                 </Border>
-                <TextBlock Margin="5" Name="Step_Label" ></TextBlock>
+                <TextBlock Margin="5"></TextBlock>
             </StackPanel>
 
             <StackPanel  Margin="5" Grid.Column="1">
@@ -58,7 +58,7 @@
                 <GroupBox Header="Inclusions">
                     <StackPanel>
                         <!--<CheckBox Name="Inclusions_CheckBox" Margin="5">Enabled</CheckBox>-->
-                        <StackPanel Name="Inclusions_StackPanel" Visibility="Visible"/>
+                        <StackPanel Visibility="Visible"/>
                         <Label Content="Radius"></Label>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -68,9 +68,9 @@
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Min:" />
-                            <TextBox Name="MinRadius_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MinRadius}" />
+                            <TextBox Name="MinRadiusTextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MinRadius}" />
                             <Label Grid.Column="2" Content="Max:" />
-                            <TextBox Name="MaxRadius_TextBox" Grid.Column="3" Margin="5" Text="{Binding MaxRadius}"/>
+                            <TextBox Name="MaxRadiusTextBox" Grid.Column="3" Margin="5" Text="{Binding MaxRadius}"/>
                         </Grid>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -79,27 +79,27 @@
                                 <ColumnDefinition Width="1.6*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Count:"></Label>
-                            <TextBox Name="InclusionsCount_TextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding InclusionsCount}" />
+                            <TextBox Name="InclusionsCountTextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding InclusionsCount}" />
                         </Grid>
 
                     </StackPanel>
                 </GroupBox>
 
                 <Label Content="Executor" />
-                <ComboBox Name="Executor_ComboBox"  Margin="5" ItemsSource="{Binding Path=Executors}"
+                <ComboBox Name="ExecutorComboBox"  Margin="5" ItemsSource="{Binding Path=Executors}"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Name"
                           SelectedValue="{Binding Path=Executor}" >
                 </ComboBox>
-                <StackPanel  Name="AutomatonOptions_StackPanel">
+                <StackPanel  Name="AutomatonOptionsStackPanel">
                 <Label Content="Boundary" />
-                <ComboBox Name="Boundary_ComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
+                <ComboBox Name="BoundaryComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                 DisplayMemberPath="Name"
                                                                 SelectedValuePath="Name"
                                                                 SelectedValue="{Binding Path=Boundary}" > 
                 </ComboBox>
                 <Label Content="Neighborhood" />
-                <ComboBox Name="Neighbourhood_ComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
+                <ComboBox Name="NeighbourhoodComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
                                                                 DisplayMemberPath="Name"
                                                                 SelectedValuePath="Name"
                                                                 SelectedValue="{Binding Path=Neighbourhood}">
@@ -107,13 +107,13 @@
 
                 </StackPanel>
                 <Label Content="Grains" />
-                <TextBox Name="Grains_TextBox" Margin="5" Text="{Binding GrainsCount}"/>
+                <TextBox Name="GrainsTextBox" Margin="5" Text="{Binding GrainsCount}"/>
                 <Label Content="Space size" />
-                <TextBox Name="SpaceSize_TextBox" Margin="5" Text="{Binding SpaceSize}" />
-                <Button Name="GenerateButton" Grid.Column="0" Margin="5"  Command="{Binding Generate}" >Generate</Button>
-                <Button Name="NextButton" Grid.Column="0" Margin="5"  Command="{Binding Next}" >Next</Button>
-                <Button Margin="5" Padding="5" Name="Run_Button" Command="{Binding Start}">Run</Button>
-                <Button Margin="5" Padding="5" Name="Stop_Button" Command="{Binding Stop}">Stop</Button>
+                <TextBox Name="SpaceSizeTextBox" Margin="5" Text="{Binding SpaceSize}" />
+                <Button Margin="5"  Command="{Binding Generate}" >Generate</Button>
+                <Button Margin="5"  Command="{Binding Next}" >Next</Button>
+                <Button Margin="5" Padding="5" Name="RunButton" Command="{Binding Start}">Run</Button>
+                <Button Margin="5" Padding="5" Command="{Binding Stop}">Stop</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
 
             </StackPanel>

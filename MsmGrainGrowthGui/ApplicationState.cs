@@ -1,23 +1,26 @@
 using System;
 using Model;
+using Model.Boundary;
+using Model.Executors;
+using Model.Neighbourhood;
 using Model.Transition;
 
 namespace GrainGrowthGui
 {
     public class ApplicationState
     {
-        public CellularAutomaton automaton;
-        public int spaceSize;
-        public int grainsCount;
-        public int inclusionsCount;
-        public int minRadius;
-        public int maxRadius;
-        public ITransitionRule transition;
-        public INeighbourhood neighbourhood;
-        public IBoundaryCondition boundary;
-        public bool isAutomatonGenerated;
-        public bool isSaved;
-        public ISimulationExecutor executor;
+        public readonly CellularAutomaton Automaton;
+        public readonly int SpaceSize;
+        public readonly int GrainsCount;
+        public readonly int InclusionsCount;
+        public readonly int MinRadius;
+        public readonly int MaxRadius;
+        public readonly ITransitionRule Transition;
+        public readonly INeighbourhood Neighbourhood;
+        public readonly IBoundaryCondition Boundary;
+        public readonly bool IsAutomatonGenerated;
+        public readonly bool IsSaved;
+        public readonly ISimulationExecutor Executor;
     
         public ApplicationState(
                     CellularAutomaton automaton,
@@ -33,18 +36,18 @@ namespace GrainGrowthGui
                     bool isSaved,
                     ISimulationExecutor executor
                     ){
-                     this.automaton =  automaton;
-                    this.spaceSize =  spaceSize;
-                    this.grainsCount =  grainsCount;
-                    this.inclusionsCount = inclusionsCount;
-                    this.minRadius = minRadius;
-                    this.maxRadius = maxRadius;
-                    this.transition = transition;
-                    this.neighbourhood =  neighbourhood;
-                    this.boundary =  boundary;
-                    this.isAutomatonGenerated =  isGenerated;
-                    this.isSaved = isSaved;
-                    this.executor = executor;
+                     this.Automaton =  automaton;
+                    this.SpaceSize =  spaceSize;
+                    this.GrainsCount =  grainsCount;
+                    this.InclusionsCount = inclusionsCount;
+                    this.MinRadius = minRadius;
+                    this.MaxRadius = maxRadius;
+                    this.Transition = transition;
+                    this.Neighbourhood =  neighbourhood;
+                    this.Boundary =  boundary;
+                    this.IsAutomatonGenerated =  isGenerated;
+                    this.IsSaved = isSaved;
+                    this.Executor = executor;
         }
 
 
@@ -52,9 +55,9 @@ namespace GrainGrowthGui
         {
             switch(name)
             {
-                case "Model.AbsorbingBoundary": 
+                case "Model.Boundary.AbsorbingBoundary": 
                     return new AbsorbingBoundary();
-                case "Model.PeriodicBoundary":
+                case "Model.Boundary.PeriodicBoundary":
                     return new PeriodicBoundary();
                 default: throw new ArgumentException();
             }
@@ -64,13 +67,13 @@ namespace GrainGrowthGui
         {
             switch(name)
             {
-                case "Model.HexagonNeighbourhood":
+                case "Model.Neighbourhood.HexagonNeighbourhood":
                     return new HexagonNeighborhood(boundary);
-                case "Model.MooreNeighbourhood":
+                case "Model.Neighbourhood.MooreNeighbourhood":
                     return new MooreNeighbourhood(boundary);
-                case "Model.PentagonNeighbourhood":
+                case "Model.Neighbourhood.PentagonNeighbourhood":
                     return new PentagonNeighbourhood(boundary);
-                case "Model.VonNeumanNeighbourhood":
+                case "Model.Neighbourhood.VonNeumanNeighbourhood":
                     return new VonNeumanNeighbourhood(boundary);
                 default: throw new ArgumentException();
             }
@@ -90,10 +93,10 @@ namespace GrainGrowthGui
         {
             switch (name)
             {
-                case "Model.SimulationExecutor":
+                case "Model.Executors.SimulationExecutor":
 
                     return new SimulationExecutor(step);
-                case "Model.CurvatureExecutor":
+                case "Model.Executors.CurvatureExecutor":
                     return new CurvatureExecutor(step);
 
                 default: throw new ArgumentException();

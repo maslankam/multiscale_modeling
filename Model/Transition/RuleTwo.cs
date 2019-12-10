@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using Model.Microelements;
 
 namespace Model.Transition
 {
@@ -17,7 +14,7 @@ namespace Model.Transition
             int grainsStreak = 0;
             int streakId = -1;
 
-            for (int i = 0; i < twiCells.Count(); i++)
+            for (int i = 0; i < twiCells.Length; i++)
             {
                 if (twiCells[i]?.MicroelementMembership == null)
                 {

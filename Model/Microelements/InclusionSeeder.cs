@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
 using System.Linq;
-using Model;
+using Model.Boundary;
 
-namespace Model
+namespace Model.Microelements
 {
     public class InclusionSeeder
     {
-        private readonly IBoundaryCondition _boundary;
         private readonly InclusionExecutor _executor;
 
         public InclusionSeeder(IBoundaryCondition boundary){
-            _boundary = boundary;
             _executor = new InclusionExecutor(boundary);
         }
 

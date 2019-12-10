@@ -4,10 +4,10 @@ using Model.Microelements;
 
 namespace Model.Transition
 {
-    public class InclusionGrowthRule : ITransitionRule
+    public class InclusionGrowth : ITransitionRule
     {
         private readonly int _step;
-        public InclusionGrowthRule(int step)
+        public InclusionGrowth(int step)
         {
             _step = step;
         }

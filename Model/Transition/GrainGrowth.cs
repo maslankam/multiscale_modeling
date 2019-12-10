@@ -1,28 +1,19 @@
-﻿using System;
+using System;
 using System.Linq;
 using Model.Microelements;
 
 namespace Model.Transition
 {
-    public class InclusionGrowthRule : ITransitionRule
-    {
-        private readonly int _step;
-        public InclusionGrowthRule(int step)
-        {
-            _step = step;
-        }
 
-        public Microelement NextState(Cell cell, Cell[] neighbours)
-        {
+    public class GrainGrowth : ITransitionRule
+    {
+        public Microelement NextState(Cell cell, Cell[] neighbours){ 
+
             if (cell?.MicroelementMembership == null)
             {
-                var inclusions = from c in neighbours
-                                    where c?.MicroelementMembership?.Id != null
-                                    && c.MicroelementMembership is Inclusion
-                                    select (Inclusion)c.MicroelementMembership;   
-                var groups = (from i in inclusions
-                                where i.Radius > _step
-                                group i by i.Id).ToArray();
+                var groups = (from c in neighbours
+                             where c?.MicroelementMembership?.Id != null && c.MicroelementMembership is Grain
+                             group c by c.MicroelementMembership).ToArray();
 
                 if (!groups.Any())
                 {
@@ -34,7 +25,7 @@ namespace Model.Transition
                     var top = (from g in groups
                               let maxPower = groups.Max(r => r.Count())
                               where g.Count() == maxPower
-                              select g).ToArray();
+                              select g.Key).ToArray();
 
                     int topCount = top.Length;
                     if (topCount > 1)
@@ -42,18 +33,18 @@ namespace Model.Transition
                         //Take a random one
                         var r = new Random();
                         int randomIndex = r.Next(0, topCount - 1);
-                        return top.ElementAt(randomIndex).ElementAt(0);
+                        return top.ElementAt(randomIndex);
                     }
                     else
                     {
                         //Return the strongest neighbour
-                         return groups.First().ElementAt(0);
+                        return top.First();
                     }
                 }
                 else
                 {
                     //return the only neighbour
-                    return groups.First().ElementAt(0);
+                    return groups.First().Key;
                 }
             }
             else
@@ -61,8 +52,11 @@ namespace Model.Transition
                 //return self
                 return cell.MicroelementMembership;
             }
-
         }
-
     }
+        
 }
+
+    
+
+

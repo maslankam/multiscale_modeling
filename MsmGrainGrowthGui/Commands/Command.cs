@@ -2,23 +2,16 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace GrainGrowthGui
+namespace GrainGrowthGui.Commands
 {
     public class Command : ICommand
     {
         readonly Func<Boolean> _canExecute;
         readonly Action _execute;
 
-        public Command(Action execute)
-            : this(execute, null)
+        public Command(Action execute, Func<Boolean> canExecute = null)
         {
-        }
-
-        public Command(Action execute, Func<Boolean> canExecute)
-        {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
@@ -40,7 +33,7 @@ namespace GrainGrowthGui
         [DebuggerStepThrough]
         public Boolean CanExecute(Object parameter)
         {
-            return _canExecute == null ? true : _canExecute();
+            return _canExecute == null || _canExecute();
         }
 
         public void Execute(Object parameter)

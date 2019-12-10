@@ -1,7 +1,7 @@
 namespace Model.Boundary{
     
     
-    public class AbsorbingBoundary : IBoundaryCondition
+    public class Absorbing : IBoundaryCondition
     {
         public string Name => this.ToString();
 
@@ -17,7 +17,7 @@ namespace Model.Boundary{
 
         public override string ToString()
         {
-            return "AbsorbingBoundary";
+            return "Absorbing";
         }
     }
 

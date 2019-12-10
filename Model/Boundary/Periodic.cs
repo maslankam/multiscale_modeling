@@ -4,7 +4,7 @@ namespace Model.Boundary
 {
 
 
-    public class PeriodicBoundary : IBoundaryCondition
+    public class Periodic : IBoundaryCondition
     {
         public string Name => this.ToString();
 
@@ -94,7 +94,7 @@ namespace Model.Boundary
 
         public override string ToString()
         {
-            return "PeriodicBoundary";
+            return "Periodic";
         }
 
     }

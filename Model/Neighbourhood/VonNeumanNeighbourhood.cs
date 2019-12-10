@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
+using Model.Boundary;
 
-namespace Model{
+namespace Model.Neighbourhood{
     /// Von Neuman checks N, E, S, W neighbours and return as Cell array[N,E,S,W]
     /// |_|X|_|
     /// |X|c|X|
@@ -9,13 +8,10 @@ namespace Model{
     
     public class VonNeumanNeighbourhood : INeighbourhood
     {
-        private IBoundaryCondition _boundary;
+        private readonly IBoundaryCondition _boundary;
 
 
-        public string Name
-        {
-            get { return this.ToString(); }
-        }
+        public string Name => this.ToString();
 
 
         public VonNeumanNeighbourhood(IBoundaryCondition boundary){

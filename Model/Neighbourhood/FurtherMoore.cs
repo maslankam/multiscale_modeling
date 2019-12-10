@@ -6,7 +6,7 @@ namespace Model.Neighbourhood{
     /// |_|c|_|
     /// |X|_|X|
     
-    public class FurtherMooreNeighbourhood : INeighbourhood
+    public class FurtherMoore : INeighbourhood
     {
         private readonly IBoundaryCondition _boundary;
 
@@ -14,7 +14,7 @@ namespace Model.Neighbourhood{
         public string Name => this.ToString();
 
 
-        public FurtherMooreNeighbourhood(IBoundaryCondition boundary){
+        public FurtherMoore(IBoundaryCondition boundary){
             this._boundary = boundary;
         }
 
@@ -67,7 +67,7 @@ namespace Model.Neighbourhood{
          }
         public override string ToString()
         {
-            return "FurtherMooreNeighbourhood";
+            return "Further Moore";
         }
     }
 

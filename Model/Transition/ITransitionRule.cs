@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
+using Model.Microelements;
 
-namespace Model{
+namespace Model.Transition{
     
     
     public interface ITransitionRule 

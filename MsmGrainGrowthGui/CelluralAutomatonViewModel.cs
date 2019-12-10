@@ -9,6 +9,11 @@ using System.IO;
 using Microsoft.Win32;
 using Model.Transition;
 using System.Runtime.CompilerServices;
+using GrainGrowthGui.Commands;
+using Model.Boundary;
+using Model.Executors;
+using Model.Neighbourhood;
+using Utility;
 
 namespace GrainGrowthGui
 {
@@ -18,57 +23,47 @@ namespace GrainGrowthGui
         #region Properties
         public int SpaceSize
         {
-            get { return _spaceSize; }
-            set { _spaceSize = value; }
+            get => _spaceSize;
+            set => _spaceSize = value;
         }
 
         public int GrainsCount
         {
-            get { return _grainsCount; }
-            set { _grainsCount = value; }
+            get => _grainsCount;
+            set => _grainsCount = value;
         }
 
         public int InclusionsCount
         {
-            get { return _inclusionsCount; }
-            set { _inclusionsCount = value; }
+            get => _inclusionsCount;
+            set => _inclusionsCount = value;
         }
 
         public int MinRadius
         {
-            get { return _minRadius; }
-            set { _minRadius = value; }
+            get => _minRadius;
+            set => _minRadius = value;
         }
 
         public int MaxRadius
         {
-            get { return _maxRadius; }
-            set { _maxRadius = value; }
+            get => _maxRadius;
+            set => _maxRadius = value;
         }
 
-        public List<INeighbourhood> Neighbourhoods
-        {
-            get { return _neighbourhoods; }
-            set { }
-        }
+        public List<INeighbourhood> Neighbourhoods { get; set; }
 
         public string Neighbourhood
         {
-            get { return _neighbourhood.ToString(); }
-            set { 
-                _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary); 
-            }
+            get => _neighbourhood.ToString();
+            set => _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary);
         }
 
-        public List<ISimulationExecutor> Executors
-        {
-            get { return _executors; }
-            set { }
-        }
+        public List<ISimulationExecutor> Executors { get; set; }
 
         public string Executor
         {
-            get { return _executor.ToString(); }
+            get => _executor.ToString();
             set
             {
                 _executor = GetExecutorByName("Model." + value);
@@ -85,19 +80,19 @@ namespace GrainGrowthGui
         }
 
 
-        public List<IBoundaryCondition> Boundaries { get { return _boundaries; } set { _boundaries = value; } }
+        public List<IBoundaryCondition> Boundaries { get => _boundaries;
+            set => _boundaries = value;
+        }
         public string Boundary
         {
-            get { return _boundary.ToString(); }
-            set { _boundary = ApplicationState.GetBoundaryByName("Model." + value); } // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
+            get => _boundary.ToString();
+            set => _boundary = ApplicationState.GetBoundaryByName("Model." + value);
+// TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
         }
 
         public bool IsGenerated
         {
-            get
-            {
-                return _isAutomatonGenerated;
-            }
+            get => _isAutomatonGenerated;
             set
             {
                 _isAutomatonGenerated = value;
@@ -125,10 +120,7 @@ namespace GrainGrowthGui
         private bool _isRunning;
         BackgroundWorker _worker;
         private List<IBoundaryCondition> _boundaries;
-        private List<INeighbourhood> _neighbourhoods;
         private ISimulationExecutor _executor;
-        private List<ISimulationExecutor> _executors;
-
 
         #endregion
 
@@ -154,7 +146,7 @@ namespace GrainGrowthGui
                new PeriodicBoundary() };
             _boundary = _boundaries[0];
 
-            _neighbourhoods = new List<INeighbourhood>()
+            Neighbourhoods = new List<INeighbourhood>()
             {
                 new VonNeumanNeighbourhood(_boundary),
                 new MooreNeighbourhood(_boundary),
@@ -163,7 +155,7 @@ namespace GrainGrowthGui
             };
             _neighbourhood = new VonNeumanNeighbourhood(_boundary);
 
-            _executors = new List<ISimulationExecutor>()
+            Executors = new List<ISimulationExecutor>()
             {
                 new SimulationExecutor(),
                 new CurvatureExecutor()
@@ -203,10 +195,11 @@ namespace GrainGrowthGui
             return ! _isAutomatonGenerated;
         }
 
-        public ICommand Generate 
-        { get { return new Command(
-            GenerateExecute, 
-            CanGenerateExecute); } }
+        public ICommand Generate =>
+            new Command(
+                GenerateExecute, 
+                CanGenerateExecute);
+
         #endregion
 
         #region NextCommand
@@ -215,7 +208,7 @@ namespace GrainGrowthGui
            
             _automaton.NextStep();
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
             //render
         }
 
@@ -224,10 +217,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated;
         }
 
-        public ICommand Next 
-        { get { return new Command(
-            NextExecute, 
-            CanNextExecute); } }
+        public ICommand Next =>
+            new Command(
+                NextExecute, 
+                CanNextExecute);
+
         #endregion
 
         #region ResetCommand
@@ -247,7 +241,7 @@ namespace GrainGrowthGui
             IsGenerated = false;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
            //render
         }
 
@@ -256,10 +250,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated && ! _isRunning;
         }
 
-        public ICommand Reset 
-        { get { return new Command(
-            ResetExecute, 
-            CanResetExecute); } }
+        public ICommand Reset =>
+            new Command(
+                ResetExecute, 
+                CanResetExecute);
+
         #endregion
 
         #region StartCommand
@@ -267,9 +262,7 @@ namespace GrainGrowthGui
         {
             _isRunning = true;
 
-            _worker = new BackgroundWorker();
-            _worker.WorkerReportsProgress = true;
-            _worker.WorkerSupportsCancellation = true;
+            _worker = new BackgroundWorker {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
             _worker.DoWork += worker_DoWork;
             _worker.ProgressChanged += worker_ProgressChanged;
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -287,7 +280,7 @@ namespace GrainGrowthGui
         {
             while(true)
             {
-                if (_worker.CancellationPending == true)
+                if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
@@ -304,7 +297,7 @@ namespace GrainGrowthGui
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -317,15 +310,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated && ( ! _isRunning );
         }
 
-        public ICommand Start
-        {
-            get
-            {
-                return new Command(
-            StartExecute,
-            CanStartExecute);
-            }
-        }
+        public ICommand Start =>
+            new Command(
+                StartExecute,
+                CanStartExecute);
+
         #endregion
 
         #region StopCommnad
@@ -344,15 +333,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated && _isRunning;
         }
 
-        public ICommand Stop
-        {
-            get
-            {
-                return new Command(
-            StopExecute,
-            CanStopExecute);
-            }
-        }
+        public ICommand Stop =>
+            new Command(
+                StopExecute,
+                CanStopExecute);
+
         #endregion
 
         #region OpenCommand
@@ -360,7 +345,7 @@ namespace GrainGrowthGui
         {
             // TODO: Add file dialog!
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            string path = "";
+            string path;
             if (openFileDialog.ShowDialog() == true)
             {
                 path = openFileDialog.FileName;
@@ -374,23 +359,23 @@ namespace GrainGrowthGui
             var reader = new XmlReader();
             var state = reader.Read(doc);
 
-            _automaton = state.automaton;
-            _spaceSize = state.spaceSize;
-            _grainsCount = state.grainsCount;
-            _inclusionsCount = state.inclusionsCount;
-            _minRadius = state.minRadius;
-            _maxRadius = state.maxRadius;
-            _transition = state.transition;
-            _neighbourhood = state.neighbourhood;
-            _boundary = state.boundary;
-            IsGenerated = state.isAutomatonGenerated;
-            _isSaved = state.isSaved;
-            _executor = state.executor;
+            _automaton = state.Automaton;
+            _spaceSize = state.SpaceSize;
+            _grainsCount = state.GrainsCount;
+            _inclusionsCount = state.InclusionsCount;
+            _minRadius = state.MinRadius;
+            _maxRadius = state.MaxRadius;
+            _transition = state.Transition;
+            _neighbourhood = state.Neighbourhood;
+            _boundary = state.Boundary;
+            IsGenerated = state.IsAutomatonGenerated;
+            _isSaved = state.IsSaved;
+            _executor = state.Executor;
 
             //IsGenerated = true;
 
             _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered.Invoke(this, _imageSource);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
         bool CanOpenExecute()
@@ -398,15 +383,11 @@ namespace GrainGrowthGui
             return true;
         }
 
-        public ICommand Open
-        {
-            get
-            {
-                return new Command(
-            OpenExecute,
-            CanOpenExecute);
-            }
-        }
+        public ICommand Open =>
+            new Command(
+                OpenExecute,
+                CanOpenExecute);
+
         #endregion
 
         #region SaveAsCommand
@@ -449,15 +430,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated;
         }
 
-        public ICommand SaveAs
-        {
-            get
-            {
-                return new Command(
-            SaveAsExecute,
-            CanSaveAsExecute);
-            }
-        }
+        public ICommand SaveAs =>
+            new Command(
+                SaveAsExecute,
+                CanSaveAsExecute);
+
         #endregion
 
         #region ExportCsvCommand
@@ -484,15 +461,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated;
         }
 
-        public ICommand ExportCsv
-        {
-            get
-            {
-                return new Command(
-            ExportCsvExecute,
-            CanExportCsvExecute);
-            }
-        }
+        public ICommand ExportCsv =>
+            new Command(
+                ExportCsvExecute,
+                CanExportCsvExecute);
+
         #endregion
 
         #region ExportPngCommand
@@ -511,12 +484,10 @@ namespace GrainGrowthGui
 
 
             var image = _imageSource;
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                encoder.Save(fileStream);
-            }
+            using var fileStream = new FileStream(path, FileMode.Create);
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            encoder.Save(fileStream);
         }
 
         bool CanExportPngExecute()
@@ -524,15 +495,11 @@ namespace GrainGrowthGui
             return _isAutomatonGenerated;
         }
 
-        public ICommand ExportPng
-        {
-            get
-            {
-                return new Command(
-            ExportPngExecute,
-            CanExportPngExecute);
-            }
-        }
+        public ICommand ExportPng =>
+            new Command(
+                ExportPngExecute,
+                CanExportPngExecute);
+
         #endregion
 
 

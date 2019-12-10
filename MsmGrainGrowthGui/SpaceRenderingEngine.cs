@@ -21,7 +21,7 @@ namespace GrainGrowthGui
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
                     System.Drawing.Color pixelColor = 
-                        space?.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
+                        space.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
 
                     //write byte[index] with pixelColor
                    
