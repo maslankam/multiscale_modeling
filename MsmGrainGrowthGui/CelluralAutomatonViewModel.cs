@@ -56,7 +56,7 @@ namespace GrainGrowthGui
         public string Neighbourhood
         {
             get => _neighbourhood.ToString();
-            set => _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model." + value, _boundary);
+            set => _neighbourhood = ApplicationState.GetNeighbourhoodByName("Model.Neighbourhood." + value, _boundary);
         }
 
         public List<ISimulationExecutor> Executors { get; set; }
@@ -87,7 +87,7 @@ namespace GrainGrowthGui
         public string Boundary
         {
             get => _boundary.ToString();
-            set => _boundary = ApplicationState.GetBoundaryByName("Model." + value);
+            set => _boundary = ApplicationState.GetBoundaryByName("Model.Boundary." + value);
         // TODO: Make some GetBoundaryByName() on IBoundary level, also dependencies in xml W/R needs changes
         }
 
