@@ -15,7 +15,8 @@ namespace GrainGrowthGui
                 _viewModel = (CelluralAutomatonViewModel)this.DataContext;
                 _viewModel.ImageRendered += Render;
                 _viewModel.PropertyChanged += PropertyChangedHandler; 
-            }
+                _viewModel.Executor = "SimulationExecutor";
+        }
 
             private void Render(object sender, BitmapSource e)
             {
@@ -27,32 +28,41 @@ namespace GrainGrowthGui
                 switch (e.PropertyName)
                 {
                     case "Executor":
-                        this.AutomatonOptionsStackPanel.Visibility = _viewModel.Executor == "SimulationExecutor"
+                        AutomatonOptionsStackPanel.Visibility = 
+                            _viewModel.Executor == "SimulationExecutor"
                             ? Visibility.Visible
-                            : Visibility.Hidden;
-                        break;
+                            : Visibility.Collapsed;
+                       
+                        ThresholdStackPanel.Visibility =
+                            _viewModel.Executor == "CurvatureExecutor"
+                            ? Visibility.Visible
+                            : Visibility.Collapsed;
+
+                    break;
                     case "IsGenerated":
                         if (_viewModel.IsGenerated)
                         {
-                            this.BoundaryComboBox.IsEnabled = false;
-                            this.ExecutorComboBox.IsEnabled = false;
-                            this.NeighbourhoodComboBox.IsEnabled = false;
-                            this.GrainsTextBox.IsEnabled = false;
-                            this.InclusionsCountTextBox.IsEnabled = false;
-                            this.MaxRadiusTextBox.IsEnabled = false;
-                            this.SpaceSizeTextBox.IsEnabled = false;
-                            this.MinRadiusTextBox.IsEnabled = false;
+                            BoundaryComboBox.IsEnabled = 
+                            ExecutorComboBox.IsEnabled = 
+                            NeighbourhoodComboBox.IsEnabled = 
+                            GrainsTextBox.IsEnabled = 
+                            InclusionsCountTextBox.IsEnabled = 
+                            MaxRadiusTextBox.IsEnabled =
+                            SpaceSizeTextBox.IsEnabled = 
+                            MinRadiusTextBox.IsEnabled = 
+                            ThresholdTextBox.IsEnabled = false;
                         }
                         else
                         {
-                            this.BoundaryComboBox.IsEnabled = true;
-                            this.ExecutorComboBox.IsEnabled = true;
-                            this.NeighbourhoodComboBox.IsEnabled = true;
-                            this.GrainsTextBox.IsEnabled = true;
-                            this.InclusionsCountTextBox.IsEnabled = true;
-                            this.MaxRadiusTextBox.IsEnabled = true;
-                            this.SpaceSizeTextBox.IsEnabled = true;
-                            this.MinRadiusTextBox.IsEnabled = true;
+                            BoundaryComboBox.IsEnabled =
+                            ExecutorComboBox.IsEnabled = 
+                            NeighbourhoodComboBox.IsEnabled = 
+                            GrainsTextBox.IsEnabled =
+                            InclusionsCountTextBox.IsEnabled =
+                            MaxRadiusTextBox.IsEnabled = 
+                            SpaceSizeTextBox.IsEnabled = 
+                            MinRadiusTextBox.IsEnabled =
+                            ThresholdTextBox.IsEnabled = true;
                         }
 
                         break;

@@ -6,7 +6,7 @@ namespace Model.Transition{
     
     public class RuleFour : ITransitionRule
     {
-        private int Threshhold
+        public int Threshhold
         {
             get => _threshold;
             set
@@ -22,10 +22,11 @@ namespace Model.Transition{
         public RuleFour()
         {
             _random = new Random();
-            Threshhold = 90;
+            Threshhold = 10;
         }
 
         public Microelement NextState(Cell cell, Cell[] neighbours){ 
+            //System.Diagnostics.Trace.WriteLine(Threshhold);
 
             if (cell?.MicroelementMembership == null)
             {
