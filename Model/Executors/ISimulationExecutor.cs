@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using Model.Neighbourhood;
+using Model.Transition;
 
-namespace Model
+namespace Model.Executors
 {
     public interface ISimulationExecutor
     {

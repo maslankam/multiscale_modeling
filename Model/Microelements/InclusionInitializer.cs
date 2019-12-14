@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
-namespace Model
+namespace Model.Microelements
 {
     public class InclusionInitializer
     {

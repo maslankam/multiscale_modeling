@@ -1,25 +1,19 @@
 ﻿using System;
 
-namespace Model
+namespace Model.Boundary
 {
 
 
     public class PeriodicBoundary : IBoundaryCondition
     {
-        public string Name
-        {
-            get
-            {
-                return this.ToString();
-            }
-        }
+        public string Name => this.ToString();
 
         public Cell GetBoundaryNeighbour(CelluralSpace space, int x, int y, BoundaryDirection direction)
         {
             switch (direction)
             {
                 case BoundaryDirection.N:  return space.GetCell( space.GetXLength() - 1, y);
-                case BoundaryDirection.NE:
+                case BoundaryDirection.Ne:
                     {
                         if (y == space.GetYLength() - 1)
                         {
@@ -38,7 +32,7 @@ namespace Model
                         }
                     }
                 case BoundaryDirection.E:  return space.GetCell( x, 0);
-                case BoundaryDirection.SE:
+                case BoundaryDirection.Se:
                     {
                         if (x == space.GetXLength() - 1)
                         {
@@ -57,7 +51,7 @@ namespace Model
                         }
                     }
                 case BoundaryDirection.S:  return space.GetCell( 0, y);
-                case BoundaryDirection.SW: 
+                case BoundaryDirection.Sw: 
                     {
                         if (x == space.GetYLength() - 1)
                         {
@@ -76,7 +70,7 @@ namespace Model
                         }
                     }
                 case BoundaryDirection.W:  return space.GetCell( x, space.GetYLength() - 1);
-                case BoundaryDirection.NW: 
+                case BoundaryDirection.Nw: 
                     {
                         if (y == 0)
                         {

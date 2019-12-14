@@ -1,5 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
+using Model.Transition;
 
 
 namespace Model{
@@ -53,8 +58,7 @@ namespace Model{
             List<Inclusion> inclusions,
             ITransitionRule transition,
             INeighbourhood neighbourhood,
-            IBoundaryCondition boundary,
-            int step, ISimulationExecutor executor)
+            IBoundaryCondition boundary, ISimulationExecutor executor)
         {
             if (transition == null     ||
                 neighbourhood == null  ||
@@ -87,7 +91,7 @@ namespace Model{
             _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood);
         }
 
-        public void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
+        private void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
         {
             Grains = _grainInitializer.Initialize(grainsCount);
             _grainSeeder.Seed(Space, Grains);

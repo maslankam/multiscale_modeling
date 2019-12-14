@@ -1,14 +1,9 @@
-using System;
-using System.Drawing;
+using Model.Microelements;
 
 namespace Model{    
     public class Cell
     {
-        public int? Phase 
-        {
-            get{return MicroelementMembership?.Phase ?? null;} 
-            private set{}
-        }
+        public int? Phase => MicroelementMembership?.Phase;
         public Microelement MicroelementMembership { get; set; }
 
         public Cell()

@@ -1,15 +1,9 @@
-namespace Model{
+namespace Model.Boundary{
     
     
     public class AbsorbingBoundary : IBoundaryCondition
     {
-        public string Name
-        {
-            get
-            {
-                return this.ToString();
-            }
-        }
+        public string Name => this.ToString();
 
         // AbsorbingBoundary always return null Cell 
         /// |nl|nl|nl|nl|nl|

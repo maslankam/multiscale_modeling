@@ -1,11 +1,10 @@
-﻿using System;
-using Xunit;
-using System.Drawing;
-
+﻿using System.Drawing;
 using Model;
-using System.Diagnostics;
+using Model.Boundary;
+using Model.Microelements;
+using Xunit;
 
-namespace Test
+namespace Test.Model.Boundary
 {
     public class AbsorbingBoundaryTest
     {
@@ -31,11 +30,11 @@ namespace Test
             Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.N));
 
             //NE
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.NE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 1, BoundaryDirection.NE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.NE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 2, BoundaryDirection.NE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.NE));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.Ne));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 1, BoundaryDirection.Ne));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.Ne));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 2, BoundaryDirection.Ne));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.Ne));
 
             //E
             Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.E));
@@ -43,11 +42,11 @@ namespace Test
             Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.E));
 
             //SE
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.SE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 2, BoundaryDirection.SE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.SE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 1, BoundaryDirection.SE));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.SE));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.Se));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 2, BoundaryDirection.Se));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.Se));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 1, BoundaryDirection.Se));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.Se));
 
             //S
             Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.S));
@@ -55,11 +54,11 @@ namespace Test
             Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.S));
 
             //SW
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.SW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 1, BoundaryDirection.SW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.SW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 0, BoundaryDirection.SW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.SW));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 2, BoundaryDirection.Sw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 1, BoundaryDirection.Sw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.Sw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 0, BoundaryDirection.Sw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.Sw));
 
             //W
             Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.W));
@@ -67,11 +66,11 @@ namespace Test
             Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.W));
 
             //NW
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.NW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 0, BoundaryDirection.NW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.NW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 1, BoundaryDirection.NW));
-            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.NW));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 2, 0, BoundaryDirection.Nw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 1, 0, BoundaryDirection.Nw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 0, BoundaryDirection.Nw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 1, BoundaryDirection.Nw));
+            Assert.Null(boundary.GetBoundaryNeighbour(space, 0, 2, BoundaryDirection.Nw));
 
         }
     }

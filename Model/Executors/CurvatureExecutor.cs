@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using Model.Boundary;
+using Model.Neighbourhood;
 using Model.Transition;
 
-namespace Model
+namespace Model.Executors
 {
     public class CurvatureExecutor : ISimulationExecutor
     {
-        public string Name
-        {
-            get { return ToString(); }
-            set { }
-        }
-    
+        public string Name => ToString();
 
-        public int Step { get; private set; }
+
+        public int Step { get; set; }
+
+        public int Threshold { get; set; }
+
 
         public CurvatureExecutor()
         {
@@ -39,7 +37,6 @@ namespace Model
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
                     // TODO: refactor, injected arguments are not used !!
-                    IBoundaryCondition boun = new AbsorbingBoundary();
                     INeighbourhood nei = new MooreNeighbourhood(new AbsorbingBoundary());
                     ITransitionRule rule = new RuleOne();
                     Cell[] neighbours = nei.GetNeighbours(lastSpace, i, j);
@@ -73,10 +70,11 @@ namespace Model
                         continue;
                     }
 
-                    nei = new FurtherMooreNeighbourhood(new AbsorbingBoundary());
-                    rule = new RuleFour();
+                    nei = new MooreNeighbourhood(new AbsorbingBoundary());
+                    var ruleFour = new RuleFour();
+                    ruleFour.Threshhold = Threshold;
                     neighbours = nei.GetNeighbours(lastSpace, i, j);
-                    element = rule.NextState(space.GetCell(i, j), neighbours);
+                    element = ruleFour.NextState(space.GetCell(i, j), neighbours);
                     space.SetCellMembership(element, i, j);
 
                 }

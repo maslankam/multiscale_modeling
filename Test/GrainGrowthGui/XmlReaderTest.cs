@@ -1,12 +1,16 @@
-using Xunit;
-using System.Xml.Linq;
-using System.Drawing;
 using System.Collections.Generic;
-using Model;
+using System.Drawing;
+using System.Xml.Linq;
 using GrainGrowthGui;
+using Model;
+using Model.Boundary;
+using Model.Executors;
+using Model.Microelements;
+using Model.Neighbourhood;
 using Model.Transition;
+using Xunit;
 
-namespace Test
+namespace Test.GrainGrowthGui
 {
     public class XmlReaderTest
     {
@@ -21,23 +25,23 @@ namespace Test
 
             var result = reader.Read(input);
 
-            Assert.Equal(expected.automaton.Step, result.automaton.Step);
-            Assert.Equal(expected.boundary.GetType(), result.boundary.GetType());
-            Assert.Equal(expected.neighbourhood.GetType(), result.neighbourhood.GetType()); 
-            Assert.Equal(expected.transition.GetType(), result.transition.GetType());
-            Assert.Equal(expected.inclusionsCount, result.inclusionsCount );
-            Assert.Equal(expected.grainsCount, result.grainsCount);
-            Assert.Equal(expected.isAutomatonGenerated, result.isAutomatonGenerated);
-            Assert.Equal(expected.isSaved, result.isSaved);
-            Assert.Equal(expected.maxRadius, result.maxRadius);
-            Assert.Equal(expected.minRadius, result.minRadius);
-            Assert.Equal(expected.spaceSize, result.spaceSize);
-            Assert.Equal(expected.executor.GetType(), result.executor.GetType());
+            Assert.Equal(expected.Automaton.Step, result.Automaton.Step);
+            Assert.Equal(expected.Boundary.GetType(), result.Boundary.GetType());
+            Assert.Equal(expected.Neighbourhood.GetType(), result.Neighbourhood.GetType()); 
+            Assert.Equal(expected.Transition.GetType(), result.Transition.GetType());
+            Assert.Equal(expected.InclusionsCount, result.InclusionsCount );
+            Assert.Equal(expected.GrainsCount, result.GrainsCount);
+            Assert.Equal(expected.IsAutomatonGenerated, result.IsAutomatonGenerated);
+            Assert.Equal(expected.IsSaved, result.IsSaved);
+            Assert.Equal(expected.MaxRadius, result.MaxRadius);
+            Assert.Equal(expected.MinRadius, result.MinRadius);
+            Assert.Equal(expected.SpaceSize, result.SpaceSize);
+            Assert.Equal(expected.Executor.GetType(), result.Executor.GetType());
 
             int i = 0;
-            foreach(var grain in expected.automaton.Grains)
+            foreach(var grain in expected.Automaton.Grains)
             {
-                var resultGrain = result.automaton.Grains[i];
+                var resultGrain = result.Automaton.Grains[i];
                 Assert.Equal(grain.Id, resultGrain.Id);
                 Assert.Equal(grain.Phase, resultGrain.Phase);
                 Assert.Equal(grain.Color, resultGrain.Color);
@@ -45,9 +49,9 @@ namespace Test
             }
 
             i = 0;
-            foreach(var inclusion in expected.automaton.Inclusions)
+            foreach(var inclusion in expected.Automaton.Inclusions)
             {
-                var resultInclusion = result.automaton.Inclusions[i];
+                var resultInclusion = result.Automaton.Inclusions[i];
                 Assert.Equal(inclusion.Id, resultInclusion.Id);
                 Assert.Equal(inclusion.Phase, resultInclusion.Phase);
                 Assert.Equal(inclusion.Color, resultInclusion.Color);
@@ -55,8 +59,8 @@ namespace Test
                 i++;
             }
 
-            var exSpace = expected.automaton.Space;
-            var reSpace = result.automaton.Space;
+            var exSpace = expected.Automaton.Space;
+            var reSpace = result.Automaton.Space;
 
             for(i = 0; i < exSpace.GetXLength(); i++)
             {
@@ -67,8 +71,6 @@ namespace Test
                     if(exElement?.Id == null)
                     {
                         Assert.Null(reElement?.Id);
-                        Assert.Null(reElement?.Phase);
-                        
                     }
                     else
                     {
@@ -91,20 +93,20 @@ namespace Test
             int inclusionsCount = 2;
             int minRadius = 1;
             int maxRadius = 1;
-            bool isSaved = false;
-            bool isGenerated = false;
-            int step = 0;
             ITransitionRule transition = new GrainGrowthRule();
             IBoundaryCondition boundary = new AbsorbingBoundary();
             INeighbourhood neighbourhood = new VonNeumanNeighbourhood(boundary);
             ISimulationExecutor executor = new SimulationExecutor();
 
-            var grains = new List<Grain>();
-            grains.Add(new Grain(0, 0, Color.FromArgb(1,2,3,4)));
-            grains.Add(new Grain(1, 0, Color.FromArgb(5,6,7,8)));
-            var inclusions = new List<Inclusion>();
-            inclusions.Add(new Inclusion(0, 1, 1, Color.FromArgb(1,2,3,4)));
-            inclusions.Add(new Inclusion(1, 1, 1, Color.FromArgb(5,6,7,8)));
+            var grains = new List<Grain>
+            {
+                new Grain(0, 0, Color.FromArgb(1, 2, 3, 4)), new Grain(1, 0, Color.FromArgb(5, 6, 7, 8))
+            };
+            var inclusions = new List<Inclusion>
+            {
+                new Inclusion(0, 1, 1, Color.FromArgb(1, 2, 3, 4)),
+                new Inclusion(1, 1, 1, Color.FromArgb(5, 6, 7, 8))
+            };
 
             var cells = new Cell[spaceSize,spaceSize];
             cells[0,0] = new Cell(grains[0]);
@@ -127,7 +129,6 @@ namespace Test
                 transition,
                 neighbourhood,
                 boundary,
-                step,
                 executor
             );
 
@@ -141,8 +142,8 @@ namespace Test
                     transition,
                     neighbourhood,
                     boundary,
-                    isGenerated,
-                    isSaved,
+                    false,
+                    false,
                     executor
                     );
         }
@@ -151,7 +152,7 @@ namespace Test
         {
             string xmlState =
 @"<Document>
-  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.VonNeumanNeighbourhood"" Boundary=""Model.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.SimulationExecutor"" />
+  <WindowVariables SpaceSize=""3"" GrainsCount=""2"" InclusionsCount=""2"" MinRadius=""1"" MaxRadius=""1"" Transition=""Model.Transition.GrainGrowthRule"" Neighbourhood=""Model.Neighbourhood.VonNeumanNeighbourhood"" Boundary=""Model.Boundary.AbsorbingBoundary"" IsGenerated=""false"" IsSaved=""false"" Step=""0"" Executor=""Model.Executors.SimulationExecutor"" />
   <Grains>
     <Grain Id=""0"" P=""0"" A=""1"" R=""2"" G=""3"" B=""4"" />
     <Grain Id=""1"" P=""0"" A=""5"" R=""6"" G=""7"" B=""8"" />
