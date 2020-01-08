@@ -21,6 +21,12 @@ namespace GrainGrowthGui
     class CelluralAutomatonViewModel : INotifyPropertyChanged
     {
         #region Properties
+
+        public CellularAutomaton Automaton
+        {
+            get => _automaton;
+        }
+
         public int SpaceSize
         {
             get => _spaceSize;
@@ -101,6 +107,16 @@ namespace GrainGrowthGui
             }
         }
 
+        public bool IsDeleting
+        {
+            get => _isDeleting;
+            set
+            {
+                _isDeleting = value;
+                NotifyPropertyChanged();
+            }
+        }
+       
 
         #endregion
 
@@ -123,6 +139,7 @@ namespace GrainGrowthGui
         private List<IBoundaryCondition> _boundaries;
         private ISimulationExecutor _executor;
         private int _threshold;
+        private bool _isDeleting;
 
         #endregion
 
@@ -506,14 +523,63 @@ namespace GrainGrowthGui
 
         #endregion
 
+        #region AddSecondPhaseCommand
+        void AddSecondPhaseExecute()
+        {
+            
+        }
+
+        bool CanAddSecondPhaseExecute()
+        {
+            return IsGenerated;
+        }
+
+        public ICommand AddSecondPhase =>
+            new Command(
+                AddSecondPhaseExecute,
+                CanAddSecondPhaseExecute);
+
+        #endregion
+
+        #region DeleteGrainCommand
+        void DeleteGrainExecute()
+        {
+            IsDeleting = IsDeleting ? false : true ;
+        }
+
+        bool CanDeleteGrainExecute()
+        {
+            return IsGenerated;
+        }
+
+        public ICommand DeleteGrain =>
+            new Command(
+               DeleteGrainExecute,
+                CanDeleteGrainExecute);
+
+        #endregion
+
+        #region ShowBoundaryCommand
+        void ShowBoundaryExecute()
+        {
+
+        }
+
+        bool CanShowBoundaryExecute()
+        {
+            return IsGenerated;
+        }
+
+        public ICommand ShowBoundary =>
+            new Command(
+                ShowBoundaryExecute,
+                CanShowBoundaryExecute);
+
+        #endregion
 
         public event EventHandler<BitmapSource> ImageRendered;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessor of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
-        // parameter causes the property name of the caller to be substituted as an argument.  
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

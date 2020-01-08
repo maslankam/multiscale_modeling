@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 
@@ -66,16 +68,45 @@ namespace GrainGrowthGui
                         }
 
                         break;
+                case "IsDeleting":
+                    if (_viewModel.IsDeleting)
+                    {
+                        DeleteButton.Background = Brushes.Crimson;
+                    }
+                    else
+                    {
+                        DeleteButton.Background = Brushes.LightGray;
+                    }
+
+                    break;
                 }
 
 
-                if (e.PropertyName == "Executor")
-                {
-                    
-                }
+               
             }
 
+        private void CelluralSpaceImage_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int x, y;
+
+            if (_viewModel.IsDeleting)
+            {
+                x = System.Convert.ToInt32(_viewModel.SpaceSize * e.GetPosition(CelluralSpaceImage).X / CelluralSpaceImage.Height);
+                y = System.Convert.ToInt32(_viewModel.SpaceSize * e.GetPosition(CelluralSpaceImage).Y / CelluralSpaceImage.Width);
+
+                //System.Diagnostics.Trace.WriteLine($"{x},{y}");
 
 
+                //string grainNumber = _viewModel.Automaton.Space.GetCell(x, y)?.MicroelementMembership?.Id.ToString() ?? "null";
+
+                //MessageBox.Show(grainNumber);
+
+                _viewModel.Automaton.Space.GetCell(x, y)?.MicroelementMembership?.Delete();
+
+            }
+
+            
+
+        }
     }
 }
