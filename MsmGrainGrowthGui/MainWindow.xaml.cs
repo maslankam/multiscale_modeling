@@ -94,15 +94,9 @@ namespace GrainGrowthGui
                 x = System.Convert.ToInt32(_viewModel.SpaceSize * e.GetPosition(CelluralSpaceImage).X / CelluralSpaceImage.Height);
                 y = System.Convert.ToInt32(_viewModel.SpaceSize * e.GetPosition(CelluralSpaceImage).Y / CelluralSpaceImage.Width);
 
-                //System.Diagnostics.Trace.WriteLine($"{x},{y}");
+                _viewModel.Automaton.Space.GetCell(y, x)?.MicroelementMembership?.Delete();
 
-
-                //string grainNumber = _viewModel.Automaton.Space.GetCell(x, y)?.MicroelementMembership?.Id.ToString() ?? "null";
-
-                //MessageBox.Show(grainNumber);
-
-                _viewModel.Automaton.Space.GetCell(x, y)?.MicroelementMembership?.Delete();
-
+                _viewModel.Render();
             }
 
             

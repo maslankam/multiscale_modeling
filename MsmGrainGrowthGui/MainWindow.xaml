@@ -122,7 +122,7 @@
                 <Button Margin="5" Padding="5" Command="{Binding Stop}">Stop</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
                 <Button Margin="5" Padding="5" Command="{Binding AddSecondPhase}">Add second phase</Button>
-                <Button Margin="5" Padding="5" Name="DeleteButton"  Command="{Binding DeleteGrain}">Delete selected grain</Button>
+                <Button Margin="5" Padding="5" Command="{Binding DeleteGrain}" Name="DeleteButton" >Delete selected grain</Button>
                 <Button Margin="5" Padding="5" Command="{Binding ShowBoundary}">Show boundary</Button>
             </StackPanel>
             <StackPanel Grid.Column="2">

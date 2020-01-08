@@ -206,9 +206,7 @@ namespace GrainGrowthGui
             );
             IsGenerated = true;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-            //render 0 step
+            Render();
         }
 
         bool CanGenerateExecute()
@@ -228,9 +226,7 @@ namespace GrainGrowthGui
         {
            
             _automaton.NextStep();
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-            //render
+           Render();
         }
 
         bool CanNextExecute()
@@ -261,9 +257,7 @@ namespace GrainGrowthGui
             );
             IsGenerated = false;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-           //render
+           Render();
         }
 
         bool CanResetExecute()
@@ -289,11 +283,6 @@ namespace GrainGrowthGui
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             _worker.RunWorkerAsync();
 
-            //_automaton.NextStep();
-
-            //_imageSource = _renderEngine.Render(_automaton.Space);
-            // ImageRendered.Invoke(this, _imageSource);
-            //render
         }
 
 
@@ -317,8 +306,7 @@ namespace GrainGrowthGui
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
+            Render();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -343,10 +331,7 @@ namespace GrainGrowthGui
         {
             _worker.CancelAsync();
             _isRunning = false;
-           // _automaton.NextStep();
-
-           // _imageSource = _renderEngine.Render(_automaton.Space);
-           // ImageRendered.Invoke(this, _imageSource);
+           
         }
 
         bool CanStopExecute()
@@ -395,8 +380,7 @@ namespace GrainGrowthGui
 
             //IsGenerated = true;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
+            Render();
         }
 
         bool CanOpenExecute()
@@ -583,6 +567,12 @@ namespace GrainGrowthGui
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Render()
+        {
+            _imageSource = _renderEngine.Render(_automaton.Space);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
 
