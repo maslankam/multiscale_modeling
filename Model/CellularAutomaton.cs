@@ -48,7 +48,7 @@ namespace Model{
             _inclusionSeeder = new InclusionSeeder(boundary);
 
             Space = new CelluralSpace(size);
-            PopulateSimulation(grainsCount, inclusionsCount, minRadius, maxRadius);
+            //PopulateSimulation(grainsCount, inclusionsCount, minRadius, maxRadius);
         }
 
         //Constructor for opening saved state
@@ -85,15 +85,15 @@ namespace Model{
             _executor = executor;
         }
         
-        public void NextStep()
+        public void NextStep(int currentPhase)
         {
             _lastStepSpace = Space.Clone();
-            _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood);
+            _executor.NextState(Space, _lastStepSpace, _transition, _neighbourhood, currentPhase);
         }
 
-        private void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius)
+        public void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius, int grainPhase = 0 )
         {
-            Grains = _grainInitializer.Initialize(grainsCount);
+            Grains = _grainInitializer.Initialize(grainsCount, grainPhase);
             _grainSeeder.Seed(Space, Grains);
             Inclusions = _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
             _inclusionSeeder.Seed(Space, Inclusions);

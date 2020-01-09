@@ -12,7 +12,7 @@ namespace Model.Microelements
 
             for(int i = 0; i < count; i++){
                 var col = Color.FromArgb(0, 0, 0, 0);
-                inclusions.Add( new Inclusion(i, 1, r.Next(minRadius, maxRadius), col));  //TODO: Use Utility.IColorGenerator
+                inclusions.Add( new Inclusion(i, -1, r.Next(minRadius, maxRadius), col));  //TODO: Use Utility.IColorGenerator
             }                                                                         // 1 is phase, for this momemnt no use of it
             
             return inclusions;

@@ -141,6 +141,8 @@ namespace GrainGrowthGui
         private int _threshold;
         private bool _isDeleting;
 
+        private int _currentPhase = 0;
+
         #endregion
 
         #region constructor
@@ -193,7 +195,9 @@ namespace GrainGrowthGui
             // Lazy initialization of boundary.
             //_neighbourhood = new MooreNeighbourhood(_boundary);
 
-            _automaton = new CellularAutomaton(
+            if(_automaton == null)
+            {
+                _automaton = new CellularAutomaton(
                 _spaceSize,
                 _grainsCount,
                 _inclusionsCount,
@@ -204,6 +208,10 @@ namespace GrainGrowthGui
                 _boundary,
                 _executor
             );
+            }
+
+             _automaton.PopulateSimulation(_grainsCount,_inclusionsCount, _minRadius, _maxRadius, _currentPhase);
+            
             IsGenerated = true;
 
             Render();
@@ -225,7 +233,7 @@ namespace GrainGrowthGui
         void NextExecute()
         {
            
-            _automaton.NextStep();
+            _automaton.NextStep(_currentPhase);
            Render();
         }
 
@@ -257,7 +265,11 @@ namespace GrainGrowthGui
             );
             IsGenerated = false;
 
+            _currentPhase = 0;
+
            Render();
+
+           _automaton = null;
         }
 
         bool CanResetExecute()
@@ -295,7 +307,7 @@ namespace GrainGrowthGui
                     e.Cancel = true;
                     return;
                 }
-                _automaton.NextStep();
+                _automaton.NextStep(_currentPhase);
                 _worker.ReportProgress(0);
                 System.Threading.Thread.Sleep(80); // TODO: Remove magic number! Add slider to GUI
             }
@@ -510,7 +522,9 @@ namespace GrainGrowthGui
         #region AddSecondPhaseCommand
         void AddSecondPhaseExecute()
         {
-            
+            IsGenerated = false;
+            _currentPhase++;
+           
         }
 
         bool CanAddSecondPhaseExecute()

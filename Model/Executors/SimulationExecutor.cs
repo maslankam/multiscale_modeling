@@ -23,13 +23,24 @@ namespace Model.Executors{
             return Step;
         }
 
-        public void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood){
+        public void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood, int currentPhase){
             for (int i = 0; i < space.GetXLength(); i++)
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j); //TODO: Storing neighbourhood in Cell object will increase memory consumption                                                   
-                    var element = transition.NextState(space.GetCell(i,j), neighbours); // but may increase performance
+
+                    Microelements.Microelement element;
+                    var phase = lastSpace.GetCell(i,j)?.MicroelementMembership?.Phase ?? -2;
+                    if(phase == currentPhase)
+                    {
+                        Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j); //TODO: Storing neighbourhood in Cell object will increase memory consumption                                                   
+                        element = transition.NextState(space.GetCell(i,j), neighbours); // but may increase performance
+                        space.SetCellMembership(element, i, j);
+                    }
+                    else
+                    {
+                        element = lastSpace.GetCell(i,j).MicroelementMembership;
+                    }
                     space.SetCellMembership(element, i, j);
                 }
             }
