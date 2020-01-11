@@ -19,7 +19,7 @@ namespace Model.Transition
                 var inclusions = from c in neighbours
                                     where c?.MicroelementMembership?.Id != null
                                     && c.MicroelementMembership is Inclusion
-                                    select (Inclusion)c.MicroelementMembership;   
+                                 select (Inclusion)c.MicroelementMembership;   
                 var groups = (from i in inclusions
                                 where i.Radius > _step
                                 group i by i.Id).ToArray();

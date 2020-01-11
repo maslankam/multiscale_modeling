@@ -15,16 +15,25 @@ namespace GrainGrowthGui
             int rawStride = (spaceWidth * pf.BitsPerPixel + 7) / 8;
             byte[] rawImage = new byte[rawStride * spaceHeight];
             int rawImageIndex = 0;
+            System.Drawing.Color pixelColor;
 
             for (int i = 0; i < space.GetXLength(); i++)
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    System.Drawing.Color pixelColor = 
-                        space.GetCell(i,j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
+                    if(space.GetCell(i, j).isBorder)
+                    {
+                        pixelColor = System.Drawing.Color.Black;
+                    }
+                    else
+                    {
+                        pixelColor = space.GetCell(i, j)?.MicroelementMembership?.Color ?? System.Drawing.Color.White;
+                    }
+
+                    
 
                     //write byte[index] with pixelColor
-                   
+                        
                         rawImage[rawImageIndex++] = pixelColor.R;
                         rawImage[rawImageIndex++] = pixelColor.G;
                         rawImage[rawImageIndex++] = pixelColor.B;

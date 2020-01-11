@@ -15,6 +15,8 @@ namespace Model{
             MicroelementMembership = microelement;
         }
 
+        public bool isBorder;
+
     }
 
     

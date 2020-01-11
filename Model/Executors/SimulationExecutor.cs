@@ -1,6 +1,7 @@
 using System;
 using Model.Neighbourhood;
 using Model.Transition;
+using System.Linq;
 
 namespace Model.Executors{
     public class SimulationExecutor : ISimulationExecutor
@@ -31,16 +32,38 @@ namespace Model.Executors{
 
                     Microelements.Microelement element;
                     var phase = lastSpace.GetCell(i,j)?.MicroelementMembership?.Phase ?? -2;
-                    if(phase == currentPhase)
+                
+                    Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j); //TODO: Storing neighbourhood in Cell object will increase memory consumption    
+
+
+                    int neigboursSameCount = 0;
+
+                    foreach(var n in neighbours)
                     {
-                        Cell[] neighbours = neighbourhood.GetNeighbours(lastSpace, i, j); //TODO: Storing neighbourhood in Cell object will increase memory consumption                                                   
-                        element = transition.NextState(space.GetCell(i,j), neighbours); // but may increase performance
-                        space.SetCellMembership(element, i, j);
+                       bool isThisSame = Object.ReferenceEquals(n?.MicroelementMembership, lastSpace.GetCell(i, j)?.MicroelementMembership);
+                        if (isThisSame)
+                        {
+                            neigboursSameCount++;
+                        }
+                    
+                    }
+
+                    if(neigboursSameCount == neighbours.Count())
+                    {
+                        space.GetCell(i, j).isBorder = false;
                     }
                     else
                     {
-                        element = lastSpace.GetCell(i,j).MicroelementMembership;
+                        space.GetCell(i, j).isBorder = true;
                     }
+
+
+                    var phaseNeighbours = (from n in neighbours
+                                           where n?.MicroelementMembership?.Phase == currentPhase
+                                           select n).ToArray();
+
+                    element = transition.NextState(space.GetCell(i, j), phaseNeighbours); // but may increase performance
+
                     space.SetCellMembership(element, i, j);
                 }
             }

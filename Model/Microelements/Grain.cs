@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Collections.Generic;
+using Model.Neighbourhood;
 
 namespace Model.Microelements{
     
@@ -9,6 +10,10 @@ namespace Model.Microelements{
         public sealed override int? Phase{get; set;}
         public sealed override Color Color {get; set;}
         public sealed override int Id{get; set;}
+
+        public int Area { get => Members.Count; }
+       
+
 
         public Grain(int id, int phase, Color color)
         {
@@ -25,17 +30,6 @@ namespace Model.Microelements{
                 member.MicroelementMembership = null;
             }
         }
-
-        public override void GetArea()
-        {
-
-        }
-
-        public override void GetBorderLenght()
-        {
-
-        }
-
 
     }
 
