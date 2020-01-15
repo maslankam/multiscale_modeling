@@ -14,6 +14,7 @@ using Model.Boundary;
 using Model.Executors;
 using Model.Neighbourhood;
 using Utility;
+using Model.Microelements;
 
 namespace GrainGrowthGui
 {
@@ -21,6 +22,23 @@ namespace GrainGrowthGui
     class CelluralAutomatonViewModel : INotifyPropertyChanged
     {
         #region Properties
+
+        public bool IsShowingBorders
+        {
+            get => _isShowingBorders;
+        }
+
+
+        public CellularAutomaton Automaton
+        {
+            get => _automaton;
+        }
+
+        public List<Grain> Grains
+        {
+            get => _automaton?.Grains;
+        }
+
         public int SpaceSize
         {
             get => _spaceSize;
@@ -101,6 +119,16 @@ namespace GrainGrowthGui
             }
         }
 
+        public bool IsDeleting
+        {
+            get => _isDeleting;
+            set
+            {
+                _isDeleting = value;
+                NotifyPropertyChanged();
+            }
+        }
+       
 
         #endregion
 
@@ -123,6 +151,9 @@ namespace GrainGrowthGui
         private List<IBoundaryCondition> _boundaries;
         private ISimulationExecutor _executor;
         private int _threshold;
+        private bool _isDeleting;
+        private bool _isShowingBorders;
+        private int _currentPhase = 0;
 
         #endregion
 
@@ -141,7 +172,7 @@ namespace GrainGrowthGui
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
             _threshold = 90;
-            
+            _isShowingBorders = false;
 
             _renderEngine = new SpaceRenderingEngine();
 
@@ -176,7 +207,9 @@ namespace GrainGrowthGui
             // Lazy initialization of boundary.
             //_neighbourhood = new MooreNeighbourhood(_boundary);
 
-            _automaton = new CellularAutomaton(
+            if(_automaton == null)
+            {
+                _automaton = new CellularAutomaton(
                 _spaceSize,
                 _grainsCount,
                 _inclusionsCount,
@@ -187,11 +220,13 @@ namespace GrainGrowthGui
                 _boundary,
                 _executor
             );
+            }
+
+             _automaton.PopulateSimulation(_grainsCount,_inclusionsCount, _minRadius, _maxRadius, _currentPhase);
+            
             IsGenerated = true;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-            //render 0 step
+            Render(_isShowingBorders);
         }
 
         bool CanGenerateExecute()
@@ -210,10 +245,8 @@ namespace GrainGrowthGui
         void NextExecute()
         {
            
-            _automaton.NextStep();
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-            //render
+            _automaton.NextStep(_currentPhase);
+           Render(_isShowingBorders);
         }
 
         bool CanNextExecute()
@@ -244,9 +277,11 @@ namespace GrainGrowthGui
             );
             IsGenerated = false;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
-           //render
+            _currentPhase = 0;
+
+           Render(_isShowingBorders);
+
+           _automaton = null;
         }
 
         bool CanResetExecute()
@@ -265,6 +300,8 @@ namespace GrainGrowthGui
         void StartExecute()
         {
             _isRunning = true;
+            _isShowingBorders = false;
+            
 
             _worker = new BackgroundWorker {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
             _worker.DoWork += worker_DoWork;
@@ -272,11 +309,6 @@ namespace GrainGrowthGui
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             _worker.RunWorkerAsync();
 
-            //_automaton.NextStep();
-
-            //_imageSource = _renderEngine.Render(_automaton.Space);
-            // ImageRendered.Invoke(this, _imageSource);
-            //render
         }
 
 
@@ -289,7 +321,7 @@ namespace GrainGrowthGui
                     e.Cancel = true;
                     return;
                 }
-                _automaton.NextStep();
+                _automaton.NextStep(_currentPhase);
                 _worker.ReportProgress(0);
                 System.Threading.Thread.Sleep(80); // TODO: Remove magic number! Add slider to GUI
             }
@@ -300,8 +332,7 @@ namespace GrainGrowthGui
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
+            Render(_isShowingBorders);
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -326,10 +357,7 @@ namespace GrainGrowthGui
         {
             _worker.CancelAsync();
             _isRunning = false;
-           // _automaton.NextStep();
-
-           // _imageSource = _renderEngine.Render(_automaton.Space);
-           // ImageRendered.Invoke(this, _imageSource);
+           
         }
 
         bool CanStopExecute()
@@ -378,8 +406,7 @@ namespace GrainGrowthGui
 
             //IsGenerated = true;
 
-            _imageSource = _renderEngine.Render(_automaton.Space);
-            ImageRendered?.Invoke(this, _imageSource);
+            Render(_isShowingBorders);
         }
 
         bool CanOpenExecute()
@@ -506,24 +533,97 @@ namespace GrainGrowthGui
 
         #endregion
 
+        #region AddSecondPhaseCommand
+        void AddSecondPhaseExecute()
+        {
+            IsGenerated = false;
+            _currentPhase++;
+           
+        }
+
+        bool CanAddSecondPhaseExecute()
+        {
+            return IsGenerated;
+        }
+
+        public ICommand AddSecondPhase =>
+            new Command(
+                AddSecondPhaseExecute,
+                CanAddSecondPhaseExecute);
+
+        #endregion
+
+        #region DeleteGrainCommand
+        void DeleteGrainExecute()
+        {
+            IsDeleting = IsDeleting ? false : true ;
+        }
+
+        bool CanDeleteGrainExecute()
+        {
+            return IsGenerated;
+        }
+
+        public ICommand DeleteGrain =>
+            new Command(
+               DeleteGrainExecute,
+                CanDeleteGrainExecute);
+
+        #endregion
+
+        #region ShowBoundaryCommand
+        void ShowBoundaryExecute()
+        {
+            if (_isShowingBorders)
+            {
+                _isShowingBorders = false;
+                foreach (var grain in Automaton.Grains)
+                {
+                    grain.GenerateDetails = false;
+                }
+            }
+            else
+            {
+                _isShowingBorders = true;
+                foreach (var grain in Automaton.Grains)
+                {
+                    grain.GenerateDetails = true;
+                }
+            }
+            Render(_isShowingBorders);
+        }
+
+        bool CanShowBoundaryExecute()
+        {
+            return IsGenerated && !_isRunning;
+        }
+
+        public ICommand ShowBoundary =>
+            new Command(
+                ShowBoundaryExecute,
+                CanShowBoundaryExecute);
+
+        #endregion
 
         public event EventHandler<BitmapSource> ImageRendered;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessor of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
-        // parameter causes the property name of the caller to be substituted as an argument.  
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Render(bool showBorders = false)
+        {
+            _imageSource = _renderEngine.Render(_automaton.Space, showBorders);
+            ImageRendered?.Invoke(this, _imageSource);
         }
 
 
 
     }
 
-
+    
 
 
 }

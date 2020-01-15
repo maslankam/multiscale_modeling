@@ -49,19 +49,13 @@ namespace Model{
         public void SetCellMembership(Microelement element,int x, int y)
         {
             _space[x, y].MicroelementMembership = element;
-        }
-
-        /*public CelluralSpace Clone(){ //copy cell reference
-            var newCells = new Cell[Size, Size];
-            for (int i = 0; i < _space.GetLength(0); i++)
+            if(element != null)
             {
-                for (int j = 0; j < _space.GetLength(1); j++)
-                {
-                    newCells[i, j] = _space[i, j];
-                }
+                element.Members.Add(_space[x, y]);
             }
-            return new CelluralSpace(newCells);
-        }*/
+                
+            
+        }
 
         public CelluralSpace Clone() //copy membership reference
         {
