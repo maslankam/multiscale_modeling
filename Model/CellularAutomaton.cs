@@ -94,6 +94,10 @@ namespace Model{
         public void PopulateSimulation(int grainsCount, int inclusionsCount, int minRadius, int maxRadius, int grainPhase = 0 )
         {
             Grains = _grainInitializer.Initialize(grainsCount, grainPhase);
+            foreach(var g in Grains)
+            {
+                g.OwnerAutomaton = this;
+            }
             _grainSeeder.Seed(Space, Grains);
             Inclusions = _inclusionInitializer.Initialize(inclusionsCount, minRadius, maxRadius);
             _inclusionSeeder.Seed(Space, Inclusions);

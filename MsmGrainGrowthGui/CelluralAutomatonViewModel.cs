@@ -14,6 +14,7 @@ using Model.Boundary;
 using Model.Executors;
 using Model.Neighbourhood;
 using Utility;
+using Model.Microelements;
 
 namespace GrainGrowthGui
 {
@@ -22,9 +23,20 @@ namespace GrainGrowthGui
     {
         #region Properties
 
+        public bool IsShowingBorders
+        {
+            get => _isShowingBorders;
+        }
+
+
         public CellularAutomaton Automaton
         {
             get => _automaton;
+        }
+
+        public List<Grain> Grains
+        {
+            get => _automaton?.Grains;
         }
 
         public int SpaceSize
@@ -140,7 +152,7 @@ namespace GrainGrowthGui
         private ISimulationExecutor _executor;
         private int _threshold;
         private bool _isDeleting;
-
+        private bool _isShowingBorders;
         private int _currentPhase = 0;
 
         #endregion
@@ -160,7 +172,7 @@ namespace GrainGrowthGui
             _maxRadius = 5;
             _transition = new GrainGrowthRule();
             _threshold = 90;
-            
+            _isShowingBorders = false;
 
             _renderEngine = new SpaceRenderingEngine();
 
@@ -214,7 +226,7 @@ namespace GrainGrowthGui
             
             IsGenerated = true;
 
-            Render();
+            Render(_isShowingBorders);
         }
 
         bool CanGenerateExecute()
@@ -234,7 +246,7 @@ namespace GrainGrowthGui
         {
            
             _automaton.NextStep(_currentPhase);
-           Render();
+           Render(_isShowingBorders);
         }
 
         bool CanNextExecute()
@@ -267,7 +279,7 @@ namespace GrainGrowthGui
 
             _currentPhase = 0;
 
-           Render();
+           Render(_isShowingBorders);
 
            _automaton = null;
         }
@@ -288,6 +300,8 @@ namespace GrainGrowthGui
         void StartExecute()
         {
             _isRunning = true;
+            _isShowingBorders = false;
+            
 
             _worker = new BackgroundWorker {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
             _worker.DoWork += worker_DoWork;
@@ -318,7 +332,7 @@ namespace GrainGrowthGui
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            Render();
+            Render(_isShowingBorders);
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -392,7 +406,7 @@ namespace GrainGrowthGui
 
             //IsGenerated = true;
 
-            Render();
+            Render(_isShowingBorders);
         }
 
         bool CanOpenExecute()
@@ -560,12 +574,28 @@ namespace GrainGrowthGui
         #region ShowBoundaryCommand
         void ShowBoundaryExecute()
         {
-
+            if (_isShowingBorders)
+            {
+                _isShowingBorders = false;
+                foreach (var grain in Automaton.Grains)
+                {
+                    grain.GenerateDetails = false;
+                }
+            }
+            else
+            {
+                _isShowingBorders = true;
+                foreach (var grain in Automaton.Grains)
+                {
+                    grain.GenerateDetails = true;
+                }
+            }
+            Render(_isShowingBorders);
         }
 
         bool CanShowBoundaryExecute()
         {
-            return IsGenerated;
+            return IsGenerated && !_isRunning;
         }
 
         public ICommand ShowBoundary =>
@@ -583,9 +613,9 @@ namespace GrainGrowthGui
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Render()
+        public void Render(bool showBorders = false)
         {
-            _imageSource = _renderEngine.Render(_automaton.Space);
+            _imageSource = _renderEngine.Render(_automaton.Space, showBorders);
             ImageRendered?.Invoke(this, _imageSource);
         }
 
@@ -593,7 +623,7 @@ namespace GrainGrowthGui
 
     }
 
-
+    
 
 
 }

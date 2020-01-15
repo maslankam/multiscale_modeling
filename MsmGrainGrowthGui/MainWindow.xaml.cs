@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -22,6 +24,8 @@ namespace GrainGrowthGui
 
             private void Render(object sender, BitmapSource e)
             {
+            this.ListOfGrains.ItemsSource = null;
+            ListOfGrains.ItemsSource = _viewModel.Grains;
                 this.CelluralSpaceImage.Source = e;
             }
 
@@ -96,11 +100,31 @@ namespace GrainGrowthGui
 
                 _viewModel.Automaton.Space.GetCell(y, x)?.MicroelementMembership?.Delete();
 
-                _viewModel.Render();
+                _viewModel.Render(_viewModel.IsShowingBorders);
             }
 
             
 
         }
     }
+
+    public class ColorToSolidColorBrushValueConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (null == value)
+            {
+                return null;
+            }
+            System.Drawing.Color color = (System.Drawing.Color)value;
+            return new SolidColorBrush(Color.FromRgb(color.R, color.G, color.B));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

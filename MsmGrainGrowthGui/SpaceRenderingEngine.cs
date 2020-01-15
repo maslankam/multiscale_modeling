@@ -7,7 +7,7 @@ namespace GrainGrowthGui
 {
     public class SpaceRenderingEngine
     {
-        public BitmapSource Render(CelluralSpace space)
+        public BitmapSource Render(CelluralSpace space, bool showBorders)
         {
             PixelFormat pf = PixelFormats.Bgr32;
             int spaceWidth = space.GetXLength();
@@ -21,7 +21,7 @@ namespace GrainGrowthGui
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    if(space.GetCell(i, j).isBorder)
+                    if(space.GetCell(i, j).isBorder && showBorders)
                     {
                         pixelColor = System.Drawing.Color.Black;
                     }

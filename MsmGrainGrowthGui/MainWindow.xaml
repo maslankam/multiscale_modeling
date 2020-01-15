@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GrainGrowthGui"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
-        Title="Grain Growth Cellural Automata" Height="800" Width="800">
+        Title="Grain Growth Cellural Automata" Height="800" Width="1000">
 
+    <Window.Resources>
+        <local:ColorToSolidColorBrushValueConverter  x:Key="ColorToSolidColorBrush_ValueConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <local:CelluralAutomatonViewModel />
     </Window.DataContext>
@@ -43,9 +47,9 @@
         </DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Border BorderThickness="1" BorderBrush="#FF000000" Height="500" Width="500" Margin="5">
@@ -126,8 +130,24 @@
                 <Button Margin="5" Padding="5" Command="{Binding ShowBoundary}">Show boundary</Button>
             </StackPanel>
             <StackPanel Grid.Column="2">
-                <TextBlock TextWrapping="Wrap">List grains here with area, boundary lenght, color, id
-                </TextBlock>
+                <ItemsControl Name="ListOfGrains">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Info}" Margin="0,0,5,5" />
+                                <Rectangle Fill="{Binding Color,Converter={StaticResource ColorToSolidColorBrush_ValueConverter}}" Width="16" Height="16" Margin="0,2,5,2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  
+
+                </ItemsControl>
+
             </StackPanel>
         </Grid>
 
