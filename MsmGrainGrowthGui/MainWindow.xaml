@@ -4,16 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GrainGrowthGui"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
-        Title="Grain Growth Cellural Automata" Height="700" Width="800">
-    
+        Title="Grain Growth Cellural Automata" Height="800" Width="1000">
+
+    <Window.Resources>
+        <local:ColorToSolidColorBrushValueConverter  x:Key="ColorToSolidColorBrush_ValueConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <local:CelluralAutomatonViewModel />
     </Window.DataContext>
 
     <StackPanel>
         <DockPanel>
-        <!-- TODO: Send toolbar to seperate view/viewModel -->
+            <!-- TODO: Send toolbar to seperate view/viewModel -->
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
                     <Button Command="{Binding Open}">
@@ -43,12 +47,13 @@
         </DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <Border BorderThickness="1" BorderBrush="#FF000000">
-                    <Image Name="CelluralSpaceImage" Height="500" Width="500" Margin="5" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
+                <Border BorderThickness="1" BorderBrush="#FF000000" Height="500" Width="500" Margin="5">
+                    <Image Name="CelluralSpaceImage" MouseDown="CelluralSpaceImage_MouseDown"  Height="500" Width="500"  RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Unspecified"></Image>
                 </Border>
                 <TextBlock Margin="5"></TextBlock>
             </StackPanel>
@@ -74,9 +79,9 @@
                         </Grid>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.9*" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1.6*" />
+                                <ColumnDefinition Width="46*" />
+                                <ColumnDefinition Width="37*" />
+                                <ColumnDefinition Width="55*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Count:"></Label>
                             <TextBox Name="InclusionsCountTextBox" Grid.Column="1" Margin="5,5,5,5" Text="{Binding InclusionsCount}" />
@@ -96,12 +101,12 @@
                     <TextBox Name="ThresholdTextBox" Margin="5" Text="{Binding Threshold}"/>
                 </StackPanel>
                 <StackPanel  Name="AutomatonOptionsStackPanel">
-                    
+
                     <Label Content="Boundary" />
                     <ComboBox Name="BoundaryComboBox"  Margin="5" ItemsSource="{Binding Path=Boundaries}"
                                                                     DisplayMemberPath="Name"
                                                                     SelectedValuePath="Name"
-                                                                    SelectedValue="{Binding Path=Boundary}" > 
+                                                                    SelectedValue="{Binding Path=Boundary}" >
                     </ComboBox>
                     <Label Content="Neighborhood" />
                     <ComboBox Name="NeighbourhoodComboBox" Margin="5" ItemsSource="{Binding Path=Neighbourhoods}"
@@ -120,6 +125,28 @@
                 <Button Margin="5" Padding="5" Name="RunButton" Command="{Binding Start}">Run</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Stop}">Stop</Button>
                 <Button Margin="5" Padding="5" Command="{Binding Reset}">Reset</Button>
+                <Button Margin="5" Padding="5" Command="{Binding AddSecondPhase}">Add second phase</Button>
+                <Button Margin="5" Padding="5" Command="{Binding DeleteGrain}" Name="DeleteButton" >Delete selected grain</Button>
+                <Button Margin="5" Padding="5" Command="{Binding ShowBoundary}">Show boundary</Button>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <ItemsControl Name="ListOfGrains">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Info}" Margin="0,0,5,5" />
+                                <Rectangle Fill="{Binding Color,Converter={StaticResource ColorToSolidColorBrush_ValueConverter}}" Width="16" Height="16" Margin="0,2,5,2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  
+
+                </ItemsControl>
 
             </StackPanel>
         </Grid>

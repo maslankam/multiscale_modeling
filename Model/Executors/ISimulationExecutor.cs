@@ -6,7 +6,7 @@ namespace Model.Executors
     public interface ISimulationExecutor
     {
 
-        void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood);
+        void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood, int currentPhase);
         int ReturnStep();
     }
 }

@@ -30,13 +30,16 @@ namespace Model.Executors
             return Step;
         }
 
-        public void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood)
+        public void NextState(CelluralSpace space, CelluralSpace lastSpace, ITransitionRule transition, INeighbourhood neighbourhood, int currentPhase)
         {
             for (int i = 0; i < space.GetXLength(); i++)
             {
                 for (int j = 0; j < space.GetYLength(); j++)
                 {
-                    // TODO: refactor, injected arguments are not used !!
+                    var phase = lastSpace.GetCell(i,j)?.MicroelementMembership.Phase ?? -2;
+                    if(phase == currentPhase)
+                    {
+                        // TODO: refactor, injected arguments are not used !!
                     INeighbourhood nei = new MooreNeighbourhood(new AbsorbingBoundary());
                     ITransitionRule rule = new RuleOne();
                     Cell[] neighbours = nei.GetNeighbours(lastSpace, i, j);
@@ -76,6 +79,8 @@ namespace Model.Executors
                     neighbours = nei.GetNeighbours(lastSpace, i, j);
                     element = ruleFour.NextState(space.GetCell(i, j), neighbours);
                     space.SetCellMembership(element, i, j);
+                    }
+                    
 
                 }
             }

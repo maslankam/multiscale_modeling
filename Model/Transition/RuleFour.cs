@@ -32,7 +32,7 @@ namespace Model.Transition{
             {
                 var groups = (from c in neighbours
                              where c?.MicroelementMembership?.Id != null && c.MicroelementMembership is Grain
-                             group c by c.MicroelementMembership).ToArray();
+                              group c by c.MicroelementMembership).ToArray();
 
                 if (!groups.Any())
                 {
